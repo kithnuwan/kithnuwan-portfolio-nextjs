@@ -21,24 +21,33 @@ export default function BlogModal({ onClose }) {
     const [activeTag, setActiveTag] = useState("All");
 
     const renderRichText = useMemo(() => {
-        const options = {
-          renderNode: {
-            [BLOCKS.HEADING_2]: (_node, children) => <h2 className="text-2xl font-bold mt-6 mb-2">{children}</h2>,
-            [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4 text-gray-700 dark:text-gray-300">{children}</p>,
-            [BLOCKS.EMBEDDED_ASSET]: (node) => {
-              const file = node?.data?.target?.fields?.file;
-              if (!file?.url) return null;
-              return <img src={`https:${file.url}`} alt={node?.data?.target?.fields?.title || ""} className="rounded-lg my-4" />;
-            },
-          },
-        };
-        return (value) => {
-          if (value?.nodeType === 'document') {
-            return documentToReactComponents(value, options);
-          }
-          return null;
-        };
-      }, []);
+    const options = {
+      renderNode: {
+        [BLOCKS.HEADING_1]: (_node, children) => <h1 className="text-4xl font-bold mt-8 mb-4">{children}</h1>,
+        [BLOCKS.HEADING_2]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
+        [BLOCKS.HEADING_3]: (_node, children) => <h3 className="text-2xl font-bold mt-5 mb-2">{children}</h3>,
+        [BLOCKS.HEADING_4]: (_node, children) => <h4 className="text-xl font-bold mt-4 mb-2">{children}</h4>,
+        [BLOCKS.HEADING_5]: (_node, children) => <h5 className="text-lg font-bold mt-3 mb-1">{children}</h5>,
+        [BLOCKS.HEADING_6]: (_node, children) => <h6 className="text-base font-bold mt-2 mb-1">{children}</h6>,
+        [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4 text-gray-700 dark:text-gray-300">{children}</p>,
+        [BLOCKS.UL_LIST]: (_node, children) => <ul className="list-disc list-inside mb-4 pl-4">{children}</ul>,
+        [BLOCKS.OL_LIST]: (_node, children) => <ol className="list-decimal list-inside mb-4 pl-4">{children}</ol>,
+        [BLOCKS.LIST_ITEM]: (_node, children) => <li className="mb-2">{children}</li>,
+        [BLOCKS.QUOTE]: (_node, children) => <blockquote className="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic my-4">{children}</blockquote>,
+        [BLOCKS.EMBEDDED_ASSET]: (node) => {
+          const file = node?.data?.target?.fields?.file;
+          if (!file?.url) return null;
+          return <img src={`https:${file.url}`} alt={node?.data?.target?.fields?.title || ""} className="rounded-lg my-4" />;
+        },
+      },
+    };
+    return (value) => {
+      if (value?.nodeType === 'document') {
+        return documentToReactComponents(value, options);
+      }
+      return null;
+    };
+  }, []);
 
       useEffect(() => {
         contentfulClient.getEntries({ content_type: "myBlog", order: "-fields.publishDate" })
@@ -135,7 +144,7 @@ export default function BlogModal({ onClose }) {
                     <img src={`https:${selectedPost.fields.heroImage.fields.file.url}`} alt={selectedPost.fields.title} className="w-full aspect-video object-cover rounded-xl my-6" />
                   )}
                   <div>
-                    {renderRichText(selectedPost.fields.content)}
+                    {renderRichText(selectedPost.fields.contentText)}
                   </div>
                 </article>
               ) : (
