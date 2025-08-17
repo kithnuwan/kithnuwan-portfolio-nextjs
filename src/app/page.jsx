@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <main>
-      <Nav onBlogClick={() => setIsBlogOpen(true)} />
+       
       <Hero />
       <About />
       <Services />

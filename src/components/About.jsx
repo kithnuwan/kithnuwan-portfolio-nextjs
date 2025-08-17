@@ -9,31 +9,45 @@ import {
 import Section from "./common/Section";
 import Reveal from "./common/Reveal";
 import Card from "./common/Card";
-import Chip from "./common/Chip";
 
 export default function About() {
   return (
-    <Section id="about" title="About" eyebrow="Who I am">
+    <Section id="about" title="About Me" eyebrow="My Journey">
       <div className="grid md:grid-cols-3 gap-6">
+        {/* Main About Content Card */}
         <div className="md:col-span-2">
           <Reveal>
             <Card>
-              <p className="text-sm leading-7 text-gray-700 dark:text-gray-200">
-                I’m a systems integrator specializing in <strong>enterprise AV</strong>, <strong>broadcast</strong>, and <strong>ELV</strong> solutions,
-                with over <strong>20 years</strong> of experience delivering <em>reliable, maintainable, and operator-friendly</em> systems.
-                From needs assessment and design to commissioning, documentation, and training, I work closely with clients and vendors
-                to ensure technical requirements are met while safeguarding budgets and timelines.
-                My portfolio includes <strong>300+ state-of-the-art meeting rooms</strong>,
-                <strong>AV over IP</strong> deployments, and <strong>large-scale broadcast projects</strong> for corporate, government, and educational sectors.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Chip>Head of System Integrations — Anscom Limited</Chip>
-                <Chip>Government & Enterprise Tenders</Chip>
-                <Chip>Hands‑on Commissioning</Chip>
+              {/* Added space-y-4 for paragraph spacing */}
+              <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 space-y-4">
+                <p>
+                  I started my journey in audio-visual and broadcast systems integration <strong>more than 20 years ago</strong>, driven by a passion for building solutions that connect people, share knowledge, and create impact. Over the years, I’ve grown from designing small AV systems to leading some of Sri Lanka’s most innovative and large-scale technology projects.
+                </p>
+                <p>
+                  My work spans across corporate boardrooms, government institutions, and universities, where I’ve had the privilege of designing and delivering <strong>300+ cutting-edge projects</strong> — from meeting rooms and AV over IP deployments to broadcast and multimedia solutions.
+                </p>
+                
+                <h3>Some of my proudest milestones include:</h3>
+                {/* Added classes for proper list styling */}
+                <ul className="list-disc pl-5">
+                  <li>Helping modernize the Sri Lanka Commercial High Courts through the Court Digitization Project</li>
+                  <li>Powering transparency with COPE and COPA live broadcasting solutions</li>
+                  <li>Designing the Parliament of Sri Lanka’s multilingual broadcast system</li>
+                  <li>Delivering Sri Lanka’s largest LED wall (22m × 11m)</li>
+                </ul>
+
+                <p>
+                  What drives me is staying ahead of the curve. I’ve been fortunate to introduce new technologies to Sri Lanka, including projector blending, interactive projection, and seamless control systems. In the last two years alone (2023–2025), I’ve designed <strong>150+ Teams/Zoom/BYOD rooms</strong>, helping position Anscom as the <strong>leading force in meeting room solutions</strong>.
+                </p>
+                <p>
+                  For me, every project is not just about technology — it’s about creating future-ready environments where people can collaborate, innovate, and inspire.
+                </p>
               </div>
             </Card>
           </Reveal>
         </div>
+
+        {/* Skills Card (remains unchanged) */}
         <div>
           <Reveal>
             <Card>

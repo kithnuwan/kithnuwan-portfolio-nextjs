@@ -15,7 +15,7 @@ import Section from "./common/Section";
 
 const services = [
     {
-      title: "Meeting Rooms / Teams Rooms",
+      title: "Expert Microsoft Teams Room deployments across Sri Lanka.",
       desc: "Design, deploy, and support Microsoft Teams Rooms and multi‑platform setups with BYOD, auto‑framing cameras, ceiling mics, and room scheduling.",
       Icon: Presentation,
       tags: ["Teams Rooms", "BYOD", "AI Cameras", "Ceiling Mics"],

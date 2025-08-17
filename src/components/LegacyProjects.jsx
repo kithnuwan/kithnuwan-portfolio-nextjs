@@ -32,7 +32,7 @@ const legacyProjects = {
 
 export default function LegacyProjects() {
   return (
-    <Section id="legacy-projects" title="Selected Projects (CV)" eyebrow="Additional portfolio">
+    <Section id="legacy-projects" title="Selected Projects " eyebrow="Additional portfolio">
       <div className="grid lg:grid-cols-2 gap-6">
         <motion.div {...fadeUp}>
           <Card>
