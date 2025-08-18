@@ -1,6 +1,4 @@
-'use client'; // Add this at the top
-
-import React, { useState } from 'react';
+// Removed 'createClient' import as it's no longer needed here
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Services from '@/components/Services';
@@ -12,18 +10,18 @@ import Experience from '@/components/Experience';
 import Qualifications from '@/components/Qualifications';
 import Milestones from '@/components/Milestones';
 import Contact from '@/components/Contact';
-import BlogModal from '@/components/BlogModal';
-import Nav from '@/components/Nav';
+
+// Removed the getFeaturedProjects function
 
 export default function Home() {
-  const [isBlogOpen, setIsBlogOpen] = useState(false);
-
+  // Removed the call to fetch projects
+  
   return (
     <main>
-       
       <Hero />
       <About />
       <Services />
+      {/* The Projects component no longer needs a prop */}
       <Projects />
       <Solutions />
       <LegacyProjects />
@@ -32,7 +30,6 @@ export default function Home() {
       <Qualifications />
       <Milestones />
       <Contact />
-      {isBlogOpen && <BlogModal onClose={() => setIsBlogOpen(false)} />}
     </main>
   );
 }
