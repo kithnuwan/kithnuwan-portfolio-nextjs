@@ -23,7 +23,7 @@ import Card from "./common/Card";
 
 export default function About() {
   return (
-    <Section id="about" title="About" eyebrow="My Journey">
+    <Section id="about" title="About Me" eyebrow="My Journey">
       <div className="grid md:grid-cols-3 gap-6">
         {/* Main About Content Card */}
         <div className="md:col-span-2">

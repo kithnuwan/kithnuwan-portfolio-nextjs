@@ -16,9 +16,9 @@ const fadeUp = {
 };
 
 const milestones = [
-  { when: "Aug 2025", what: "Preparing technical proposals and upgrades for large boardrooms, auditoriums, and multi‑platform conferencing.", Icon: CalendarClock },
-  { when: "Jan 2025", what: "Training scheduled for Panasonic AV‑HS6000 at SLRC; UNICEF office meeting room design finalization.", Icon: BadgeCheck },
-  { when: "2019 → Present", what: "150+ Microsoft Teams Rooms and hybrid meeting spaces delivered with Yealink, Crestron, Q‑SYS, and Shure ecosystems.", Icon: Layers },
+  { when: "Mar 2017", what: "Parliament of Sri Lanka – Full HD broadcasting system, including COPA and COPE live broadcasting solutions.", Icon: CalendarClock },
+  { when: "Jan 2007", what: <p>Introduced <strong>Watchout projection mapping</strong>, blending, and interactive projection systems in Sri Lanka.</p>, Icon: BadgeCheck },
+  { when: "2022 → Present", what: "150+ Microsoft Teams Rooms and hybrid meeting spaces delivered with Yealink, Crestron, Q‑SYS, and Shure ecosystems.", Icon: Layers },
 ];
 
 export default function Milestones() {
