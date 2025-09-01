@@ -12,10 +12,16 @@ const solutions = [
   {
     title: 'Commercial Bank HQ Meeting Rooms (4rooms)',
     summary: 'Ceiling array mics, tracking camera, scheduler, and BYOD wireless sharing.',
-    image: 'https://i.ibb.co/Wc63tDx/meeting-room-slide-1.jpg',
+    image: 'https://i.postimg.cc/DZvL9qk5/20241025-103528-min.jpg',
     gallerySlides: [
       { type: 'youtube', id: 'fbR-jzGc8LM', title: 'Boardroom Walkthrough' },
-      { type: 'image', src: 'https://i.ibb.co/Wc63tDx/meeting-room-slide-1.jpg' },
+      { type: 'image', src: 'https://i.postimg.cc/pXpYVY96/20230808-150930-min.jpg' },
+      { type: 'image', src: 'https://i.postimg.cc/Cx8GkhsC/20230808-151146-min.jpg' },
+      { type: 'image', src: 'https://i.postimg.cc/Y2XzwySF/20230819-172532-min.jpg' },
+      { type: 'image', src: 'https://i.postimg.cc/J4v3sDZ4/20230819-172917-min.jpg' },
+      { type: 'image', src: 'https://i.postimg.cc/zf1nksxs/20241025-103142-min.jpg' },
+      { type: 'image', src: 'https://i.postimg.cc/QMkcYfPH/20241025-103452-1-min.jpg' },
+      { type: 'image', src: 'https://i.postimg.cc/DZvL9qk5/20241025-103528-min.jpg' },
       { type: 'image', src: 'https://i.ibb.co/3YY7v1B/meeting-room-slide-2.jpg' },
      
     ],
