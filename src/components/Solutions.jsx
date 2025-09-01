@@ -22,33 +22,38 @@ const solutions = [
       { type: 'image', src: 'https://i.postimg.cc/zf1nksxs/20241025-103142-min.jpg' },
       { type: 'image', src: 'https://i.postimg.cc/QMkcYfPH/20241025-103452-1-min.jpg' },
       { type: 'image', src: 'https://i.postimg.cc/DZvL9qk5/20241025-103528-min.jpg' },
-      { type: 'image', src: 'https://i.ibb.co/3YY7v1B/meeting-room-slide-2.jpg' },
-     
+           
     ],
   },
   {
-    title: 'BYOD Wireless Conferencing',
-    summary: 'AirPlay/Miracast casting with USB device access to in-room camera and audio for Zoom/Meet/Teams.',
-    image: 'https://i.ibb.co/3YY7v1B/meeting-room-slide-2.jpg',
+    title: 'Infor Sri Lanka – Meeting Room Solution,
+    summary: 'Implemented a state-of-the-art solution with 4 meeting rooms, each equipped with Neat Bar Pro video systems and Samsung QMC Series displays, delivering seamless hybrid collaboration and crystal-clear visuals.',
+    image: 'https://i.postimg.cc/mrNRXC2V/20250409-104107.jpg',
     gallerySlides: [
-      { type: 'image', src: 'https://i.ibb.co/3YY7v1B/meeting-room-slide-2.jpg' },
-      { type: 'image', src: 'https://i.ibb.co/D81Ff6C/meeting-room-slide-3.jpg' },
-      { type: 'image', src: 'https://i.ibb.co/xLw99rX/meeting-room-slide-4.jpg' },
+    { type: 'image', src: 'https://i.postimg.cc/mrNRXC2V/20250409-104107.jpg' },
+    { type: 'image', src: 'https://i.postimg.cc/G2XRrRDy/20250409-104245.jpg' },
+    { type: 'image', src: 'https://i.postimg.cc/8CVNmtDj/20250409-104616.jpg' },
+    { type: 'image', src: 'https://i.postimg.cc/j5xTG2DT/20250409-104638.jpg' },
+    { type: 'image', src: 'https://i.postimg.cc/qqgTvFcZ/20250409-104654.jpg' }
     ],
   },
   {
-    title: 'Hybrid Boardroom — Presenter/Participant Tracking',
-    summary: 'Auto-framing cameras with DSP echo cancellation and table/ceiling mic mix for natural conversation.',
-    image: 'https://i.ibb.co/D81Ff6C/meeting-room-slide-3.jpg',
+    title: 'David Pieris Motor Company (Pvt) Ltd – Meeting Room Solution',
+    summary: 'Delivered a state-of-the-art Microsoft Teams Room using the Yealink MVC860, complete with an AI speaker-tracking camera, intuitive touch-panel control, full AV distribution, and a motorised retractable display dedicated to the chairman, creating a sleek, high-impact hybrid meeting environment..',
+    image: 'https://i.ibb.co/FbJrZjTB/Whats-App-Image-2025-07-08-at-11-40-55-d54a4c84.jpg',
     gallerySlides: [
-      { type: 'youtube', id: 'be6J3gtlmtQ', title: 'Boardroom Walkthrough' },
-      { type: 'image', src: 'https://i.ibb.co/D81Ff6C/meeting-room-slide-3.jpg' },
-      { type: 'image', src: 'https://i.ibb.co/xLw99rX/meeting-room-slide-4.jpg' },
+    { type: 'image', src: 'https://i.ibb.co/Z12sxJCm/Whats-App-Image-2025-07-08-at-11-40-54-3043e55c.jpg' },
+    { type: 'image', src: 'https://i.ibb.co/FbJrZjTB/Whats-App-Image-2025-07-08-at-11-40-55-d54a4c84.jpg' },
+    { type: 'image', src: 'https://i.ibb.co/fVMGR0cP/Whats-App-Image-2025-07-08-at-11-40-55-f40b4164.jpg' },
+    { type: 'image', src: 'https://i.ibb.co/r2M5CBgL/Whats-App-Image-2025-07-08-at-11-40-56-5b9070ee.jpg' },
+    { type: 'image', src: 'https://i.ibb.co/p6RSNQ6q/Whats-App-Image-2025-07-08-at-11-40-56-281a8322.jpg' },
+    { type: 'image', src: 'https://i.ibb.co/xq2pgFW4/Whats-App-Image-2025-07-08-at-11-40-56-a5219e9a.jpg' }
+
     ],
   },
   {
-    title: 'Auditorium — Voice Lift & Recording',
-    summary: 'Distributed speakers, assistive listening, and lecture capture with streaming.',
+    title: 'MAS Intimates – CEO’s Meeting Room',
+    summary: 'Implemented a modern Microsoft Teams Room solution using the Yealink MVC860, featuring the UVC86 AI speaker tracking camera, VCM36-W wireless microphones, Mtouch touch controller, and a BYOD wireless presentation system. This state-of-the-art setup delivers seamless collaboration, crystal-clear audio/video, and a simplified user experience for executive meetings.',
     image: 'https://i.ibb.co/xLw99rX/meeting-room-slide-4.jpg',
     gallerySlides: [
       { type: 'image', src: 'https://i.ibb.co/xLw99rX/meeting-room-slide-4.jpg' },
