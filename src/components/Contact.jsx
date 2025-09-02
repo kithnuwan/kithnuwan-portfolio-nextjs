@@ -114,7 +114,7 @@ export default function Contact() {
                 <div className="flex items-start gap-2"><Aperture className="h-4 w-4 mt-0.5 flex-shrink-0" /> Available for Sri Lanka & remote consulting</div>
               </div>
               <div className="mt-6">
-                <a href="#" className="inline-flex items-center gap-2 text-sm font-semibold rounded-xl ring-1 ring-black/10 dark:ring-white/20 px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10">Download Solutions (PDF)</a>
+                <a href="https://drive.google.com/file/d/1ZXhQ9qE1m10gHub37I8gmHPao0vCWY0V/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-semibold rounded-xl ring-1 ring-black/10 dark:ring-white/20 px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10">Download Solutions (PDF)</a>
               </div>
             </Card>
           </motion.div>

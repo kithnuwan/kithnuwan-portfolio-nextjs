@@ -13,16 +13,16 @@ const fadeUp = {
 const legacyProjects = {
   broadcast: [
     { name: "Parliament of Sri Lanka – Full HD Multilingual Broadcast System", year: "2017", detail: "Sony HXC‑100RF, Vinten FHR‑35, Grass Valley Karrera, GV 64×64 SDI & AES routers (Project value ≈ LKR 237M)" },
-    { name: "MBC Stein Studio – HD Upgrade", year: "—", detail: "12× Grass Valley Focus 70, Karrera switcher, T2 recorders (US$153,567 + US$141,710 stages)" },
+    { name: "MBC Stein Studio – HD Upgrade", year: "2018", detail: "12× Grass Valley Focus 70, Karrera switcher, T2 recorders (US$153,567 + US$141,710 stages)" },
     { name: "ITN – Full HD OB Bus", year: "2012", detail: "Grass Valley Karrera, EVS XT Nao Replay, Ross routing/glue, Harris multiviewers (> US$300k)" },
   ],
   uc: [
-    { name: "Distance Education Modernization Project", year: "—", detail: "20 distance learning centers with Polycom RMX1000 bridge & ViewStation EX (≈ LKR 15M)" },
-    { name: "People’s Bank – Unified Conference System", year: "—", detail: "Enterprise video collaboration (≈ LKR 30M)" },
+    { name: "Distance Education Modernization Project", year: "2009", detail: "20 distance learning centers with Polycom RMX1000 bridge & ViewStation EX (≈ LKR 15M)" },
+    { name: "People’s Bank – Unified Conference System", year: "2012", detail: "Enterprise video collaboration (≈ LKR 30M)" },
   ],
   special: [
-    { name: "Presidential Secretariat – Dual Executive Teleprompter", year: "—", detail: "Executive teleprompter system (≈ LKR 24M)" },
-    { name: "Parliament – Wireless Master Clock", year: "—", detail: "2.4 GHz frequency‑hopping master clock" },
+    { name: "Presidential Secretariat – Dual Executive Teleprompter", year: "2014", detail: "Executive teleprompter system (≈ LKR 24M)" },
+    { name: "Parliament – Wireless Master Clock", year: "2016", detail: "2.4 GHz frequency‑hopping master clocks -165 Synchronized clocks" },
   ],
   meetings: [
     { name: "Lion Brewery – Boardroom", detail: "Wireless BYOD, ceiling mics, network audio DSP" },
