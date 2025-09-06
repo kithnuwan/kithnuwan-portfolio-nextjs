@@ -10,6 +10,7 @@ import Experience from '@/components/Experience';
 import Qualifications from '@/components/Qualifications';
 import Milestones from '@/components/Milestones';
 import Contact from '@/components/Contact';
+import { Analytics } from "@vercel/analytics/next";
 
 // Removed the getFeaturedProjects function
 

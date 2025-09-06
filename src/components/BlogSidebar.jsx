@@ -1,5 +1,4 @@
-
-'use client'; // This needs to be a client component to handle state
+'use client';
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
@@ -9,69 +8,74 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export function BlogSidebar({ posts }) {
-  const [activeTag, setActiveTag] = useState("All");
+export function ProjectSidebar({ projects }) {
+  const [activeTag, setActiveTag] = useState('All');
   const pathname = usePathname();
 
-  // Get all unique tags from the posts
+  // Build list of unique tags (plus "All")
   const allTags = useMemo(() => {
-    const tags = new Set(posts.flatMap(p => p.fields.tags || []));
-    return ["All", ...Array.from(tags).sort()];
-  }, [posts]);
+    const tags = new Set(projects.flatMap(p => p.fields.tags || []));
+    return ['All', ...Array.from(tags).sort()];
+  }, [projects]);
 
-  // Filter posts based on the active tag
-  const filteredPosts = useMemo(() => {
-    if (activeTag === "All") {
-      return posts;
-    }
-    return posts.filter(p => (p.fields.tags || []).includes(activeTag));
-  }, [posts, activeTag]);
+  // Filter projects based on activeTag
+  const filteredProjects = useMemo(() => {
+    if (activeTag === 'All') return projects;
+    return projects.filter(p => (p.fields.tags || []).includes(activeTag));
+  }, [projects, activeTag]);
 
   return (
-    <div className="sticky top-24 space-y-8">
-      {/* Tag Filter Section */}
-      <div>
-        <h3 className="text-lg font-semibold mb-3">Filter by Tag</h3>
-        <div className="flex flex-wrap gap-2">
-          {allTags.map(tag => (
-            <button
-              key={tag}
-              onClick={() => setActiveTag(tag)}
-              className={classNames(
-                'px-3 py-1 rounded-full text-sm font-medium transition-colors',
-                activeTag === tag
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-200 dark:bg-white/10 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-white/20'
-              )}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold">Projects</h3>
 
-      {/* Post List Section */}
-      <div>
-        <h3 className="text-lg font-semibold mb-3">All Posts</h3>
-        <nav className="space-y-2">
-          {filteredPosts.map(post => (
-            <Link
-              key={post.sys.id}
-              href={`/blog/${post.fields.slug}`}
-              className={classNames(
-                'block p-3 rounded-lg transition-colors text-sm',
-                pathname === `/blog/${post.fields.slug}`
-                  ? 'bg-indigo-100 dark:bg-cyan-900/50 font-semibold'
-                  : 'hover:bg-gray-100 dark:hover:bg-white/10'
-              )}
-            >
-              {post.fields.title}
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {new Date(post.fields.publishDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-              </p>
-            </Link>
-          ))}
-        </nav>
+      {/* "All Projects" entry. Click sets tag to 'All' and shows list page. */}
+      <nav className="flex flex-col gap-1">
+        <Link
+          href="/projects"
+          onClick={() => setActiveTag('All')}
+          className={classNames(
+            pathname === '/projects'
+              ? 'font-bold text-indigo-600'
+              : 'text-gray-700 dark:text-gray-300 hover:text-indigo-600',
+            'block px-2 py-1 rounded'
+          )}
+        >
+          All Projects
+        </Link>
+
+        {filteredProjects.map(project => (
+          <Link
+            key={project.sys.id}
+            href={`/projects/${project.fields.slug}`}
+            className={classNames(
+              pathname === `/projects/${project.fields.slug}`
+                ? 'font-bold text-indigo-600'
+                : 'text-gray-700 dark:text-gray-300 hover:text-indigo-600',
+              'block px-2 py-1 rounded'
+            )}
+          >
+            {project.fields.title}
+          </Link>
+        ))}
+      </nav>
+
+      {/* Tag filter stays below. Selecting a tag will filter the list. */}
+      <h4 className="mt-4 mb-2 text-sm font-semibold">Filter by Tag</h4>
+      <div className="flex flex-wrap gap-2">
+        {allTags.map(tag => (
+          <button
+            key={tag}
+            onClick={() => setActiveTag(tag)}
+            className={classNames(
+              'px-3 py-1 rounded-full text-sm font-medium transition-colors',
+              activeTag === tag
+                ? 'bg-indigo-600 text-white'
+                : 'bg-gray-200 dark:bg-white/10 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-white/20'
+            )}
+          >
+            {tag}
+          </button>
+        ))}
       </div>
     </div>
   );
