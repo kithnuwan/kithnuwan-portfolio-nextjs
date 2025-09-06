@@ -4,21 +4,28 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+/**
+ * Utility to combine class names.
+ */
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
+/**
+ * Sidebar for the Projects page.
+ * Displays a list of projects and tag filters.
+ */
 export function ProjectSidebar({ projects }) {
   const [activeTag, setActiveTag] = useState('All');
   const pathname = usePathname();
 
-  // Compute all unique tags plus the “All” option
+  // Build list of unique tags (plus “All”)
   const allTags = useMemo(() => {
     const tags = new Set(projects.flatMap(p => p.fields.tags || []));
     return ['All', ...Array.from(tags).sort()];
   }, [projects]);
 
-  // Filter projects when a tag is selected
+  // Filter projects based on activeTag
   const filteredProjects = useMemo(() => {
     if (activeTag === 'All') return projects;
     return projects.filter(p => (p.fields.tags || []).includes(activeTag));
@@ -30,7 +37,7 @@ export function ProjectSidebar({ projects }) {
       <div>
         <h3 className="text-lg font-semibold mb-3">Projects</h3>
         <nav className="space-y-2">
-          {/* All Projects link – resets filter and navigates */}
+          {/* All Projects link resets tag filter and navigates to list page */}
           <Link
             href="/projects"
             onClick={() => setActiveTag('All')}
@@ -64,7 +71,7 @@ export function ProjectSidebar({ projects }) {
 
       {/* Tag filter section */}
       <div>
-        <h3 className="text-lg font-semibold mb-3">Filter by Tag</h3>
+        <h3 className="mt-4 mb-2 text-sm font-semibold">Filter by Tag</h3>
         <div className="flex flex-wrap gap-2">
           {allTags.map(tag => (
             <button
@@ -72,7 +79,9 @@ export function ProjectSidebar({ projects }) {
               onClick={() => setActiveTag(tag)}
               className={classNames(
                 'px-3 py-1 rounded-full text-sm font-medium transition-colors',
-                activeTag === tag ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-white/10'
+                activeTag === tag
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-200 dark:bg-white/10'
               )}
             >
               {tag}
