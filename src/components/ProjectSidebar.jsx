@@ -25,23 +25,6 @@ export function ProjectSidebar({ projects }) {
   return (
     <div className="sticky top-24 space-y-8">
       <div>
-        <h3 className="text-lg font-semibold mb-3">Filter by Tag</h3>
-        <div className="flex flex-wrap gap-2">
-          {allTags.map(tag => (
-            <button
-              key={tag}
-              onClick={() => setActiveTag(tag)}
-              className={classNames(
-                'px-3 py-1 rounded-full text-sm font-medium transition-colors',
-                activeTag === tag ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-white/10'
-              )}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div>
         <h3 className="text-lg font-semibold mb-3">All Projects</h3>
         <nav className="space-y-2">
           {filteredProjects.map(project => (
@@ -58,6 +41,25 @@ export function ProjectSidebar({ projects }) {
           ))}
         </nav>
       </div>
+      
+      <div>
+        <h3 className="text-lg font-semibold mb-3">Filter by Tag</h3>
+        <div className="flex flex-wrap gap-2">
+          {allTags.map(tag => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(tag)}
+              className={classNames(
+                'px-3 py-1 rounded-full text-sm font-medium transition-colors',
+                activeTag === tag ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-white/10'
+              )}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </div>
+      
     </div>
   );
 }
