@@ -2,30 +2,24 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
-/**
- * Utility to combine class names.
- */
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-/**
- * Sidebar for the Projects page.
- * Displays a list of projects and tag filters.
- */
 export function ProjectSidebar({ projects }) {
   const [activeTag, setActiveTag] = useState('All');
   const pathname = usePathname();
+  const router = useRouter();
 
-  // Build list of unique tags (plus “All”)
+  // Compute tag list
   const allTags = useMemo(() => {
     const tags = new Set(projects.flatMap(p => p.fields.tags || []));
     return ['All', ...Array.from(tags).sort()];
   }, [projects]);
 
-  // Filter projects based on activeTag
+  // Filter projects by the active tag
   const filteredProjects = useMemo(() => {
     if (activeTag === 'All') return projects;
     return projects.filter(p => (p.fields.tags || []).includes(activeTag));
@@ -33,25 +27,25 @@ export function ProjectSidebar({ projects }) {
 
   return (
     <div className="sticky top-24 space-y-8">
-      {/* Top section: projects list */}
+      {/* Projects list with All Projects button */}
       <div>
         <h3 className="text-lg font-semibold mb-3">Projects</h3>
         <nav className="space-y-2">
-          {/* All Projects link resets tag filter and navigates to list page */}
-          <Link
-            href="/projects"
-            onClick={() => setActiveTag('All')}
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTag('All');    // reset the tag filter
+              router.push('/projects'); // navigate to the full list
+            }}
             className={classNames(
-              'block p-3 rounded-lg transition-colors text-sm',
+              'block w-full text-left p-3 rounded-lg transition-colors text-sm',
               pathname === '/projects'
                 ? 'bg-indigo-100 dark:bg-cyan-900/50'
                 : 'hover:bg-gray-100 dark:hover:bg-white/10'
             )}
           >
             All Projects
-          </Link>
-
-          {/* Individual project links filtered by tag */}
+          </button>
           {filteredProjects.map(project => (
             <Link
               key={project.sys.id}
@@ -69,9 +63,9 @@ export function ProjectSidebar({ projects }) {
         </nav>
       </div>
 
-      {/* Tag filter section */}
+      {/* Tag filter remains unchanged */}
       <div>
-        <h3 className="mt-4 mb-2 text-sm font-semibold">Filter by Tag</h3>
+        <h3 className="text-lg font-semibold mb-3">Filter by Tag</h3>
         <div className="flex flex-wrap gap-2">
           {allTags.map(tag => (
             <button
