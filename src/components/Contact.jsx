@@ -84,6 +84,12 @@ export default function Contact() {
                   <select id="type" name="type" className="mt-1 w-full rounded-xl border border-black/10 dark:border-white/15 bg-white/80 dark:bg-white/5 px-3 py-2">
                     <option>Microsoft Teams Room</option>
                     <option>Boardroom / Conference</option>
+                    <option>Broadcast</option>
+                    <option>Podcast Studio</option>
+                    <option>Audio Conference / PA</option>
+                    <option>Smart Classroom</option>
+                    <option>Immersive AV (Audio-Visual) spaces </option>
+                    <option>Other</option>
                   </select>
                 </div>
                 <div className="sm:col-span-2">
