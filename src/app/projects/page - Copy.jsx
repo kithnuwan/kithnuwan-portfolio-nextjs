@@ -3,46 +3,30 @@ import Link from 'next/link';
 import Chip from '@/components/common/Chip';
 import { Building2 } from 'lucide-react';
 
-// Initialize Contentful client
 const contentfulClient = createClient({
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
 });
 
-// Fetch all projects from Contentful
 async function getAllProjects() {
   try {
     const response = await contentfulClient.getEntries({ content_type: 'project' });
     return response.items || [];
   } catch (error) {
-    console.error('Error fetching all projects:', error);
+    console.error("Error fetching all projects:", error);
     return [];
   }
 }
 
-// Make this page dynamic so it updates per-tag
-export const dynamic = 'force-dynamic';
-
-// Projects page with tag filtering
-export default async function AllProjectsPage({ searchParams }) {
-  // Get the selected tag from query string; default to 'All'
-  const tag = searchParams?.tag ?? 'All';
-
-  // Fetch all projects and filter them by tag in memory
+export default async function AllProjectsPage() {
   const allProjects = await getAllProjects();
-  const projectsToShow =
-    tag === 'All'
-      ? allProjects
-      : allProjects.filter(p => (p.fields.tags || []).includes(tag));
 
   return (
     <div>
-      <h1 className="text-4xl font-bold mb-8">
-        {tag === 'All' ? 'All Projects' : `Projects tagged “${tag}”`}
-      </h1>
-      {projectsToShow.length > 0 ? (
+      <h1 className="text-4xl font-bold mb-8">All Projects</h1>
+      {allProjects.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-8">
-          {projectsToShow.map(p => (
+          {allProjects.map((p) => (
             <div key={p.sys.id} className="flex flex-col gap-4">
               {p.fields.heroImage && (
                 <Link href={`/projects/${p.fields.slug}`}>
@@ -55,19 +39,12 @@ export default async function AllProjectsPage({ searchParams }) {
               )}
               <div>
                 <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                  <Building2 className="h-4 w-4" />
-                  {p.fields.client || 'N/A'}
-                  <span>•</span>
-                  {p.fields.year || 'N/A'}
+                  <Building2 className="h-4 w-4" /> {p.fields.client || 'N/A'} <span>•</span> {p.fields.year || 'N/A'}
                 </div>
-                <h3 className="mt-1 text-base font-semibold text-gray-900 dark:text-white">
-                  {p.fields.title}
-                </h3>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                  {p.fields.summary}
-                </p>
+                <h3 className="mt-1 text-base font-semibold text-gray-900 dark:text-white">{p.fields.title}</h3>
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">{p.fields.summary}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {(p.fields.tags || []).map(t => (
+                  {(p.fields.tags || []).map((t) => (
                     <Chip key={t}>{t}</Chip>
                   ))}
                 </div>
@@ -76,7 +53,7 @@ export default async function AllProjectsPage({ searchParams }) {
           ))}
         </div>
       ) : (
-        <p>No projects found for the selected tag.</p>
+        <p>No projects found. Please check your Contentful space.</p>
       )}
     </div>
   );

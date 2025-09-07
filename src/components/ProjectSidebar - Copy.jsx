@@ -4,7 +4,6 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
-// Utility to join class names
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -14,13 +13,13 @@ export function ProjectSidebar({ projects }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Build list of unique tags (plus “All”)
+  // Compute tag list
   const allTags = useMemo(() => {
     const tags = new Set(projects.flatMap(p => p.fields.tags || []));
     return ['All', ...Array.from(tags).sort()];
   }, [projects]);
 
-  // Filter projects in the sidebar based on selected tag
+  // Filter projects by the active tag
   const filteredProjects = useMemo(() => {
     if (activeTag === 'All') return projects;
     return projects.filter(p => (p.fields.tags || []).includes(activeTag));
@@ -28,34 +27,6 @@ export function ProjectSidebar({ projects }) {
 
   return (
     <div className="sticky top-24 space-y-8">
-      {/* Tag filter buttons (moved to top) */}
-      <div>
-        <h3 className="text-lg font-semibold mb-3">Filter by Tag</h3>
-        <div className="flex flex-wrap gap-2">
-          {allTags.map(tag => (
-            <button
-              key={tag}
-              onClick={() => {
-                setActiveTag(tag);
-                if (tag === 'All') {
-                  router.push('/projects'); // remove tag filter
-                } else {
-                  router.push(`/projects?tag=${encodeURIComponent(tag)}`);
-                }
-              }}
-              className={classNames(
-                'px-3 py-1 rounded-full text-sm font-medium transition-colors',
-                activeTag === tag
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-200 dark:bg-white/10'
-              )}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Projects list with All Projects button */}
       <div>
         <h3 className="text-lg font-semibold mb-3">Projects</h3>
@@ -63,8 +34,8 @@ export function ProjectSidebar({ projects }) {
           <button
             type="button"
             onClick={() => {
-              setActiveTag('All');
-              router.push('/projects');
+              setActiveTag('All');    // reset the tag filter
+              router.push('/projects'); // navigate to the full list
             }}
             className={classNames(
               'block w-full text-left p-3 rounded-lg transition-colors text-sm',
@@ -90,6 +61,27 @@ export function ProjectSidebar({ projects }) {
             </Link>
           ))}
         </nav>
+      </div>
+
+      {/* Tag filter remains unchanged */}
+      <div>
+        <h3 className="text-lg font-semibold mb-3">Filter by Tag</h3>
+        <div className="flex flex-wrap gap-2">
+          {allTags.map(tag => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(tag)}
+              className={classNames(
+                'px-3 py-1 rounded-full text-sm font-medium transition-colors',
+                activeTag === tag
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-200 dark:bg-white/10'
+              )}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
