@@ -2,6 +2,7 @@
 import { ChevronRight, MapPin } from "lucide-react";
 import Chip from "./common/Chip";
 import Reveal from "./common/Reveal";
+import HeroRotator from "./HeroRotator";
 
 const profile = {
   name: "Kithnuwan Silva",
@@ -16,6 +17,8 @@ const profile = {
     " Passionate about emerging technologies"
   ],
   heroImage: "/assets/images/hero-image.png", // update path if needed
+  // Additional image for rotation; update this path to point to the new portrait you uploaded
+  secondHeroImage: "/assets/images/hero-portrait.png",
 };
 
 export default function Hero() {
@@ -90,10 +93,12 @@ export default function Hero() {
             {/* RIGHT SIDE IMAGE (clean, no overlay) */}
             <div className="md:col-span-5">
               <div className="relative w-full h-[420px] sm:h-[520px] md:h-[560px] rounded-3xl overflow-hidden">
-                <img
-                  src={profile.heroImage}
+                {/* Use HeroRotator to cross‑fade between the existing hero image and the new portrait. */}
+                <HeroRotator
+                  images={[profile.heroImage, profile.secondHeroImage].filter(Boolean)}
                   alt={`${profile.name} portrait`}
-                  className="w-full h-full object-cover object-center"
+                  intervalMs={5000}
+                  fadeMs={800}
                 />
               </div>
             </div>
