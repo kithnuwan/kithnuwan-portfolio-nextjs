@@ -72,7 +72,7 @@ const certifications = [
 
 function CertCard({ cert, index }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
   const Icon = cert.icon;
 
   return (
@@ -121,7 +121,7 @@ function CertCard({ cert, index }) {
 
 export default function Certifications() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   return (
     <section id="certifications" className="py-24 relative overflow-hidden">

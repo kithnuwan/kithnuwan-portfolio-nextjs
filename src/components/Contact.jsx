@@ -46,7 +46,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState(null);
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();

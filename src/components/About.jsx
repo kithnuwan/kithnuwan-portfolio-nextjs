@@ -38,7 +38,7 @@ const timeline = [
 
 function TimelineItem({ item, index }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   return (
     <motion.div
@@ -72,7 +72,7 @@ function TimelineItem({ item, index }) {
 
 export default function About() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   return (
     <section id="about" className="py-24 relative overflow-hidden">

@@ -61,7 +61,7 @@ const skillCategories = [
 
 function SkillCard({ category, index }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
   const Icon = category.icon;
 
   return (
@@ -105,7 +105,7 @@ function SkillCard({ category, index }) {
 
 export default function Skills() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   return (
     <section id="skills" className="py-24 relative bg-[#0D1F3C]">

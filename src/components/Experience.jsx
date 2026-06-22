@@ -45,7 +45,7 @@ const experience = [
 
 function ExperienceCard({ exp, index, total }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   return (
     <div className={`relative flex gap-6 ${index < total - 1 ? 'mb-6' : ''}`}>
@@ -109,7 +109,7 @@ function ExperienceCard({ exp, index, total }) {
 
 export default function Experience() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   return (
     <section id="experience" className="py-24 relative overflow-hidden">

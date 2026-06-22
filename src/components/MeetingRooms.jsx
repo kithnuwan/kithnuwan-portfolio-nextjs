@@ -64,7 +64,7 @@ const rooms = [
 
 function RoomCard({ room, index, onOpen }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
   const [imgIdx, setImgIdx] = useState(0);
 
   return (
@@ -141,7 +141,7 @@ function RoomCard({ room, index, onOpen }) {
 
 export default function MeetingRooms() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
   const [lightbox, setLightbox] = useState(null);
 
   const openLightbox = (room, startIdx) => setLightbox({ room, idx: startIdx });

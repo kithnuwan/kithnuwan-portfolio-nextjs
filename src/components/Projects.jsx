@@ -74,7 +74,7 @@ const featuredProjects = [
 
 function ProjectCard({ project, index, onOpenSlide }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   return (
     <motion.div
@@ -183,7 +183,7 @@ export default function Projects() {
   const [lightbox, setLightbox] = useState(null);
   const [videoOpen, setVideoOpen] = useState(null);
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
 
   const openSlide = (projectId, index) => {
     const project = featuredProjects.find((p) => p.id === projectId);

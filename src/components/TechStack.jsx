@@ -62,7 +62,7 @@ function TechBadge({ tech }) {
 
 export default function TechStack() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: '0px' });
   const doubled = [...technologies, ...technologies];
 
   return (
