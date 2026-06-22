@@ -274,7 +274,7 @@ export default function Hero() {
               <div className="relative mx-auto max-w-sm lg:max-w-full">
                 {/* Glow ring behind image */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[rgba(0,191,255,0.2)] to-[rgba(0,229,255,0.05)] blur-2xl scale-110" />
-                <div className="relative rounded-2xl overflow-hidden ring-1 ring-[rgba(0,191,255,0.2)] shadow-[0_0_60px_rgba(0,191,255,0.15)]">
+                <div className="relative rounded-2xl overflow-hidden ring-1 ring-[rgba(0,191,255,0.2)] shadow-[0_0_60px_rgba(0,191,255,0.15)] h-[420px] sm:h-[480px] lg:h-[520px]">
                   <HeroRotator
                     images={[
                       '/assets/images/hero-image.png',
