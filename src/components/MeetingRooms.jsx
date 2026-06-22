@@ -200,7 +200,7 @@ export default function MeetingRooms() {
           transition={{ delay: 0.5 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <Link href="/projects?tag=Meeting+Room" className="btn-primary inline-flex">
+          <Link href="/projects?tag=Meeting+Rooms" className="btn-primary inline-flex">
             View All Meeting Room Projects <ArrowRight className="h-4 w-4" />
           </Link>
           <a href="#contact" className="btn-outline inline-flex">
