@@ -77,7 +77,7 @@ export default function Nav() {
       <div className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/30 border-b border-black/5 dark:border-white/10">
         <nav className="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <img src="/assets/images/my-logo.png" alt="Logo" className="h-9 w-9 rounded-xl object-cover" />
+            <img src="/my-logo.png" alt="Logo" className="h-9 w-9 rounded-xl object-cover" />
             <div className="leading-tight">
               <div className="text-base font-semibold text-gray-900 dark:text-white">{profile.name}</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">{profile.title}</div>
@@ -145,7 +145,7 @@ export default function Nav() {
         <div className="fixed inset-0 z-50 bg-white dark:bg-neutral-950 p-4">
           <div className="flex items-center justify-between mb-8">
             <Link href="/" onClick={closeMenu} className="flex items-center gap-3">
-              <img src="/assets/images/my-logo.png" alt="Logo" className="h-9 w-9 rounded-xl object-cover" />
+              <img src="/my-logo.png" alt="Logo" className="h-9 w-9 rounded-xl object-cover" />
               <div className="leading-tight">
                 <div className="text-base font-semibold text-gray-900 dark:text-white">{profile.name}</div>
               </div>
