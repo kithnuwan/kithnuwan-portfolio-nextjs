@@ -16,9 +16,8 @@ const profile = {
     " AI enthusiast",
     " Passionate about emerging technologies"
   ],
-  heroImage: "/assets/images/hero-image.png", // update path if needed
-  // Additional image for rotation; update this path to point to the new portrait you uploaded
-  secondHeroImage: "/assets/images/hero-portrait.png",
+  heroImage: "/hero-image.png",
+  secondHeroImage: "/hero-portrait.png",
 };
 
 export default function Hero() {
