@@ -98,7 +98,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-[#0A192F] text-[#E6F1FF] antialiased overflow-x-hidden">
+      <body className="bg-[#0A192F] text-[#E6F1FF] antialiased">
         <Nav />
         {children}
         <FloatingCTA />

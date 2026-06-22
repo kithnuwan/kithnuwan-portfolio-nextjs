@@ -48,7 +48,7 @@ function ExperienceCard({ exp, index, total }) {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <div className="relative flex gap-6">
+    <div className={`relative flex gap-6 ${index < total - 1 ? 'mb-6' : ''}`}>
       {/* Timeline column */}
       <div className="flex flex-col items-center">
         <motion.div
@@ -75,7 +75,7 @@ function ExperienceCard({ exp, index, total }) {
         initial={{ opacity: 0, x: 20 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.6, delay: index * 0.15 + 0.1 }}
-        className="glass rounded-2xl p-6 mb-8 flex-1 group hover:border-[rgba(0,191,255,0.2)] transition-all duration-300"
+        className="glass rounded-2xl p-6 flex-1 group hover:border-[rgba(0,191,255,0.2)] transition-all duration-300"
       >
         <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
           <div>
