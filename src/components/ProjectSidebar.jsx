@@ -1,17 +1,24 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export function ProjectSidebar({ projects }) {
-  const [activeTag, setActiveTag] = useState('All');
+  const searchParams = useSearchParams();
+  const initialTag = searchParams.get('tag') || 'All';
+  const [activeTag, setActiveTag] = useState(initialTag);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    const tag = searchParams.get('tag') || 'All';
+    setActiveTag(tag);
+  }, [searchParams]);
 
   const allTags = useMemo(() => {
     const tags = new Set(projects.flatMap(p => p.fields.tags || []));

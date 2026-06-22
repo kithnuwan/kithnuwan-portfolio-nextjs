@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+import Link from 'next/link';
 import { Monitor, Users, Wifi, ChevronLeft, ChevronRight, X, ArrowRight } from 'lucide-react';
 
 const rooms = [
@@ -197,10 +198,13 @@ export default function MeetingRooms() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.5 }}
-          className="mt-10 text-center"
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
+          <Link href="/projects?tag=Meeting+Room" className="btn-primary inline-flex">
+            View All Meeting Room Projects <ArrowRight className="h-4 w-4" />
+          </Link>
           <a href="#contact" className="btn-outline inline-flex">
-            Discuss Your Space <ArrowRight className="h-4 w-4" />
+            Discuss Your Space
           </a>
         </motion.div>
       </div>
