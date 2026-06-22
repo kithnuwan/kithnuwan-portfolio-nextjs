@@ -1,73 +1,60 @@
-import { createClient } from 'contentful';
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import Chip from '@/components/common/Chip';
 import { Building2 } from 'lucide-react';
 
-// Initialize Contentful client
-const contentfulClient = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
-});
-
-// Fetch all projects from Contentful
 async function getAllProjects() {
+  const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
+  const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
+  if (!spaceId || !accessToken) return [];
   try {
-    const response = await contentfulClient.getEntries({ content_type: 'project' });
+    const { createClient } = await import('contentful');
+    const client = createClient({ space: spaceId, accessToken });
+    const response = await client.getEntries({ content_type: 'project' });
     return response.items || [];
-  } catch (error) {
-    console.error('Error fetching all projects:', error);
+  } catch {
     return [];
   }
 }
 
-// Make this page dynamic so it updates per-tag
-export const dynamic = 'force-dynamic';
-
-// Projects page with tag filtering
 export default async function AllProjectsPage({ searchParams }) {
-  // Get the selected tag from query string; default to 'All'
   const tag = searchParams?.tag ?? 'All';
-
-  // Fetch all projects and filter them by tag in memory
   const allProjects = await getAllProjects();
   const projectsToShow =
     tag === 'All'
       ? allProjects
-      : allProjects.filter(p => (p.fields.tags || []).includes(tag));
+      : allProjects.filter((p) => (p.fields.tags || []).includes(tag));
 
   return (
-    <div>
-      <h1 className="text-4xl font-bold mb-8">
-        {tag === 'All' ? 'All Projects' : `Projects tagged “${tag}”`}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <h1 className="text-4xl font-bold mb-8 text-[#E6F1FF]">
+        {tag === 'All' ? 'All Projects' : `Projects tagged "${tag}"`}
       </h1>
       {projectsToShow.length > 0 ? (
         <div className="grid md:grid-cols-2 gap-8">
-          {projectsToShow.map(p => (
-            <div key={p.sys.id} className="flex flex-col gap-4">
+          {projectsToShow.map((p) => (
+            <div key={p.sys.id} className="glass rounded-2xl overflow-hidden">
               {p.fields.heroImage && (
                 <Link href={`/projects/${p.fields.slug}`}>
                   <img
                     src={`https:${p.fields.heroImage.fields.file.url}`}
                     alt={p.fields.title || 'Project image'}
-                    className="w-full aspect-video object-cover rounded-2xl ring-1 ring-black/5 dark:ring-white/10 cursor-pointer"
+                    className="w-full aspect-video object-cover cursor-pointer"
                   />
                 </Link>
               )}
-              <div>
-                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                  <Building2 className="h-4 w-4" />
+              <div className="p-5">
+                <div className="flex items-center gap-2 text-xs text-[#8892B0]">
+                  <Building2 className="h-4 w-4 text-[#00BFFF]" />
                   {p.fields.client || 'N/A'}
                   <span>•</span>
                   {p.fields.year || 'N/A'}
                 </div>
-                <h3 className="mt-1 text-base font-semibold text-gray-900 dark:text-white">
-                  {p.fields.title}
-                </h3>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                  {p.fields.summary}
-                </p>
+                <h3 className="mt-1 text-base font-semibold text-[#E6F1FF]">{p.fields.title}</h3>
+                <p className="mt-2 text-sm text-[#8892B0]">{p.fields.summary}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {(p.fields.tags || []).map(t => (
+                  {(p.fields.tags || []).map((t) => (
                     <Chip key={t}>{t}</Chip>
                   ))}
                 </div>
@@ -76,7 +63,7 @@ export default async function AllProjectsPage({ searchParams }) {
           ))}
         </div>
       ) : (
-        <p>No projects found for the selected tag.</p>
+        <p className="text-[#8892B0]">No projects found.</p>
       )}
     </div>
   );

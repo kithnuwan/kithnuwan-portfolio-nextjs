@@ -1,89 +1,151 @@
 'use client';
 
-import {
-  Cpu,
-  Settings,
-  AudioLines,
-  Video,
-  Network,
-  Presentation,
-  MicVocal,
-  Videotape,
-  Projector,
-  View,
-  MessageSquare,
-  Webcam,
-  CloudCog,
-  Megaphone, // New Icon
-  SlidersHorizontal, // New Icon
-} from "lucide-react";
-import Section from "./common/Section";
-import Reveal from "./common/Reveal";
-import Card from "./common/Card";
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { MapPin, Briefcase, Award, Users } from 'lucide-react';
+
+const highlights = [
+  { icon: Briefcase, label: 'Current Role', value: 'Head of System Integrations', sub: 'Anscom Limited' },
+  { icon: MapPin, label: 'Location', value: 'Colombo, Sri Lanka', sub: 'Available remotely' },
+  { icon: Award, label: 'Education', value: 'BSc (Hons) Computer Networks', sub: '& Security' },
+  { icon: Users, label: 'Clients', value: 'Government & Enterprise', sub: 'Broadcast & Corporate' },
+];
+
+const timeline = [
+  {
+    period: 'Jun 2003 – Jul 2009',
+    role: 'Technical Executive',
+    company: 'Swedish Trading Audio Visual',
+    description: 'Started career in AV & Broadcast. Installation, programming, and maintenance across broadcast, corporate, education, and government sectors.',
+    color: '#8892B0',
+  },
+  {
+    period: 'Jul 2019 – 2022',
+    role: 'Senior Manager – IT & Broadcast',
+    company: 'Swedish Trading Audio Visual',
+    description: 'Architected enterprise AV & Broadcast systems. Led video conferencing, control, routing, and digital signage deployments for major clients.',
+    color: '#00BFFF',
+  },
+  {
+    period: '2022 – Present',
+    role: 'Head of System Integrations',
+    company: 'Anscom Limited',
+    description: "Leading design, presales, project management, and delivery of complex AV/Broadcast/UC solutions across Sri Lanka's top enterprises and government bodies.",
+    color: '#FFD700',
+    current: true,
+  },
+];
+
+function TimelineItem({ item, index }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: -30 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.15 }}
+      className="relative pl-8"
+    >
+      <div className="absolute left-0 top-2 bottom-0 w-px bg-gradient-to-b from-[rgba(0,191,255,0.3)] to-transparent" />
+      <div
+        className="absolute left-[-4px] top-2 w-2 h-2 rounded-full ring-2 ring-[#0A192F]"
+        style={{ backgroundColor: item.color }}
+      />
+      <div className="glass p-5 rounded-xl hover:border-[rgba(0,191,255,0.25)] transition-all duration-300">
+        <div className="flex flex-wrap items-center gap-2 mb-1">
+          <span className="text-[10px] font-mono text-[#8892B0]">{item.period}</span>
+          {item.current && (
+            <span className="text-[9px] font-bold bg-[rgba(255,215,0,0.15)] text-[#FFD700] px-2 py-0.5 rounded-full">
+              Current
+            </span>
+          )}
+        </div>
+        <div className="text-[#E6F1FF] font-bold text-sm">{item.role}</div>
+        <div className="text-xs mb-2" style={{ color: item.color }}>{item.company}</div>
+        <p className="text-[#8892B0] text-xs leading-relaxed">{item.description}</p>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function About() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
+
   return (
-    <Section id="about" title="About Me" eyebrow="My Journey">
-      <div className="grid md:grid-cols-3 gap-6">
-        {/* Main About Content Card */}
-        <div className="md:col-span-2">
-          <Reveal>
-            <Card>
-              <div className="text-sm text-gray-700 dark:text-gray-300 space-y-4">
-                <p>
-                  I started my journey in audio-visual and broadcast systems integration <strong>more than 20 years ago</strong>, driven by a passion for building solutions that connect people, share knowledge, and create impact. Over the years, I’ve grown from designing small AV systems to leading some of Sri Lanka’s most innovative and large-scale technology projects.
-                </p>
-                <p>
-                  My work spans across corporate boardrooms, government institutions, and universities, where I’ve had the privilege of designing and delivering <strong>300+ cutting-edge projects</strong> — from meeting rooms and AV over IP deployments to broadcast and multimedia solutions.
-                </p>
-                
-                <h3 className="font-semibold text-base text-gray-900 dark:text-white pt-2">
-                  Some of my proudest milestones include:
-                </h3>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Helping modernize the Sri Lanka Commercial High Courts through the Court Digitization Project</li>
-                  <li>Powering transparency with COPE and COPA live broadcasting solutions</li>
-                  <li>Designing the Parliament of Sri Lanka’s multilingual broadcast system</li>
-                  <li>Delivering Sri Lanka’s largest LED wall (22m × 11m)</li>
-                </ul>
+    <section id="about" className="py-24 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[rgba(0,191,255,0.03)] rounded-full blur-3xl pointer-events-none" />
 
-                <p>
-                  What drives me is staying ahead of the curve. I’ve been fortunate to introduce new technologies to Sri Lanka, including projector blending, interactive projection, and seamless control systems. In the last two years alone (2023–2025), I’ve designed <strong>150+ Teams/Zoom/BYOD rooms</strong>, helping position Anscom as the <strong>leading force in meeting room solutions</strong>.
-                </p>
-                <p>
-                  For me, every project is not just about technology — it’s about creating future-ready environments where people can collaborate, innovate, and inspire.
-                </p>
-              </div>
-            </Card>
-          </Reveal>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="mb-16"
+        >
+          <div className="eyebrow mb-3">About Me</div>
+          <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+            Turning Complex AV Challenges<br />
+            into <span className="text-gradient-blue">Elegant Solutions</span>
+          </h2>
+        </motion.div>
 
-        {/* UPDATED Skills Card */}
-        <div>
-          <Reveal>
-            <Card>
-              <div className="text-sm text-gray-700 dark:text-gray-200 space-y-3">
-                <div className="flex items-start gap-2"><Cpu className="h-4 w-4 mt-0.5 flex-shrink-0" /> Q‑SYS/Extron programming & automation</div>
-                <div className="flex items-start gap-2"><Network className="h-4 w-4 mt-0.5 flex-shrink-0" /> AV over IP design & deployment</div>
-                <div className="flex items-start gap-2"><AudioLines className="h-4 w-4 mt-0.5 flex-shrink-0" /> Dante/AVB audio routing</div>
-                <div className="flex items-start gap-2"><Video className="h-4 w-4 mt-0.5 flex-shrink-0" /> SDI/NDI hybrid workflows</div>
-                <div className="flex items-start gap-2"><Webcam className="h-4 w-4 mt-0.5 flex-shrink-0" /> AI-powered camera tracking</div>
-                <div className="flex items-start gap-2"><MicVocal className="h-4 w-4 mt-0.5 flex-shrink-0" /> Voice lifting & reinforcement</div>
-                {/* === NEW ITEMS ADDED HERE === */}
-                <div className="flex items-start gap-2"><Megaphone className="h-4 w-4 mt-0.5 flex-shrink-0" /> Public Address & BGM systems</div>
-                <div className="flex items-start gap-2"><SlidersHorizontal className="h-4 w-4 mt-0.5 flex-shrink-0" /> Pro Audio solutions</div>
-                <div className="flex items-start gap-2"><MessageSquare className="h-4 w-4 mt-0.5 flex-shrink-0" /> Digital conferencing systems</div>
-                <div className="flex items-start gap-2"><Videotape className="h-4 w-4 mt-0.5 flex-shrink-0" /> Court recording solutions</div>
-                <div className="flex items-start gap-2"><Presentation className="h-4 w-4 mt-0.5 flex-shrink-0" /> Digital signage & CMS</div>
-                <div className="flex items-start gap-2"><Projector className="h-4 w-4 mt-0.5 flex-shrink-0" /> Interactive projection mapping</div>
-                <div className="flex items-start gap-2"><View className="h-4 w-4 mt-0.5 flex-shrink-0" /> Immersive AV spaces</div>
-                <div className="flex items-start gap-2"><CloudCog className="h-4 w-4 mt-0.5 flex-shrink-0" /> Live Streaming</div>
-                <div className="flex items-start gap-2"><Video className="h-4 w-4 mt-0.5 flex-shrink-0" /> Video conferencing solutions</div>
-              </div>
-            </Card>
-          </Reveal>
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.15 }}
+            >
+              <p className="text-[#8892B0] text-base leading-relaxed mb-6">
+                With over 18 years in the AV & Broadcast industry, I specialize in designing and
+                delivering high-performance technology solutions for Sri Lanka&apos;s most demanding
+                clients — from Parliament chambers to broadcast studios, courtrooms to enterprise
+                boardrooms.
+              </p>
+              <p className="text-[#8892B0] text-base leading-relaxed mb-8">
+                My expertise spans the full project lifecycle: from presales consultation and system
+                design through to installation, commissioning, and post-delivery support. I bring
+                deep technical knowledge across AV over IP, Unified Communications, Broadcast
+                infrastructure, and ELV systems.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="grid grid-cols-2 gap-3"
+            >
+              {highlights.map(({ icon: Icon, label, value, sub }) => (
+                <div key={label} className="glass p-4 rounded-xl hover:border-[rgba(0,191,255,0.25)] transition-all duration-300">
+                  <Icon className="h-4 w-4 text-[#00BFFF] mb-2" />
+                  <div className="text-[9px] text-[#495670] uppercase tracking-wider mb-1">{label}</div>
+                  <div className="text-[#E6F1FF] text-xs font-bold leading-tight">{value}</div>
+                  <div className="text-[#8892B0] text-[10px]">{sub}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="eyebrow mb-2"
+            >
+              Career Journey
+            </motion.div>
+            {timeline.map((item, i) => (
+              <TimelineItem key={item.role} item={item} index={i} />
+            ))}
+          </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
