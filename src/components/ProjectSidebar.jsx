@@ -4,7 +4,6 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
-// Utility to join class names
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -14,13 +13,11 @@ export function ProjectSidebar({ projects }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Build list of unique tags (plus “All”)
   const allTags = useMemo(() => {
     const tags = new Set(projects.flatMap(p => p.fields.tags || []));
     return ['All', ...Array.from(tags).sort()];
   }, [projects]);
 
-  // Filter projects in the sidebar based on selected tag
   const filteredProjects = useMemo(() => {
     if (activeTag === 'All') return projects;
     return projects.filter(p => (p.fields.tags || []).includes(activeTag));
@@ -28,26 +25,22 @@ export function ProjectSidebar({ projects }) {
 
   return (
     <div className="sticky top-24 space-y-8">
-      {/* Tag filter buttons (moved to top) */}
+      {/* Tag filter */}
       <div>
-        <h3 className="text-lg font-semibold mb-3">Filter by Tag</h3>
+        <h3 className="text-sm font-bold text-[#E6F1FF] uppercase tracking-widest mb-3">Filter by Tag</h3>
         <div className="flex flex-wrap gap-2">
           {allTags.map(tag => (
             <button
               key={tag}
               onClick={() => {
                 setActiveTag(tag);
-                if (tag === 'All') {
-                  router.push('/projects'); // remove tag filter
-                } else {
-                  router.push(`/projects?tag=${encodeURIComponent(tag)}`);
-                }
+                router.push(tag === 'All' ? '/projects' : `/projects?tag=${encodeURIComponent(tag)}`);
               }}
               className={classNames(
-                'px-3 py-1 rounded-full text-sm font-medium transition-colors',
+                'px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200',
                 activeTag === tag
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-200 dark:bg-white/10'
+                  ? 'bg-[#00BFFF] text-[#0A192F]'
+                  : 'bg-[rgba(0,191,255,0.08)] text-[#8892B0] border border-[rgba(0,191,255,0.2)] hover:text-[#00BFFF] hover:border-[rgba(0,191,255,0.5)]'
               )}
             >
               {tag}
@@ -56,21 +49,18 @@ export function ProjectSidebar({ projects }) {
         </div>
       </div>
 
-      {/* Projects list with All Projects button */}
+      {/* Projects list */}
       <div>
-        <h3 className="text-lg font-semibold mb-3">Projects</h3>
-        <nav className="space-y-2">
+        <h3 className="text-sm font-bold text-[#E6F1FF] uppercase tracking-widest mb-3">Projects</h3>
+        <nav className="space-y-1">
           <button
             type="button"
-            onClick={() => {
-              setActiveTag('All');
-              router.push('/projects');
-            }}
+            onClick={() => { setActiveTag('All'); router.push('/projects'); }}
             className={classNames(
-              'block w-full text-left p-3 rounded-lg transition-colors text-sm',
+              'block w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm',
               pathname === '/projects'
-                ? 'bg-indigo-100 dark:bg-cyan-900/50'
-                : 'hover:bg-gray-100 dark:hover:bg-white/10'
+                ? 'bg-[rgba(0,191,255,0.12)] text-[#00BFFF] font-semibold'
+                : 'text-[#8892B0] hover:text-[#E6F1FF] hover:bg-[rgba(255,255,255,0.04)]'
             )}
           >
             All Projects
@@ -80,10 +70,10 @@ export function ProjectSidebar({ projects }) {
               key={project.sys.id}
               href={`/projects/${project.fields.slug}`}
               className={classNames(
-                'block p-3 rounded-lg transition-colors text-sm',
+                'block px-3 py-2.5 rounded-lg transition-all text-sm',
                 pathname === `/projects/${project.fields.slug}`
-                  ? 'bg-indigo-100 dark:bg-cyan-900/50'
-                  : 'hover:bg-gray-100 dark:hover:bg-white/10'
+                  ? 'bg-[rgba(0,191,255,0.12)] text-[#00BFFF] font-semibold'
+                  : 'text-[#8892B0] hover:text-[#E6F1FF] hover:bg-[rgba(255,255,255,0.04)]'
               )}
             >
               {project.fields.title}
