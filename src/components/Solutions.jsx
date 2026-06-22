@@ -52,7 +52,7 @@ const solutions = [
     ],
   },
   {
-    title: 'MAS Intimates – CEO’s Meeting Room',
+    title: "MAS Intimates – CEO’s Meeting Room",
     summary: 'Implemented a modern Microsoft Teams Room solution using the Yealink MVC860, featuring the UVC86 AI speaker tracking camera, VCM36-W wireless microphones, Mtouch touch controller, and a BYOD wireless presentation system. This state-of-the-art setup delivers seamless collaboration, crystal-clear audio/video, and a simplified user experience for executive meetings.',
     image: 'https://i.ibb.co/qY60QFkT/20231003-230344.jpg',
     gallerySlides: [
