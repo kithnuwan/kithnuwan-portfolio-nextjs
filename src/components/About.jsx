@@ -20,7 +20,7 @@ const timeline = [
     color: '#8892B0',
   },
   {
-    period: 'Jul 2019 – 2022',
+    period: 'Jul 2009 – 2022',
     role: 'Senior Manager – IT & Broadcast',
     company: 'Swedish Trading Audio Visual',
     description: 'Architected enterprise AV & Broadcast systems. Led video conferencing, control, routing, and digital signage deployments for major clients.',
@@ -101,7 +101,7 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.15 }}
             >
               <p className="text-[#8892B0] text-base leading-relaxed mb-6">
-                With over 18 years in the AV & Broadcast industry, I specialize in designing and
+                With over 20 years in the AV & Broadcast industry, I specialize in designing and
                 delivering high-performance technology solutions for Sri Lanka&apos;s most demanding
                 clients — from Parliament chambers to broadcast studios, courtrooms to enterprise
                 boardrooms.

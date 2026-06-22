@@ -15,8 +15,8 @@ const SPECIALTIES = [
 ];
 
 const STATS = [
-  { value: 18, suffix: '+', label: 'Years Experience' },
-  { value: 500, suffix: '+', label: 'Projects Delivered' },
+  { value: 20, suffix: '+', label: 'Years Experience' },
+  { value: 300, suffix: '+', label: 'Projects Delivered' },
   { value: 100, suffix: '+', label: 'Enterprise Clients' },
   { value: 20, suffix: '+', label: 'Certifications' },
 ];
@@ -128,7 +128,7 @@ function TypewriterText({ texts }) {
 }
 
 function StatCounter({ value, suffix, label }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(value);
   const ref = useRef(null);
   const started = useRef(false);
 
@@ -141,6 +141,7 @@ function StatCounter({ value, suffix, label }) {
           const steps = 50;
           const increment = value / steps;
           let current = 0;
+          setCount(0);
           const timer = setInterval(() => {
             current += increment;
             if (current >= value) {
@@ -220,7 +221,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="mt-6 text-[#8892B0] text-base sm:text-lg leading-relaxed max-w-xl"
               >
-                18+ years designing and delivering mission-critical AV, Broadcast, and Unified
+                20+ years designing and delivering mission-critical AV, Broadcast, and Unified
                 Communications systems for government, enterprise, and broadcast environments across Sri Lanka.
               </motion.p>
 
@@ -300,7 +301,7 @@ export default function Hero() {
                   className="absolute -top-4 -right-4 glass px-4 py-2 rounded-xl shadow-lg"
                 >
                   <div className="text-xs text-[#8892B0]">Experience</div>
-                  <div className="text-sm font-bold text-[#FFD700]">18+ Years</div>
+                  <div className="text-sm font-bold text-[#FFD700]">20+ Years</div>
                 </motion.div>
               </div>
             </motion.div>

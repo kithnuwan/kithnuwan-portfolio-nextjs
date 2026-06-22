@@ -25,8 +25,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'WhatsApp',
-    value: '+94 77 123 4567',
-    href: 'https://wa.me/94771234567',
+    value: '+94 777 046 928',
+    href: 'https://wa.me/94777046928',
     color: '#25D366',
     external: true,
   },

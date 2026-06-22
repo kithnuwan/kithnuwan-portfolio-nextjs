@@ -21,7 +21,7 @@ const experience = [
   {
     role: 'Senior Manager – IT & Broadcast',
     org: 'Swedish Trading Audio Visual (Pvt) Ltd',
-    period: 'Jul 2019 – 2022',
+    period: 'Jul 2009 – 2022',
     color: '#00BFFF',
     bullets: [
       'Architected AV & Broadcast systems meeting enterprise and government specifications',
