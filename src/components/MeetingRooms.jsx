@@ -24,7 +24,7 @@ const rooms = [
   },
   {
     id: 2,
-    title: 'Executive Boardroom',
+    title: 'MAS Intimate – Digital Product Center',
     client: 'MAS Holdings',
     capacity: '12–16 pax',
     system: 'Microsoft Teams Room',
@@ -65,7 +65,13 @@ const rooms = [
   },
 ];
 
-function RoomCard({ room, index, onOpen }) {
+function youtubeId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:shorts\/|v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+function RoomCard({ room, index, onOpen, onVideo }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '0px' });
   const [imgIdx, setImgIdx] = useState(0);
@@ -80,7 +86,7 @@ function RoomCard({ room, index, onOpen }) {
     >
       {/* Image */}
       <button
-        onClick={() => onOpen(room, imgIdx)}
+        onClick={() => room.video ? onVideo(room.video) : onOpen(room, imgIdx)}
         className="relative w-full aspect-video overflow-hidden flex-shrink-0"
         aria-label={`View ${room.title}`}
       >
@@ -152,16 +158,13 @@ function RoomCard({ room, index, onOpen }) {
         </div>
 
         {room.video && (
-          <a
-            href={room.video}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => onVideo(room.video)}
             className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-semibold"
             style={{ color: room.color }}
-            onClick={e => e.stopPropagation()}
           >
             <Play className="h-3 w-3 fill-current" /> Watch Project Video
-          </a>
+          </button>
         )}
       </div>
     </motion.div>
@@ -172,6 +175,7 @@ export default function MeetingRooms() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '0px' });
   const [lightbox, setLightbox] = useState(null);
+  const [videoUrl, setVideoUrl] = useState(null);
 
   const openLightbox = (room, startIdx) => setLightbox({ room, idx: startIdx });
 
@@ -221,7 +225,7 @@ export default function MeetingRooms() {
 
         <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
           {rooms.map((room, i) => (
-            <RoomCard key={room.id} room={room} index={i} onOpen={openLightbox} />
+            <RoomCard key={room.id} room={room} index={i} onOpen={openLightbox} onVideo={setVideoUrl} />
           ))}
         </div>
 
@@ -239,6 +243,36 @@ export default function MeetingRooms() {
           </a>
         </motion.div>
       </div>
+
+      {/* YouTube Video Modal */}
+      <AnimatePresence>
+        {videoUrl && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setVideoUrl(null)}
+          >
+            <div className="relative w-full max-w-3xl" onClick={e => e.stopPropagation()}>
+              <button
+                onClick={() => setVideoUrl(null)}
+                className="absolute -top-12 right-0 text-[#8892B0] hover:text-white flex items-center gap-2 text-sm"
+              >
+                <X className="h-5 w-5" /> Close
+              </button>
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  src={`https://www.youtube.com/embed/${youtubeId(videoUrl)}?autoplay=1&rel=0`}
+                  allow="autoplay; encrypted-media; fullscreen"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full rounded-xl"
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Lightbox */}
       <AnimatePresence>
