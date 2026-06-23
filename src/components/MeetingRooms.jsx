@@ -3,12 +3,27 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Link from 'next/link';
-import { Monitor, Users, Wifi, ChevronLeft, ChevronRight, X, ArrowRight } from 'lucide-react';
+import { Monitor, Users, Wifi, ChevronLeft, ChevronRight, X, ArrowRight, Play } from 'lucide-react';
 import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const rooms = [
   {
     id: 1,
+    title: "People's Bank Tower – Meeting Room AV",
+    client: "People's Bank",
+    capacity: '19 Rooms incl. Boardroom',
+    system: 'Yealink + Horizon + DSPPA',
+    features: ['Paperless Conference', 'Motorized LCD Monitors', 'Video Conferencing', 'Centralized Room Control'],
+    images: [
+      'https://i.ibb.co/YB7dhbS3/Whats-App-Image-2026-02-24-at-3-57-09-PM-3.jpg',
+      'https://i.ibb.co/HfXgQ10V/Whats-App-Image-2026-02-24-at-3-57-09-PM-2.jpg',
+    ],
+    video: 'https://youtube.com/shorts/gMEkoTwvSf4?si=9h7LG4hMPQmyjHyB',
+    description: 'Integrated AV solution for 19 meeting rooms including the Main Boardroom. Features a modern paperless conference system with motorized LCD monitors, professional video conferencing, digital audio processing, and centralized room control.',
+    color: '#00BFFF',
+  },
+  {
+    id: 2,
     title: 'Executive Boardroom',
     client: 'MAS Holdings',
     capacity: '12–16 pax',
@@ -18,19 +33,6 @@ const rooms = [
       '/assets/images/meetingRoom1.png',
       'https://i.ibb.co/fz8n0Cw6/20250120-072046-1-min.jpg',
       'https://i.ibb.co/fVDK69sP/20250120-072115-min.jpg',
-    ],
-    color: '#00BFFF',
-  },
-  {
-    id: 2,
-    title: 'Huddle Room',
-    client: 'Enterprise Client',
-    capacity: '4–6 pax',
-    system: 'Zoom Room',
-    features: ['Dual Displays', 'USB Camera', 'Sound Bar', 'One-Touch Join'],
-    images: [
-      'https://i.ibb.co/V0J118NZ/20250120-072029-min.jpg',
-      '/assets/images/meetingRoom1.png',
     ],
     color: '#00E5FF',
   },
@@ -109,6 +111,15 @@ function RoomCard({ room, index, onOpen }) {
             {room.capacity}
           </span>
         </div>
+
+        {/* Video play badge */}
+        {room.video && (
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center border border-white/20">
+              <Play className="h-5 w-5 text-white fill-white ml-0.5" />
+            </div>
+          </div>
+        )}
       </button>
 
       {/* Info */}
@@ -122,7 +133,11 @@ function RoomCard({ room, index, onOpen }) {
           </span>
         </div>
         <h3 className="text-[#E6F1FF] font-bold text-sm leading-tight mb-1">{room.title}</h3>
-        <p className="text-[#8892B0] text-xs mb-3">{room.client}</p>
+        <p className="text-[#8892B0] text-xs mb-2">{room.client}</p>
+
+        {room.description && (
+          <p className="text-[#495670] text-[11px] leading-relaxed mb-3">{room.description}</p>
+        )}
 
         <div className="flex flex-wrap gap-1.5 mt-auto">
           {room.features.map(f => (
@@ -135,6 +150,19 @@ function RoomCard({ room, index, onOpen }) {
             </span>
           ))}
         </div>
+
+        {room.video && (
+          <a
+            href={room.video}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-1.5 text-[11px] font-semibold"
+            style={{ color: room.color }}
+            onClick={e => e.stopPropagation()}
+          >
+            <Play className="h-3 w-3 fill-current" /> Watch Project Video
+          </a>
+        )}
       </div>
     </motion.div>
   );
