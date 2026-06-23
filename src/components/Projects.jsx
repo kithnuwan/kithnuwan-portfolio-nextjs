@@ -1,9 +1,13 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Link from 'next/link';
-import { ChevronRight, Building2, Play, X, ChevronLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ChevronRight, Building2, Play, X, ChevronLeft, ArrowRight, ExternalLink, ZoomIn } from 'lucide-react';
+import { LaserReveal } from '@/components/ui/LaserReveal';
+import { GeometricHover } from '@/components/ui/GeometricHover';
+
+const EASE = [0.4, 0, 0.2, 1];
 
 const featuredProjects = [
   {
@@ -72,46 +76,64 @@ const featuredProjects = [
   },
 ];
 
-function ProjectCard({ project, index, onOpenSlide }) {
+/* ── Project Card ─────────────────────────────────────────────────── */
+function ProjectCard({ project, index, onExpand, onOpenSlide }) {
   const ref = useRef(null);
+  const imgRef = useRef(null);
   const inView = useInView(ref, { once: true, margin: '0px' });
+
+  const handleImgHover = useCallback((playing) => {
+    if (!imgRef.current) return;
+    // Subtle brightness on hover as a micro-interaction
+    imgRef.current.style.filter = playing ? 'brightness(1.08) saturate(1.1)' : '';
+  }, []);
+
+  const hasVideo = project.gallerySlides?.[0]?.type === 'youtube';
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="glass rounded-2xl overflow-hidden group hover:border-[rgba(0,191,255,0.2)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,191,255,0.08)] flex flex-col"
+      transition={{ duration: 0.55, delay: index * 0.1, ease: EASE }}
+      className="project-card glass rounded-2xl overflow-hidden group hover:border-[rgba(0,191,255,0.2)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,191,255,0.08)] flex flex-col"
     >
-      {/* Image */}
-      <button
-        onClick={() => onOpenSlide(project.id, 0)}
-        className="relative w-full aspect-video overflow-hidden flex-shrink-0"
-        aria-label={`Open gallery for ${project.title}`}
+      {/* Image / hero */}
+      <div
+        className="relative w-full aspect-video overflow-hidden flex-shrink-0 cursor-pointer"
+        onClick={() => onExpand(project)}
+        onMouseEnter={() => handleImgHover(true)}
+        onMouseLeave={() => handleImgHover(false)}
+        role="button"
+        aria-label={`Expand ${project.title}`}
+        tabIndex={0}
+        onKeyDown={e => e.key === 'Enter' && onExpand(project)}
       >
-        <img
+        {/* Shared-element image — layoutId used for expansion animation */}
+        <motion.img
+          layoutId={`proj-img-${project.id}`}
+          ref={imgRef}
           src={project.imageUrl}
           alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="project-card-img w-full h-full object-cover"
+          style={{ transition: 'transform 500ms cubic-bezier(0.4,0,0.2,1), filter 300ms ease' }}
         />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-transparent to-transparent opacity-60" />
-        <div className="absolute inset-0 bg-[rgba(0,191,255,0.0)] group-hover:bg-[rgba(0,191,255,0.05)] transition-all duration-300" />
 
-        {project.gallerySlides?.[0]?.type === 'youtube' ? (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-14 h-14 rounded-full bg-[rgba(0,191,255,0.9)] flex items-center justify-center shadow-[0_0_30px_rgba(0,191,255,0.5)] group-hover:scale-110 transition-transform duration-300">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-transparent to-transparent opacity-60 pointer-events-none" />
+
+        {/* Hover expand cue */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {hasVideo ? (
+            <div className="w-14 h-14 rounded-full bg-[rgba(0,191,255,0.9)] flex items-center justify-center shadow-[0_0_30px_rgba(0,191,255,0.5)]">
               <Play className="h-6 w-6 text-[#0A192F] ml-1" />
             </div>
-          </div>
-        ) : (
-          <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div className="glass px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs text-[#00BFFF]">
-              <ExternalLink className="h-3 w-3" /> View Gallery
+          ) : (
+            <div className="glass px-4 py-2 rounded-xl flex items-center gap-2 text-sm text-[#00BFFF]">
+              <ZoomIn className="h-4 w-4" /> View Project
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Year badge */}
         <div className="absolute top-3 left-3">
@@ -119,7 +141,7 @@ function ProjectCard({ project, index, onOpenSlide }) {
             {project.year}
           </span>
         </div>
-      </button>
+      </div>
 
       {/* Thumbnails */}
       {project.gallerySlides?.length > 1 && (
@@ -128,7 +150,7 @@ function ProjectCard({ project, index, onOpenSlide }) {
             <button
               key={idx}
               onClick={() => onOpenSlide(project.id, idx + 1)}
-              className="flex-shrink-0 relative group/thumb"
+              className="flex-shrink-0 group/thumb"
               aria-label={`Thumbnail ${idx + 2}`}
             >
               {slide.type === 'youtube' ? (
@@ -179,14 +201,131 @@ function ProjectCard({ project, index, onOpenSlide }) {
   );
 }
 
+/* ── Expanded Project Overlay ─────────────────────────────────────── */
+function ProjectOverlay({ project, onClose, onOpenGallery }) {
+  const imageSlides = project.gallerySlides?.filter(s => s.type === 'image') ?? [];
+  const videoSlide = project.gallerySlides?.find(s => s.type === 'youtube');
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[100] bg-[#060F1E]/95 backdrop-blur-lg overflow-y-auto"
+      onClick={onClose}
+    >
+      <div
+        className="max-w-5xl mx-auto px-4 py-8 sm:py-16 min-h-screen flex flex-col"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Close */}
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={onClose}
+            className="flex items-center gap-2 text-[#8892B0] hover:text-[#E6F1FF] text-sm transition-colors"
+          >
+            <X className="h-5 w-5" /> Close
+          </button>
+        </div>
+
+        {/* Hero image — shared element from card */}
+        <motion.div
+          layoutId={`proj-img-${project.id}`}
+          className="w-full aspect-video rounded-2xl overflow-hidden flex-shrink-0"
+          transition={{ duration: 0.45, ease: EASE }}
+          style={{ cursor: imageSlides.length > 0 ? 'zoom-in' : 'default' }}
+          onClick={() => imageSlides.length > 0 && onOpenGallery(0)}
+        >
+          <img
+            src={project.imageUrl}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
+
+        {/* Content fades in after image lands */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.3, ease: EASE }}
+          className="mt-8 flex-1"
+        >
+          <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2 text-sm text-[#8892B0] mb-2">
+                <Building2 className="h-4 w-4" style={{ color: project.color }} />
+                {project.client} · {project.year}
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black text-[#E6F1FF]">{project.title}</h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map(tag => (
+                <span
+                  key={tag}
+                  className="text-xs font-semibold px-3 py-1 rounded-full"
+                  style={{ color: project.color, backgroundColor: `${project.color}15`, border: `1px solid ${project.color}30` }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <p className="text-[#8892B0] text-base leading-relaxed mb-10 max-w-3xl">{project.summary}</p>
+
+          {/* Action row */}
+          <div className="flex flex-wrap gap-3 mb-10">
+            {videoSlide && (
+              <button
+                onClick={() => onOpenGallery('video')}
+                className="btn-primary"
+              >
+                <Play className="h-4 w-4" /> Watch Walkthrough
+              </button>
+            )}
+            {imageSlides.length > 0 && (
+              <button onClick={() => onOpenGallery(0)} className="btn-outline">
+                <ExternalLink className="h-4 w-4" /> View Gallery
+              </button>
+            )}
+          </div>
+
+          {/* Gallery strip */}
+          {imageSlides.length > 0 && (
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+              {imageSlides.map((slide, i) => (
+                <button
+                  key={i}
+                  onClick={() => onOpenGallery(i)}
+                  className="aspect-video rounded-lg overflow-hidden group/g"
+                  aria-label={`Gallery image ${i + 1}`}
+                >
+                  <img
+                    src={slide.src}
+                    alt=""
+                    className="w-full h-full object-cover group-hover/g:scale-110 transition-transform duration-300"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Main component ───────────────────────────────────────────────── */
 export default function Projects() {
+  const [expanded, setExpanded] = useState(null);
   const [lightbox, setLightbox] = useState(null);
   const [videoOpen, setVideoOpen] = useState(null);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '0px' });
 
   const openSlide = (projectId, index) => {
-    const project = featuredProjects.find((p) => p.id === projectId);
+    const project = featuredProjects.find(p => p.id === projectId);
     const slide = project?.gallerySlides?.[index];
     if (!slide) return;
     if (slide.type === 'youtube') {
@@ -196,11 +335,21 @@ export default function Projects() {
     }
   };
 
-  const closeLightbox = () => setLightbox(null);
+  const openOverlayGallery = (indexOrMode) => {
+    if (!expanded) return;
+    if (indexOrMode === 'video') {
+      const v = expanded.gallerySlides.find(s => s.type === 'youtube');
+      if (v) setVideoOpen({ videoId: v.id, title: v.title || expanded.title });
+      return;
+    }
+    const imageSlides = expanded.gallerySlides.filter(s => s.type === 'image');
+    const realIdx = expanded.gallerySlides.indexOf(imageSlides[indexOrMode]);
+    setLightbox({ projectId: expanded.id, index: realIdx >= 0 ? realIdx : 0 });
+  };
 
   const navigate = (dir) => {
     if (!lightbox) return;
-    const project = featuredProjects.find((p) => p.id === lightbox.projectId);
+    const project = featuredProjects.find(p => p.id === lightbox.projectId);
     const slides = project.gallerySlides;
     let next = (lightbox.index + dir + slides.length) % slides.length;
     while (slides[next]?.type === 'youtube') {
@@ -223,9 +372,11 @@ export default function Projects() {
           className="mb-16"
         >
           <div className="eyebrow mb-3">Proof of Work</div>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
-            Featured <span className="text-gradient-blue">Projects</span>
-          </h2>
+          <LaserReveal delay={0.1}>
+            <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+              Featured <span className="text-gradient-blue">Projects</span>
+            </h2>
+          </LaserReveal>
           <p className="mt-4 text-[#8892B0] max-w-xl">
             A selection of mission-critical AV and Broadcast projects delivered for government, enterprise, and media clients across Sri Lanka.
           </p>
@@ -233,7 +384,13 @@ export default function Projects() {
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
           {featuredProjects.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i} onOpenSlide={openSlide} />
+            <ProjectCard
+              key={p.id}
+              project={p}
+              index={i}
+              onExpand={setExpanded}
+              onOpenSlide={openSlide}
+            />
           ))}
         </div>
 
@@ -243,13 +400,27 @@ export default function Projects() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="mt-12 text-center"
         >
-          <Link href="/projects" className="btn-outline inline-flex">
-            View All Projects <ChevronRight className="h-4 w-4" />
-          </Link>
+          <GeometricHover>
+            <Link href="/projects" className="btn-outline inline-flex">
+              View All Projects <ChevronRight className="h-4 w-4" />
+            </Link>
+          </GeometricHover>
         </motion.div>
       </div>
 
-      {/* Lightbox */}
+      {/* ── Expanded overlay (shared element) ─────────────────────── */}
+      <AnimatePresence>
+        {expanded && (
+          <ProjectOverlay
+            key="expanded"
+            project={expanded}
+            onClose={() => setExpanded(null)}
+            onOpenGallery={openOverlayGallery}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Image lightbox ─────────────────────────────────────────── */}
       <AnimatePresence>
         {lightbox && (
           <motion.div
@@ -257,33 +428,26 @@ export default function Projects() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
-            onClick={closeLightbox}
+            className="fixed inset-0 z-[110] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setLightbox(null)}
           >
-            <div className="relative w-full max-w-6xl" onClick={(e) => e.stopPropagation()}>
+            <div className="relative w-full max-w-6xl" onClick={e => e.stopPropagation()}>
               <button
-                onClick={closeLightbox}
-                className="absolute -top-12 right-0 text-[#8892B0] hover:text-white transition-colors flex items-center gap-2 text-sm"
+                onClick={() => setLightbox(null)}
+                className="absolute -top-12 right-0 text-[#8892B0] hover:text-white flex items-center gap-2 text-sm"
               >
                 <X className="h-5 w-5" /> Close
               </button>
               {(() => {
-                const project = featuredProjects.find((p) => p.id === lightbox.projectId);
-                const slide = project.gallerySlides[lightbox.index];
-                const src = slide?.type === 'image' ? slide.src : '';
-                return src ? (
+                const project = featuredProjects.find(p => p.id === lightbox.projectId);
+                const slide = project?.gallerySlides[lightbox.index];
+                return slide?.type === 'image' ? (
                   <div className="relative">
-                    <img src={src} alt="Project image" className="w-full max-h-[80vh] object-contain rounded-xl" />
-                    <button
-                      onClick={() => navigate(-1)}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[#E6F1FF] hover:text-[#00BFFF] transition-colors"
-                    >
+                    <img src={slide.src} alt="Project image" className="w-full max-h-[80vh] object-contain rounded-xl" />
+                    <button onClick={() => navigate(-1)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[#E6F1FF] hover:text-[#00BFFF]">
                       <ChevronLeft className="h-5 w-5" />
                     </button>
-                    <button
-                      onClick={() => navigate(1)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[#E6F1FF] hover:text-[#00BFFF] transition-colors"
-                    >
+                    <button onClick={() => navigate(1)} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[#E6F1FF] hover:text-[#00BFFF]">
                       <ArrowRight className="h-5 w-5" />
                     </button>
                     <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-[#8892B0] glass px-3 py-1 rounded-full">
@@ -297,7 +461,7 @@ export default function Projects() {
         )}
       </AnimatePresence>
 
-      {/* Video modal */}
+      {/* ── YouTube modal ──────────────────────────────────────────── */}
       <AnimatePresence>
         {videoOpen && (
           <motion.div
@@ -305,14 +469,11 @@ export default function Projects() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+            className="fixed inset-0 z-[110] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
             onClick={() => setVideoOpen(null)}
           >
-            <div className="relative w-full max-w-5xl aspect-video" onClick={(e) => e.stopPropagation()}>
-              <button
-                onClick={() => setVideoOpen(null)}
-                className="absolute -top-12 right-0 text-[#8892B0] hover:text-white transition-colors flex items-center gap-2 text-sm"
-              >
+            <div className="relative w-full max-w-5xl aspect-video" onClick={e => e.stopPropagation()}>
+              <button onClick={() => setVideoOpen(null)} className="absolute -top-12 right-0 text-[#8892B0] hover:text-white flex items-center gap-2 text-sm">
                 <X className="h-5 w-5" /> Close
               </button>
               <iframe
