@@ -74,8 +74,6 @@ export default function HeroRotator({
             alt={alt}
             className="w-full h-full object-cover object-center"
           />
-          {/* Add a subtle gradient overlay to improve legibility of overlaying text (if any). */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent pointer-events-none" />
         </div>
       ))}
     </>

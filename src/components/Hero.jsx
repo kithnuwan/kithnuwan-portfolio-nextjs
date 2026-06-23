@@ -280,9 +280,23 @@ export default function Hero() {
               className="relative"
             >
               <div className="relative mx-auto max-w-sm lg:max-w-full">
-                {/* Glow ring behind image */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[rgba(0,191,255,0.2)] to-[rgba(0,229,255,0.05)] blur-2xl scale-110" />
-                <div className="relative rounded-2xl overflow-hidden ring-1 ring-[rgba(0,191,255,0.2)] shadow-[0_0_60px_rgba(0,191,255,0.15)] h-[420px] sm:h-[480px] lg:h-[520px]">
+                {/* Subtle ambient glow behind the figure */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_70%_at_60%_40%,rgba(0,191,255,0.12),transparent_70%)] pointer-events-none" />
+                <div
+                  className="relative h-[420px] sm:h-[480px] lg:h-[520px] overflow-hidden"
+                  style={{
+                    WebkitMaskImage: [
+                      'linear-gradient(to bottom, black 45%, transparent 92%)',
+                      'linear-gradient(to right, transparent 0%, black 18%, black 90%, transparent 100%)',
+                    ].join(', '),
+                    maskImage: [
+                      'linear-gradient(to bottom, black 45%, transparent 92%)',
+                      'linear-gradient(to right, transparent 0%, black 18%, black 90%, transparent 100%)',
+                    ].join(', '),
+                    WebkitMaskComposite: 'source-in',
+                    maskComposite: 'intersect',
+                  }}
+                >
                   <HeroRotator
                     images={[
                       '/assets/images/hero-image.png',
