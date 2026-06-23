@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const experience = [
   {
@@ -124,9 +125,11 @@ export default function Experience() {
           className="mb-16"
         >
           <div className="eyebrow mb-3">Work History</div>
+          <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
             Professional <span className="text-gradient-blue">Experience</span>
           </h2>
+          </LaserReveal>
           <p className="mt-4 text-[#8892B0] max-w-xl">
             Two decades building, designing, and leading AV & Broadcast technology solutions across Sri Lanka.
           </p>

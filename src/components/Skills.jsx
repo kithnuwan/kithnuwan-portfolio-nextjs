@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Radio, Monitor, Phone, Network, Code2 } from 'lucide-react';
+import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const skillCategories = [
   {
@@ -121,9 +122,11 @@ export default function Skills() {
           className="mb-16"
         >
           <div className="eyebrow mb-3">Expertise</div>
+          <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
             Technical <span className="text-gradient-blue">Skills</span>
           </h2>
+          </LaserReveal>
           <p className="mt-4 text-[#8892B0] max-w-xl">
             Deep expertise across the full AV & Broadcast technology stack — from system design to hands-on integration.
           </p>

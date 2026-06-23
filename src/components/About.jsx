@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { MapPin, Briefcase, Award, Users } from 'lucide-react';
+import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const highlights = [
   { icon: Briefcase, label: 'Current Role', value: 'Head of System Integrations', sub: 'Anscom Limited' },
@@ -87,10 +88,12 @@ export default function About() {
           className="mb-16"
         >
           <div className="eyebrow mb-3">About Me</div>
+          <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
             Turning Complex AV Challenges<br />
             into <span className="text-gradient-blue">Elegant Solutions</span>
           </h2>
+          </LaserReveal>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-start">

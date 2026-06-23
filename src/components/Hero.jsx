@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, Download, ArrowRight } from 'lucide-react';
 import HeroRotator from './HeroRotator';
+import { GeometricHover } from '@/components/ui/GeometricHover';
 
 const SPECIALTIES = [
   'Audio Visual Integration',
@@ -231,9 +232,12 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.55 }}
                 className="mt-8 flex flex-wrap gap-3"
               >
+                <GeometricHover gap={8}>
                 <a href="#projects" className="btn-primary">
                   View Projects <ArrowRight className="h-4 w-4" />
                 </a>
+                </GeometricHover>
+                <GeometricHover gap={8}>
                 <a
                   href="https://drive.google.com/file/d/1ZXhQ9qE1m10gHub37I8gmHPao0vCWY0V/view?usp=sharing"
                   target="_blank"
@@ -242,9 +246,12 @@ export default function Hero() {
                 >
                   <Download className="h-4 w-4" /> Download CV
                 </a>
+                </GeometricHover>
+                <GeometricHover gap={8}>
                 <a href="#contact" className="btn-outline">
                   Contact Me
                 </a>
+                </GeometricHover>
               </motion.div>
 
               {/* Location + company */}

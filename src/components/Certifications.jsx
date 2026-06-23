@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Award, GraduationCap, Shield } from 'lucide-react';
+import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const certifications = [
   {
@@ -137,10 +138,12 @@ export default function Certifications() {
           className="mb-16"
         >
           <div className="eyebrow mb-3">Credentials</div>
+          <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
             Certifications &{' '}
             <span className="text-gradient-gold">Qualifications</span>
           </h2>
+          </LaserReveal>
           <p className="mt-4 text-[#8892B0] max-w-xl">
             Industry-recognized credentials validating expertise across networking, audio, video, and unified communications.
           </p>

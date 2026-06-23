@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const technologies = [
   { name: 'Microsoft Teams', category: 'UC' },
@@ -77,9 +78,11 @@ export default function TechStack() {
           transition={{ duration: 0.6 }}
         >
           <div className="eyebrow mb-3">Technology Partners</div>
+          <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
             Technology <span className="text-gradient-blue">Ecosystem</span>
           </h2>
+          </LaserReveal>
           <p className="mt-4 text-[#8892B0] max-w-xl">
             Working with the world&apos;s leading AV, Broadcast, and UC technology brands to deliver best-in-class solutions.
           </p>

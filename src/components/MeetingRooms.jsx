@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Link from 'next/link';
 import { Monitor, Users, Wifi, ChevronLeft, ChevronRight, X, ArrowRight } from 'lucide-react';
+import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const rooms = [
   {
@@ -166,9 +167,11 @@ export default function MeetingRooms() {
           className="mb-16"
         >
           <div className="eyebrow mb-3">Spaces We Build</div>
+          <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
             Meeting Room <span className="text-gradient-blue">Solutions</span>
           </h2>
+          </LaserReveal>
           <p className="mt-4 text-[#8892B0] max-w-xl">
             From intimate huddle spaces to full-scale auditoriums — purpose-built rooms with seamless video conferencing, audio clarity, and one-touch simplicity.
           </p>

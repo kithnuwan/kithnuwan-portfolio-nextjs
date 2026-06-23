@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, MapPin, Linkedin, Phone, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const WEB3FORMS_KEY = '820ad35d-3e02-4bcd-9fba-8ee0920068c8';
 
@@ -87,9 +88,11 @@ export default function Contact() {
           className="mb-16"
         >
           <div className="eyebrow mb-3">Get In Touch</div>
+          <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
             Let&apos;s Build Something <span className="text-gradient-blue">Remarkable</span>
           </h2>
+          </LaserReveal>
           <p className="mt-4 text-[#8892B0] max-w-xl">
             Have an AV, Broadcast, or UC project in mind? I&apos;d love to hear about it. Send a message and I&apos;ll get back to you within 24 hours.
           </p>
