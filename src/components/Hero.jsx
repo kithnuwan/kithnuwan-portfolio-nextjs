@@ -299,7 +299,6 @@ export default function Hero() {
                 >
                   <HeroRotator
                     images={[
-                      '/assets/images/hero-image.png',
                       '/assets/images/hero-portrait.png',
                     ].filter(Boolean)}
                     alt="Kithnuwan Silva portrait"
