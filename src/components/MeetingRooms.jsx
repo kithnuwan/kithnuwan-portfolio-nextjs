@@ -24,20 +24,56 @@ const rooms = [
   },
   {
     id: 2,
-    title: 'MAS Intimate – Digital Product Center',
-    client: 'MAS Holdings',
-    capacity: '12–16 pax',
-    system: 'Microsoft Teams Room',
-    features: ['4K Display Wall', 'Ceiling Mic Array', 'PTZ Camera', 'Wireless Presentation'],
+    title: 'Unilever Sri Lanka – Enterprise Meeting Rooms',
+    client: 'Unilever Sri Lanka',
+    capacity: '23 Teams Rooms',
+    system: 'Lenovo MTR + Q-SYS',
+    features: ['Lenovo MTR', 'Hudly Cameras', 'Poly Room Scheduler', 'Q-SYS Audio', 'Samsung LFD Displays'],
     images: [
-      '/assets/images/meetingRoom1.png',
-      'https://i.ibb.co/fz8n0Cw6/20250120-072046-1-min.jpg',
-      'https://i.ibb.co/fVDK69sP/20250120-072115-min.jpg',
+      'https://i.ibb.co/Vc4H5GBJ/20260620-122929.jpg',
+      'https://i.ibb.co/5g9xMp0X/20260620-123518.jpg',
+      'https://i.ibb.co/5gtfRfsN/20260620-123541.jpg',
+      'https://i.ibb.co/9H2KBPvm/20260620-123644.jpg',
+      'https://i.ibb.co/zh6GsVhw/20260620-123720.jpg',
     ],
+    description: 'Enterprise-wide Microsoft Teams Room rollout across 23 meeting rooms. Built on Lenovo MTR hardware with Hudly cameras, Poly room schedulers, Q-SYS audio processing, and Samsung large-format displays.',
     color: '#00E5FF',
   },
   {
     id: 3,
+    title: 'MAS Intimate – Digital Product Center',
+    client: 'MAS Holdings',
+    capacity: '10 Meeting Rooms',
+    system: 'Yealink MVC860 + Kramer',
+    features: ['Yealink MVC860', 'Kramer Control', 'Microsoft Teams', 'State-of-the-Art AV'],
+    images: [
+      'https://i.ibb.co/qY60QFkT/20231003-230344.jpg',
+      'https://i.ibb.co/1tJJ6x0L/20231003-230351.jpg',
+      'https://i.ibb.co/TV1NXPq/20231003-230357.jpg',
+    ],
+    description: '10 state-of-the-art Microsoft Teams meeting rooms at the MAS Intimate Digital Product Center, powered by Yealink MVC860 collaboration bars and Kramer Control room automation.',
+    color: '#7B61FF',
+  },
+  {
+    id: 4,
+    title: 'DPMC Head Office – Main Boardroom',
+    client: 'David Pieris Motor Company',
+    capacity: 'Executive Boardroom',
+    system: 'Yealink MTR',
+    features: ['Yealink MTR Solution', 'Microsoft Teams', 'Executive AV', 'State-of-the-Art'],
+    images: [
+      'https://i.ibb.co/Z12sxJCm/Whats-App-Image-2025-07-08-at-11-40-54-3043e55c.jpg',
+      'https://i.ibb.co/FbJrZjTB/Whats-App-Image-2025-07-08-at-11-40-55-d54a4c84.jpg',
+      'https://i.ibb.co/fVMGR0cP/Whats-App-Image-2025-07-08-at-11-40-55-f40b4164.jpg',
+      'https://i.ibb.co/r2M5CBgL/Whats-App-Image-2025-07-08-at-11-40-56-5b9070ee.jpg',
+      'https://i.ibb.co/p6RSNQ6q/Whats-App-Image-2025-07-08-at-11-40-56-281a8322.jpg',
+      'https://i.ibb.co/xq2pgFW4/Whats-App-Image-2025-07-08-at-11-40-56-a5219e9a.jpg',
+    ],
+    description: 'State-of-the-art main boardroom AV solution at DPMC Head Office, featuring a complete Yealink Microsoft Teams Room system for executive meetings and presentations.',
+    color: '#FFD700',
+  },
+  {
+    id: 5,
     title: 'Training Room',
     client: 'IWMI',
     capacity: '30–50 pax',
@@ -48,10 +84,10 @@ const rooms = [
       'https://i.ibb.co/ks3CPJ6K/20250721-121411-min.jpg',
       'https://i.ibb.co/3mBZJR7Q/20250721-121420-min.jpg',
     ],
-    color: '#7B61FF',
+    color: '#FF6B6B',
   },
   {
-    id: 4,
+    id: 6,
     title: 'Multi-Purpose Hall',
     client: 'Government Client',
     capacity: '100–200 pax',
@@ -61,7 +97,7 @@ const rooms = [
       'https://i.ibb.co/BHnF4K8G/20250721-121454-min.jpg',
       'https://i.ibb.co/vxk0hz2j/20250721-121516-min.jpg',
     ],
-    color: '#FFD700',
+    color: '#FF9800',
   },
 ];
 
@@ -223,7 +259,7 @@ export default function MeetingRooms() {
           </div>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {rooms.map((room, i) => (
             <RoomCard key={room.id} room={room} index={i} onOpen={openLightbox} onVideo={setVideoUrl} />
           ))}
