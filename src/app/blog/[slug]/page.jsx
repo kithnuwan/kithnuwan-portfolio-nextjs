@@ -12,7 +12,17 @@ const richTextOptions = {
     [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4 text-[#8892B0]">{children}</p>,
     [BLOCKS.UL_LIST]: (_node, children) => <ul className="list-disc list-inside mb-4 pl-4">{children}</ul>,
     [BLOCKS.OL_LIST]: (_node, children) => <ol className="list-decimal list-inside mb-4 pl-4">{children}</ol>,
-    [BLOCKS.LIST_ITEM]: (_node, children) => <li className="mb-2">{children}</li>,
+    [BLOCKS.LIST_ITEM]: (_node, children) => (
+      <li className="mb-2 text-[#8892B0]">
+        {Array.isArray(children)
+          ? children.map((child, i) =>
+              child?.type === 'p'
+                ? <span key={i}>{child.props.children}</span>
+                : child
+            )
+          : children}
+      </li>
+    ),
     [BLOCKS.QUOTE]: (_node, children) => <blockquote className="border-l-4 border-[#00BFFF] pl-4 italic my-4 text-[#8892B0]">{children}</blockquote>,
     [BLOCKS.EMBEDDED_ASSET]: (node) => (
       <img
