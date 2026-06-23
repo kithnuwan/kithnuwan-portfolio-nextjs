@@ -20,6 +20,7 @@ const certifications = [
     issuer: 'Cisco',
     type: 'Certification',
     icon: Shield,
+    logo: 'https://logo.clearbit.com/cisco.com',
     color: '#00E5FF',
     glow: 'rgba(0,229,255,0.12)',
     description: 'Cisco Certified Network Associate — Routing & Switching',
@@ -29,6 +30,7 @@ const certifications = [
     issuer: 'Yealink',
     type: 'Vendor Cert',
     icon: Award,
+    logo: 'https://logo.clearbit.com/yealink.com',
     color: '#00BFFF',
     glow: 'rgba(0,191,255,0.12)',
     description: 'Expert-level certification for Yealink UC endpoints and video conferencing systems',
@@ -38,6 +40,7 @@ const certifications = [
     issuer: 'Audinate',
     type: 'Vendor Cert',
     icon: Award,
+    logo: 'https://logo.clearbit.com/audinate.com',
     color: '#FF6B6B',
     glow: 'rgba(255,107,107,0.12)',
     description: 'Dante networked audio certification — advanced configuration and troubleshooting',
@@ -47,6 +50,7 @@ const certifications = [
     issuer: 'Biamp Systems',
     type: 'Vendor Cert',
     icon: Award,
+    logo: 'https://logo.clearbit.com/biamp.com',
     color: '#4CAF50',
     glow: 'rgba(76,175,80,0.12)',
     description: 'Certified in Biamp TesiraFORTE DSP programming and commissioning',
@@ -56,6 +60,7 @@ const certifications = [
     issuer: 'Poly (HP)',
     type: 'Vendor Cert',
     icon: Award,
+    logo: 'https://logo.clearbit.com/poly.com',
     color: '#00BFFF',
     glow: 'rgba(0,191,255,0.12)',
     description: 'Poly collaboration endpoint and infrastructure deployment certification',
@@ -65,6 +70,7 @@ const certifications = [
     issuer: 'Kramer Electronics',
     type: 'Vendor Cert',
     icon: Shield,
+    logo: 'https://logo.clearbit.com/kramerav.com',
     color: '#FF9800',
     glow: 'rgba(255,152,0,0.12)',
     description: 'Certified programmer for Kramer Control AV automation and room control systems',
@@ -95,12 +101,26 @@ function CertCard({ cert, index }) {
         />
 
         <div className="relative">
-          {/* Icon */}
+          {/* Logo or icon */}
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-            style={{ backgroundColor: cert.glow }}
+            className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 overflow-hidden"
+            style={{ backgroundColor: cert.logo ? 'rgba(255,255,255,0.07)' : cert.glow }}
           >
-            <Icon className="h-6 w-6" style={{ color: cert.color }} />
+            {cert.logo ? (
+              <img
+                src={cert.logo}
+                alt={cert.issuer}
+                className="w-8 h-8 object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextSibling.style.display = 'block';
+                }}
+              />
+            ) : null}
+            <Icon
+              className="h-6 w-6"
+              style={{ color: cert.color, display: cert.logo ? 'none' : 'block' }}
+            />
           </div>
 
           {/* Type badge */}
