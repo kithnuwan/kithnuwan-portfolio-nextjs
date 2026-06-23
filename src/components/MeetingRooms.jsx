@@ -41,7 +41,7 @@ const rooms = [
   },
   {
     id: 3,
-    title: 'MAS Intimate – Digital Product Center',
+    title: 'MAS Intimate HQ – Ratmalana',
     client: 'MAS Holdings',
     capacity: '10 Meeting Rooms',
     system: 'Yealink MVC860 + Kramer',
@@ -51,7 +51,7 @@ const rooms = [
       'https://i.ibb.co/1tJJ6x0L/20231003-230351.jpg',
       'https://i.ibb.co/TV1NXPq/20231003-230357.jpg',
     ],
-    description: '10 state-of-the-art Microsoft Teams meeting rooms at the MAS Intimate Digital Product Center, powered by Yealink MVC860 collaboration bars and Kramer Control room automation.',
+    description: '10 state-of-the-art Microsoft Teams meeting rooms at MAS Intimate HQ, Ratmalana, powered by Yealink MVC860 collaboration bars and Kramer Control room automation.',
     color: '#7B61FF',
   },
   {
