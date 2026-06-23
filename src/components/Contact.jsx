@@ -138,7 +138,7 @@ export default function Contact() {
                 Currently accepting AV design, presales consulting, and project management engagements across Sri Lanka and remotely.
               </p>
               <a
-                href="https://drive.google.com/file/d/1ZXhQ9qE1m10gHub37I8gmHPao0vCWY0V/view?usp=sharing"
+                href="https://drive.google.com/file/d/177Z7aVVDH3tnKsN2hcSAffSgth3ITKWq/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 btn-outline text-xs py-2 px-4 w-full justify-center"

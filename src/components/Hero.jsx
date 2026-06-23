@@ -239,7 +239,7 @@ export default function Hero() {
                 </GeometricHover>
                 <GeometricHover gap={8}>
                 <a
-                  href="https://drive.google.com/file/d/1ZXhQ9qE1m10gHub37I8gmHPao0vCWY0V/view?usp=sharing"
+                  href="https://drive.google.com/file/d/177Z7aVVDH3tnKsN2hcSAffSgth3ITKWq/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-outline"
