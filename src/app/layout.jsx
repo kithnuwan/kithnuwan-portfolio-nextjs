@@ -54,7 +54,7 @@ const jsonLd = {
         addressCountry: 'LK',
       },
       url: SITE_URL,
-      sameAs: ['https://www.linkedin.com/in/kithnuwan-silva-70310310/'],
+      sameAs: ['https://www.linkedin.com/in/kithnuwan/'],
       knowsAbout: [
         'AV over IP',
         'Broadcast Systems',
