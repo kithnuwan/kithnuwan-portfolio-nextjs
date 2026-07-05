@@ -13,7 +13,7 @@ const contactInfo = [
     label: 'Email',
     value: 'Kithnuwan@gmail.com',
     href: 'mailto:Kithnuwan@gmail.com',
-    color: '#00BFFF',
+    color: 'var(--accent)',
   },
   {
     icon: Linkedin,
@@ -41,7 +41,7 @@ const contactInfo = [
 ];
 
 const inputClass =
-  'w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(0,191,255,0.15)] rounded-xl px-4 py-3 text-sm text-[#E6F1FF] placeholder-[#495670] focus:outline-none focus:border-[rgba(0,191,255,0.5)] focus:bg-[rgba(0,191,255,0.05)] transition-all duration-200';
+  'w-full bg-[rgba(255,255,255,0.04)] border border-[var(--border)] rounded-xl px-4 py-3 text-sm text-[var(--text-primary)] placeholder-[#495670] focus:outline-none focus:border-[rgba(0,191,255,0.5)] focus:bg-[var(--accent-subtle)] transition-all duration-200';
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,7 +74,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#0D1F3C] relative overflow-hidden">
+    <section id="contact" className="py-24 bg-[var(--bg-secondary)] relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-[rgba(0,191,255,0.04)] rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-0 left-0 w-80 h-80 bg-[rgba(0,229,255,0.03)] rounded-full blur-3xl pointer-events-none" />
@@ -89,11 +89,11 @@ export default function Contact() {
         >
           <div className="eyebrow mb-3">Get In Touch</div>
           <LaserReveal>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+          <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
             Let&apos;s Build Something <span className="text-gradient-blue">Remarkable</span>
           </h2>
           </LaserReveal>
-          <p className="mt-4 text-[#8892B0] max-w-xl">
+          <p className="mt-4 text-[var(--text-secondary)] max-w-xl">
             Have an AV, Broadcast, or UC project in mind? I&apos;d love to hear about it. Send a message and I&apos;ll get back to you within 24 hours.
           </p>
         </motion.div>
@@ -107,22 +107,22 @@ export default function Contact() {
             className="lg:col-span-2 flex flex-col gap-4"
           >
             {contactInfo.map(({ icon: Icon, label, value, href, color, external }) => (
-              <div key={label} className="glass rounded-xl p-4 flex items-center gap-4 group hover:border-[rgba(0,191,255,0.25)] transition-all duration-300">
+              <div key={label} className="glass rounded-xl p-4 flex items-center gap-4 group hover:border-[var(--border)] transition-all duration-300">
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${color}15` }}>
                   <Icon className="h-4 w-4" style={{ color }} />
                 </div>
                 <div>
-                  <div className="text-[10px] text-[#495670] uppercase tracking-wider">{label}</div>
+                  <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">{label}</div>
                   {href ? (
                     <a
                       href={href}
                       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="text-sm font-medium text-[#E6F1FF] hover:text-[#00BFFF] transition-colors"
+                      className="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
                     >
                       {value}
                     </a>
                   ) : (
-                    <span className="text-sm font-medium text-[#E6F1FF]">{value}</span>
+                    <span className="text-sm font-medium text-[var(--text-primary)]">{value}</span>
                   )}
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function Contact() {
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 <span className="text-xs font-bold text-green-400">Available for Projects</span>
               </div>
-              <p className="text-[#8892B0] text-xs leading-relaxed">
+              <p className="text-[var(--text-secondary)] text-xs leading-relaxed">
                 Currently accepting AV design, presales consulting, and project management engagements across Sri Lanka and remotely.
               </p>
               <a
@@ -159,28 +159,28 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] text-[#8892B0] uppercase tracking-wider mb-1.5">Name *</label>
+                    <label className="block text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-1.5">Name *</label>
                     <input name="name" required placeholder="Your full name" className={inputClass} />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#8892B0] uppercase tracking-wider mb-1.5">Company</label>
+                    <label className="block text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-1.5">Company</label>
                     <input name="company" placeholder="Your company" className={inputClass} />
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] text-[#8892B0] uppercase tracking-wider mb-1.5">Email *</label>
+                    <label className="block text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-1.5">Email *</label>
                     <input name="email" type="email" required placeholder="your@email.com" className={inputClass} />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#8892B0] uppercase tracking-wider mb-1.5">Budget (USD)</label>
+                    <label className="block text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-1.5">Budget (USD)</label>
                     <input name="budget" placeholder="e.g. 25,000 – 80,000" className={inputClass} />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-[#8892B0] uppercase tracking-wider mb-1.5">Project Type</label>
+                  <label className="block text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-1.5">Project Type</label>
                   <select name="type" className={inputClass}>
                     <option value="Microsoft Teams Room">Microsoft Teams Room</option>
                     <option value="Boardroom / Conference">Boardroom / Conference</option>
@@ -195,7 +195,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-[#8892B0] uppercase tracking-wider mb-1.5">Message *</label>
+                  <label className="block text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-1.5">Message *</label>
                   <textarea
                     name="message"
                     required
@@ -242,10 +242,10 @@ export default function Contact() {
 
       {/* Footer */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 pt-8 border-t border-[rgba(0,191,255,0.08)]">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[#495670] text-xs">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[var(--text-muted)] text-xs">
           <span>© {new Date().getFullYear()} Kithnuwan Silva. All rights reserved.</span>
           <span className="flex items-center gap-1">
-            Built with <span className="text-[#00BFFF]">Next.js</span> · Deployed on <span className="text-[#00BFFF]">Vercel</span>
+            Built with <span className="text-[var(--accent)]">Next.js</span> · Deployed on <span className="text-[var(--accent)]">Vercel</span>
           </span>
         </div>
       </div>

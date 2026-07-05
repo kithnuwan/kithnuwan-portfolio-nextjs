@@ -20,7 +20,7 @@ const rooms = [
     ],
     video: 'https://youtube.com/shorts/gMEkoTwvSf4?si=9h7LG4hMPQmyjHyB',
     description: 'Integrated AV solution for 19 meeting rooms including the Main Boardroom. Features a modern paperless conference system with motorized LCD monitors, professional video conferencing, digital audio processing, and centralized room control.',
-    color: '#00BFFF',
+    color: 'var(--accent)',
   },
   {
     id: 2,
@@ -127,7 +127,7 @@ function RoomCard({ room, index, onOpen, onVideo }) {
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="glass rounded-2xl overflow-hidden group hover:border-[rgba(0,191,255,0.2)] hover:shadow-[0_0_40px_rgba(0,191,255,0.07)] transition-all duration-300 flex flex-col"
+      className="glass rounded-2xl overflow-hidden group hover:border-[var(--border)] hover:shadow-[0_0_40px_rgba(0,191,255,0.07)] transition-all duration-300 flex flex-col"
     >
       {/* Image */}
       <button
@@ -157,7 +157,7 @@ function RoomCard({ room, index, onOpen, onVideo }) {
 
         {/* Capacity badge */}
         <div className="absolute top-3 right-3">
-          <span className="glass text-[10px] font-bold text-[#E6F1FF] px-2 py-1 rounded-lg flex items-center gap-1">
+          <span className="glass text-[10px] font-bold text-[var(--text-primary)] px-2 py-1 rounded-lg flex items-center gap-1">
             <Users className="h-3 w-3" style={{ color: room.color }} />
             {room.capacity}
           </span>
@@ -183,11 +183,11 @@ function RoomCard({ room, index, onOpen, onVideo }) {
             {room.system}
           </span>
         </div>
-        <h3 className="text-[#E6F1FF] font-bold text-sm leading-tight mb-1">{room.title}</h3>
-        <p className="text-[#8892B0] text-xs mb-2">{room.client}</p>
+        <h3 className="text-[var(--text-primary)] font-bold text-sm leading-tight mb-1">{room.title}</h3>
+        <p className="text-[var(--text-secondary)] text-xs mb-2">{room.client}</p>
 
         {room.description && (
-          <p className="text-[#495670] text-[11px] leading-relaxed mb-3">{room.description}</p>
+          <p className="text-[var(--text-muted)] text-[11px] leading-relaxed mb-3">{room.description}</p>
         )}
 
         <div className="flex flex-wrap gap-1.5 mt-auto">
@@ -231,7 +231,7 @@ export default function MeetingRooms() {
   };
 
   return (
-    <section id="meeting-rooms" className="py-24 bg-[#0D1F3C] relative overflow-hidden">
+    <section id="meeting-rooms" className="py-24 bg-[var(--bg-secondary)] relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[rgba(0,191,255,0.03)] rounded-full blur-3xl pointer-events-none" />
 
@@ -245,11 +245,11 @@ export default function MeetingRooms() {
         >
           <div className="eyebrow mb-3">Spaces We Build</div>
           <LaserReveal>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+          <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
             Meeting Room <span className="text-gradient-blue">Solutions</span>
           </h2>
           </LaserReveal>
-          <p className="mt-4 text-[#8892B0] max-w-xl">
+          <p className="mt-4 text-[var(--text-secondary)] max-w-xl">
             From intimate huddle spaces to full-scale auditoriums — purpose-built rooms with seamless video conferencing, audio clarity, and one-touch simplicity.
           </p>
 
@@ -260,8 +260,8 @@ export default function MeetingRooms() {
               { icon: Wifi, label: 'AV over IP Ready' },
               { icon: Users, label: 'Hybrid-First Design' },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-2 text-[#8892B0] text-sm">
-                <Icon className="h-4 w-4 text-[#00BFFF]" />
+              <div key={label} className="flex items-center gap-2 text-[var(--text-secondary)] text-sm">
+                <Icon className="h-4 w-4 text-[var(--accent)]" />
                 {label}
               </div>
             ))}
@@ -302,7 +302,7 @@ export default function MeetingRooms() {
             <div className="relative w-full max-w-3xl" onClick={e => e.stopPropagation()}>
               <button
                 onClick={() => setVideoUrl(null)}
-                className="absolute -top-12 right-0 text-[#8892B0] hover:text-white flex items-center gap-2 text-sm"
+                className="absolute -top-12 right-0 text-[var(--text-secondary)] hover:text-white flex items-center gap-2 text-sm"
               >
                 <X className="h-5 w-5" /> Close
               </button>
@@ -332,7 +332,7 @@ export default function MeetingRooms() {
             <div className="relative w-full max-w-5xl" onClick={e => e.stopPropagation()}>
               <button
                 onClick={() => setLightbox(null)}
-                className="absolute -top-12 right-0 text-[#8892B0] hover:text-white flex items-center gap-2 text-sm"
+                className="absolute -top-12 right-0 text-[var(--text-secondary)] hover:text-white flex items-center gap-2 text-sm"
               >
                 <X className="h-5 w-5" /> Close
               </button>
@@ -345,17 +345,17 @@ export default function MeetingRooms() {
                 <>
                   <button
                     onClick={() => navigate(-1)}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[#E6F1FF] hover:text-[#00BFFF]"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[var(--text-primary)] hover:text-[var(--accent)]"
                   >
                     <ChevronLeft className="h-5 w-5" />
                   </button>
                   <button
                     onClick={() => navigate(1)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[#E6F1FF] hover:text-[#00BFFF]"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[var(--text-primary)] hover:text-[var(--accent)]"
                   >
                     <ChevronRight className="h-5 w-5" />
                   </button>
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 glass px-3 py-1 rounded-full text-xs text-[#8892B0]">
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 glass px-3 py-1 rounded-full text-xs text-[var(--text-secondary)]">
                     {lightbox.idx + 1} / {lightbox.room.images.length}
                   </div>
                 </>

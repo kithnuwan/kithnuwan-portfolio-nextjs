@@ -28,7 +28,7 @@ export default async function AllProjectsPage({ searchParams }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-      <h1 className="text-4xl font-bold mb-8 text-[#E6F1FF]">
+      <h1 className="text-4xl font-bold mb-8 text-[var(--text-primary)]">
         {tag === 'All' ? 'All Projects' : `Projects tagged "${tag}"`}
       </h1>
       {projectsToShow.length > 0 ? (
@@ -45,14 +45,14 @@ export default async function AllProjectsPage({ searchParams }) {
                 </Link>
               )}
               <div className="p-5">
-                <div className="flex items-center gap-2 text-xs text-[#8892B0]">
-                  <Building2 className="h-4 w-4 text-[#00BFFF]" />
+                <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
+                  <Building2 className="h-4 w-4 text-[var(--accent)]" />
                   {p.fields.client || 'N/A'}
                   <span>•</span>
                   {p.fields.year || 'N/A'}
                 </div>
-                <h3 className="mt-1 text-base font-semibold text-[#E6F1FF]">{p.fields.title}</h3>
-                <p className="mt-2 text-sm text-[#8892B0]">{p.fields.summary}</p>
+                <h3 className="mt-1 text-base font-semibold text-[var(--text-primary)]">{p.fields.title}</h3>
+                <p className="mt-2 text-sm text-[var(--text-secondary)]">{p.fields.summary}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {(p.fields.tags || []).map((t) => (
                     <Chip key={t}>{t}</Chip>
@@ -63,7 +63,7 @@ export default async function AllProjectsPage({ searchParams }) {
           ))}
         </div>
       ) : (
-        <p className="text-[#8892B0]">No projects found.</p>
+        <p className="text-[var(--text-secondary)]">No projects found.</p>
       )}
     </div>
   );

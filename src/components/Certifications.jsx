@@ -31,7 +31,7 @@ const certifications = [
     type: 'Vendor Cert',
     icon: Award,
     logo: 'https://logo.clearbit.com/yealink.com',
-    color: '#00BFFF',
+    color: 'var(--accent)',
     glow: 'rgba(0,191,255,0.12)',
     description: 'Expert-level certification for Yealink UC endpoints and video conferencing systems',
   },
@@ -61,7 +61,7 @@ const certifications = [
     type: 'Vendor Cert',
     icon: Award,
     logo: 'https://logo.clearbit.com/poly.com',
-    color: '#00BFFF',
+    color: 'var(--accent)',
     glow: 'rgba(0,191,255,0.12)',
     description: 'Poly collaboration endpoint and infrastructure deployment certification',
   },
@@ -131,9 +131,9 @@ function CertCard({ cert, index }) {
             {cert.type}
           </span>
 
-          <h3 className="text-[#E6F1FF] font-bold text-sm leading-tight mb-1">{cert.title}</h3>
-          <div className="text-[10px] text-[#8892B0] mb-3">{cert.issuer}</div>
-          <p className="text-[#495670] text-[11px] leading-relaxed">{cert.description}</p>
+          <h3 className="text-[var(--text-primary)] font-bold text-sm leading-tight mb-1">{cert.title}</h3>
+          <div className="text-[10px] text-[var(--text-secondary)] mb-3">{cert.issuer}</div>
+          <p className="text-[var(--text-muted)] text-[11px] leading-relaxed">{cert.description}</p>
         </div>
       </div>
     </motion.div>
@@ -159,12 +159,12 @@ export default function Certifications() {
         >
           <div className="eyebrow mb-3">Credentials</div>
           <LaserReveal>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+          <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
             Certifications &{' '}
             <span className="text-gradient-gold">Qualifications</span>
           </h2>
           </LaserReveal>
-          <p className="mt-4 text-[#8892B0] max-w-xl">
+          <p className="mt-4 text-[var(--text-secondary)] max-w-xl">
             Industry-recognized credentials validating expertise across networking, audio, video, and unified communications.
           </p>
         </motion.div>

@@ -31,6 +31,9 @@ function ParticleCanvas() {
     const ctx = canvas.getContext('2d');
     let animId;
 
+    const getAccent = () =>
+      getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#F59E0B';
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -48,6 +51,7 @@ function ParticleCanvas() {
     }));
 
     const draw = () => {
+      const accent = getAccent();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p) => {
         p.x += p.dx;
@@ -59,8 +63,10 @@ function ParticleCanvas() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 191, 255, ${p.opacity})`;
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = p.opacity;
         ctx.fill();
+        ctx.globalAlpha = 1;
       });
 
       // Draw connections
@@ -73,9 +79,11 @@ function ParticleCanvas() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 191, 255, ${0.06 * (1 - dist / 120)})`;
+            ctx.strokeStyle = accent;
+            ctx.globalAlpha = 0.06 * (1 - dist / 120);
             ctx.lineWidth = 0.5;
             ctx.stroke();
+            ctx.globalAlpha = 1;
           }
         }
       }
@@ -165,7 +173,7 @@ function StatCounter({ value, suffix, label }) {
       <div className="text-3xl sm:text-4xl font-black text-gradient-blue">
         {count}{suffix}
       </div>
-      <div className="text-[#8892B0] text-xs sm:text-sm mt-1 font-medium">{label}</div>
+      <div className="text-[var(--text-secondary)] text-xs sm:text-sm mt-1 font-medium">{label}</div>
     </div>
   );
 }
@@ -202,7 +210,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05]"
               >
-                <span className="text-[#E6F1FF]">Kithnuwan</span>
+                <span className="text-[var(--text-primary)]">Kithnuwan</span>
                 <br />
                 <span className="text-gradient-hero">Silva</span>
               </motion.h1>
@@ -211,7 +219,7 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="mt-4 text-xl sm:text-2xl font-semibold text-[#8892B0] h-10 flex items-center"
+                className="mt-4 text-xl sm:text-2xl font-semibold text-[var(--text-secondary)] h-10 flex items-center"
               >
                 <TypewriterText texts={SPECIALTIES} />
               </motion.div>
@@ -220,7 +228,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="mt-6 text-[#8892B0] text-base sm:text-lg leading-relaxed max-w-xl"
+                className="mt-6 text-[var(--text-secondary)] text-base sm:text-lg leading-relaxed max-w-xl"
               >
                 20+ years designing and delivering mission-critical AV, Broadcast, and Unified
                 Communications systems for government, enterprise, and broadcast environments across Sri Lanka.
@@ -259,7 +267,7 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
-                className="mt-6 flex items-center gap-4 text-xs text-[#495670]"
+                className="mt-6 flex items-center gap-4 text-xs text-[var(--text-muted)]"
               >
                 <span className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] inline-block" />
@@ -312,15 +320,15 @@ export default function Hero() {
                   transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                   className="absolute -bottom-4 -left-4 glass px-4 py-2 rounded-xl shadow-lg"
                 >
-                  <div className="text-xs text-[#8892B0]">Head of System Integrations</div>
-                  <div className="text-sm font-bold text-[#00BFFF]">Anscom Limited</div>
+                  <div className="text-xs text-[var(--text-secondary)]">Head of System Integrations</div>
+                  <div className="text-sm font-bold text-[var(--accent)]">Anscom Limited</div>
                 </motion.div>
                 <motion.div
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
                   className="absolute -top-4 -right-4 glass px-4 py-2 rounded-xl shadow-lg"
                 >
-                  <div className="text-xs text-[#8892B0]">Experience</div>
+                  <div className="text-xs text-[var(--text-secondary)]">Experience</div>
                   <div className="text-sm font-bold text-[#FFD700]">20+ Years</div>
                 </motion.div>
               </div>
@@ -348,12 +356,12 @@ export default function Hero() {
         transition={{ delay: 1.5 }}
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
       >
-        <span className="text-[10px] text-[#495670] tracking-widest uppercase">Scroll</span>
+        <span className="text-[10px] text-[var(--text-muted)] tracking-widest uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
-          <ChevronDown className="h-4 w-4 text-[#00BFFF]" />
+          <ChevronDown className="h-4 w-4 text-[var(--accent)]" />
         </motion.div>
       </motion.div>
     </section>

@@ -19,7 +19,7 @@ const featuredProjects = [
       'State-of-the-art Digital Product Creation Center featuring a 4K AV over IP system, 3x3 video wall, and Microsoft Teams Room setup.',
     tags: ['AV over IP', 'Digital Signage', 'Teams Room', 'Video Wall'],
     imageUrl: '/assets/images/meetingRoom1.png',
-    color: '#00BFFF',
+    color: 'var(--accent)',
     gallerySlides: [
       { type: 'youtube', id: 'be6J3gtlmtQ', title: 'MAS Intimate – Walkthrough' },
       { type: 'image', src: '/assets/images/meetingRoom1.png' },
@@ -96,7 +96,7 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, delay: index * 0.1, ease: EASE }}
-      className="project-card glass rounded-2xl overflow-hidden group hover:border-[rgba(0,191,255,0.2)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,191,255,0.08)] flex flex-col"
+      className="project-card glass rounded-2xl overflow-hidden group hover:border-[var(--border)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,191,255,0.08)] flex flex-col"
     >
       {/* Image / hero */}
       <div
@@ -126,10 +126,10 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           {hasVideo ? (
             <div className="w-14 h-14 rounded-full bg-[rgba(0,191,255,0.9)] flex items-center justify-center shadow-[0_0_30px_rgba(0,191,255,0.5)]">
-              <Play className="h-6 w-6 text-[#0A192F] ml-1" />
+              <Play className="h-6 w-6 text-[var(--accent-contrast)] ml-1" />
             </div>
           ) : (
-            <div className="glass px-4 py-2 rounded-xl flex items-center gap-2 text-sm text-[#00BFFF]">
+            <div className="glass px-4 py-2 rounded-xl flex items-center gap-2 text-sm text-[var(--accent)]">
               <ZoomIn className="h-4 w-4" /> View Project
             </div>
           )}
@@ -137,7 +137,7 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
 
         {/* Year badge */}
         <div className="absolute top-3 left-3">
-          <span className="text-[10px] font-bold bg-[rgba(10,25,47,0.8)] text-[#8892B0] px-2 py-1 rounded-lg">
+          <span className="text-[10px] font-bold bg-[rgba(10,25,47,0.8)] text-[var(--text-secondary)] px-2 py-1 rounded-lg">
             {project.year}
           </span>
         </div>
@@ -154,8 +154,8 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
               aria-label={`Thumbnail ${idx + 2}`}
             >
               {slide.type === 'youtube' ? (
-                <div className="h-10 w-16 rounded-md bg-[rgba(0,191,255,0.1)] border border-[rgba(0,191,255,0.2)] flex items-center justify-center">
-                  <Play className="h-3 w-3 text-[#00BFFF]" />
+                <div className="h-10 w-16 rounded-md bg-[rgba(0,191,255,0.1)] border border-[var(--border)] flex items-center justify-center">
+                  <Play className="h-3 w-3 text-[var(--accent)]" />
                 </div>
               ) : (
                 <img
@@ -169,7 +169,7 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
           {project.gallerySlides.length > 5 && (
             <button
               onClick={() => onOpenSlide(project.id, 5)}
-              className="flex-shrink-0 h-10 w-16 rounded-md bg-[rgba(0,191,255,0.08)] border border-[rgba(0,191,255,0.15)] flex items-center justify-center text-[10px] text-[#00BFFF] font-bold"
+              className="flex-shrink-0 h-10 w-16 rounded-md bg-[var(--accent-subtle)] border border-[var(--border)] flex items-center justify-center text-[10px] text-[var(--accent)] font-bold"
             >
               +{project.gallerySlides.length - 5}
             </button>
@@ -179,12 +179,12 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
 
       {/* Info */}
       <div className="p-5 pt-4 flex-1 flex flex-col">
-        <div className="flex items-center gap-2 text-[11px] text-[#8892B0] mb-2">
+        <div className="flex items-center gap-2 text-[11px] text-[var(--text-secondary)] mb-2">
           <Building2 className="h-3 w-3" style={{ color: project.color }} />
           <span>{project.client}</span>
         </div>
-        <h3 className="text-[#E6F1FF] font-bold text-sm leading-tight mb-2 flex-1">{project.title}</h3>
-        <p className="text-[#8892B0] text-xs leading-relaxed mb-3">{project.summary}</p>
+        <h3 className="text-[var(--text-primary)] font-bold text-sm leading-tight mb-2 flex-1">{project.title}</h3>
+        <p className="text-[var(--text-secondary)] text-xs leading-relaxed mb-3">{project.summary}</p>
         <div className="flex flex-wrap gap-1.5">
           {project.tags.map((tag) => (
             <span
@@ -223,7 +223,7 @@ function ProjectOverlay({ project, onClose, onOpenGallery }) {
         <div className="flex justify-end mb-4">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 text-[#8892B0] hover:text-[#E6F1FF] text-sm transition-colors"
+            className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-sm transition-colors"
           >
             <X className="h-5 w-5" /> Close
           </button>
@@ -253,11 +253,11 @@ function ProjectOverlay({ project, onClose, onOpenGallery }) {
         >
           <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
             <div>
-              <div className="flex items-center gap-2 text-sm text-[#8892B0] mb-2">
+              <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)] mb-2">
                 <Building2 className="h-4 w-4" style={{ color: project.color }} />
                 {project.client} · {project.year}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-[#E6F1FF]">{project.title}</h2>
+              <h2 className="text-3xl sm:text-4xl font-black text-[var(--text-primary)]">{project.title}</h2>
             </div>
             <div className="flex flex-wrap gap-2">
               {project.tags.map(tag => (
@@ -272,7 +272,7 @@ function ProjectOverlay({ project, onClose, onOpenGallery }) {
             </div>
           </div>
 
-          <p className="text-[#8892B0] text-base leading-relaxed mb-10 max-w-3xl">{project.summary}</p>
+          <p className="text-[var(--text-secondary)] text-base leading-relaxed mb-10 max-w-3xl">{project.summary}</p>
 
           {/* Action row */}
           <div className="flex flex-wrap gap-3 mb-10">
@@ -373,11 +373,11 @@ export default function Projects() {
         >
           <div className="eyebrow mb-3">Proof of Work</div>
           <LaserReveal delay={0.1}>
-            <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+            <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
               Featured <span className="text-gradient-blue">Projects</span>
             </h2>
           </LaserReveal>
-          <p className="mt-4 text-[#8892B0] max-w-xl">
+          <p className="mt-4 text-[var(--text-secondary)] max-w-xl">
             A selection of mission-critical AV and Broadcast projects delivered for government, enterprise, and media clients across Sri Lanka.
           </p>
         </motion.div>
@@ -434,7 +434,7 @@ export default function Projects() {
             <div className="relative w-full max-w-6xl" onClick={e => e.stopPropagation()}>
               <button
                 onClick={() => setLightbox(null)}
-                className="absolute -top-12 right-0 text-[#8892B0] hover:text-white flex items-center gap-2 text-sm"
+                className="absolute -top-12 right-0 text-[var(--text-secondary)] hover:text-white flex items-center gap-2 text-sm"
               >
                 <X className="h-5 w-5" /> Close
               </button>
@@ -444,13 +444,13 @@ export default function Projects() {
                 return slide?.type === 'image' ? (
                   <div className="relative">
                     <img src={slide.src} alt="Project image" className="w-full max-h-[80vh] object-contain rounded-xl" />
-                    <button onClick={() => navigate(-1)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[#E6F1FF] hover:text-[#00BFFF]">
+                    <button onClick={() => navigate(-1)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[var(--text-primary)] hover:text-[var(--accent)]">
                       <ChevronLeft className="h-5 w-5" />
                     </button>
-                    <button onClick={() => navigate(1)} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[#E6F1FF] hover:text-[#00BFFF]">
+                    <button onClick={() => navigate(1)} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[var(--text-primary)] hover:text-[var(--accent)]">
                       <ArrowRight className="h-5 w-5" />
                     </button>
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-[#8892B0] glass px-3 py-1 rounded-full">
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-[var(--text-secondary)] glass px-3 py-1 rounded-full">
                       {lightbox.index + 1} / {project.gallerySlides.length}
                     </div>
                   </div>
@@ -473,7 +473,7 @@ export default function Projects() {
             onClick={() => setVideoOpen(null)}
           >
             <div className="relative w-full max-w-5xl aspect-video" onClick={e => e.stopPropagation()}>
-              <button onClick={() => setVideoOpen(null)} className="absolute -top-12 right-0 text-[#8892B0] hover:text-white flex items-center gap-2 text-sm">
+              <button onClick={() => setVideoOpen(null)} className="absolute -top-12 right-0 text-[var(--text-secondary)] hover:text-white flex items-center gap-2 text-sm">
                 <X className="h-5 w-5" /> Close
               </button>
               <iframe

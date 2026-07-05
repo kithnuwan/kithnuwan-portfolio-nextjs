@@ -34,7 +34,7 @@ export function ProjectSidebar({ projects }) {
     <div className="sticky top-24 space-y-8">
       {/* Tag filter */}
       <div>
-        <h3 className="text-sm font-bold text-[#E6F1FF] uppercase tracking-widest mb-3">Filter by Tag</h3>
+        <h3 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-widest mb-3">Filter by Tag</h3>
         <div className="flex flex-wrap gap-2">
           {allTags.map(tag => (
             <button
@@ -46,8 +46,8 @@ export function ProjectSidebar({ projects }) {
               className={classNames(
                 'px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200',
                 activeTag === tag
-                  ? 'bg-[#00BFFF] text-[#0A192F]'
-                  : 'bg-[rgba(0,191,255,0.08)] text-[#8892B0] border border-[rgba(0,191,255,0.2)] hover:text-[#00BFFF] hover:border-[rgba(0,191,255,0.5)]'
+                  ? 'bg-[var(--accent)] text-[var(--accent-contrast)]'
+                  : 'bg-[var(--accent-subtle)] text-[var(--text-secondary)] border border-[var(--border)] hover:text-[var(--accent)] hover:border-[var(--accent-dim)]'
               )}
             >
               {tag}
@@ -58,7 +58,7 @@ export function ProjectSidebar({ projects }) {
 
       {/* Projects list */}
       <div>
-        <h3 className="text-sm font-bold text-[#E6F1FF] uppercase tracking-widest mb-3">Projects</h3>
+        <h3 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-widest mb-3">Projects</h3>
         <nav className="space-y-1">
           <button
             type="button"
@@ -66,8 +66,8 @@ export function ProjectSidebar({ projects }) {
             className={classNames(
               'block w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm',
               pathname === '/projects'
-                ? 'bg-[rgba(0,191,255,0.12)] text-[#00BFFF] font-semibold'
-                : 'text-[#8892B0] hover:text-[#E6F1FF] hover:bg-[rgba(255,255,255,0.04)]'
+                ? 'bg-[var(--accent-subtle)] text-[var(--accent)] font-semibold'
+                : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[rgba(255,255,255,0.04)]'
             )}
           >
             All Projects
@@ -79,8 +79,8 @@ export function ProjectSidebar({ projects }) {
               className={classNames(
                 'block px-3 py-2.5 rounded-lg transition-all text-sm',
                 pathname === `/projects/${project.fields.slug}`
-                  ? 'bg-[rgba(0,191,255,0.12)] text-[#00BFFF] font-semibold'
-                  : 'text-[#8892B0] hover:text-[#E6F1FF] hover:bg-[rgba(255,255,255,0.04)]'
+                  ? 'bg-[var(--accent-subtle)] text-[var(--accent)] font-semibold'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[rgba(255,255,255,0.04)]'
               )}
             >
               {project.fields.title}

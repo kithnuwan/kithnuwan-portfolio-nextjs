@@ -50,7 +50,7 @@ function TechBadge({ tech }) {
         border: `1px solid ${colors.border}`,
       }}
     >
-      <span className="font-bold text-sm text-[#E6F1FF] whitespace-nowrap">{tech.name}</span>
+      <span className="font-bold text-sm text-[var(--text-primary)] whitespace-nowrap">{tech.name}</span>
       <span
         className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md"
         style={{ color: colors.text, backgroundColor: colors.bg }}
@@ -67,7 +67,7 @@ export default function TechStack() {
   const doubled = [...technologies, ...technologies];
 
   return (
-    <section id="tech-stack" className="py-24 bg-[#0D1F3C] relative overflow-hidden">
+    <section id="tech-stack" className="py-24 bg-[var(--bg-secondary)] relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
@@ -79,11 +79,11 @@ export default function TechStack() {
         >
           <div className="eyebrow mb-3">Technology Partners</div>
           <LaserReveal>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+          <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
             Technology <span className="text-gradient-blue">Ecosystem</span>
           </h2>
           </LaserReveal>
-          <p className="mt-4 text-[#8892B0] max-w-xl">
+          <p className="mt-4 text-[var(--text-secondary)] max-w-xl">
             Working with the world&apos;s leading AV, Broadcast, and UC technology brands to deliver best-in-class solutions.
           </p>
         </motion.div>
@@ -91,8 +91,8 @@ export default function TechStack() {
 
       {/* Marquee row 1 */}
       <div className="relative overflow-hidden py-2">
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0D1F3C] to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0D1F3C] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
         <div className="marquee-track">
           {doubled.map((tech, i) => (
             <TechBadge key={`${tech.name}-${i}`} tech={tech} />
@@ -102,8 +102,8 @@ export default function TechStack() {
 
       {/* Marquee row 2 — reversed */}
       <div className="relative overflow-hidden py-2 mt-3">
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0D1F3C] to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0D1F3C] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
         <div className="marquee-track" style={{ animationDirection: 'reverse', animationDuration: '40s' }}>
           {[...doubled].reverse().map((tech, i) => (
             <TechBadge key={`rev-${tech.name}-${i}`} tech={tech} />

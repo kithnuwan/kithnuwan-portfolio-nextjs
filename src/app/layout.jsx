@@ -93,12 +93,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
+        {/* No-flash theme script — runs before CSS paints */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme')||'broadcast-dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
+          }}
+        />
+        <meta name="theme-color" content="#0B1220" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-[#0A192F] text-[#E6F1FF] antialiased">
+      <body className="antialiased">
         <Nav />
         {children}
         <FloatingCTA />

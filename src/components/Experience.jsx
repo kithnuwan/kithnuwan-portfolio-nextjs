@@ -23,7 +23,7 @@ const experience = [
     role: 'Senior Manager – IT & Broadcast',
     org: 'Swedish Trading Audio Visual (Pvt) Ltd',
     period: 'Jul 2009 – 2022',
-    color: '#00BFFF',
+    color: 'var(--accent)',
     bullets: [
       'Architected AV & Broadcast systems meeting enterprise and government specifications',
       'Led deployments for video conferencing, control, routing, and digital signage',
@@ -35,7 +35,7 @@ const experience = [
     role: 'Technical Executive',
     org: 'Swedish Trading Audio Visual (Pvt) Ltd',
     period: 'Jun 2003 – Jul 2009',
-    color: '#8892B0',
+    color: 'var(--text-secondary)',
     bullets: [
       'Installation, programming, and maintenance for broadcast and enterprise AV systems',
       'Coordinated bid and design-build projects across broadcast, corporate, education, and government sectors',
@@ -76,12 +76,12 @@ function ExperienceCard({ exp, index, total }) {
         initial={{ opacity: 0, x: 20 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.6, delay: index * 0.15 + 0.1 }}
-        className="glass rounded-2xl p-6 flex-1 group hover:border-[rgba(0,191,255,0.2)] transition-all duration-300"
+        className="glass rounded-2xl p-6 flex-1 group hover:border-[var(--border)] transition-all duration-300"
       >
         <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-[#E6F1FF] font-bold text-base">{exp.role}</h3>
+              <h3 className="text-[var(--text-primary)] font-bold text-base">{exp.role}</h3>
               {exp.current && (
                 <span className="text-[9px] font-bold bg-[rgba(255,215,0,0.15)] text-[#FFD700] px-2 py-0.5 rounded-full">
                   Current
@@ -90,14 +90,14 @@ function ExperienceCard({ exp, index, total }) {
             </div>
             <div className="text-sm font-semibold" style={{ color: exp.color }}>{exp.org}</div>
           </div>
-          <span className="text-[11px] font-mono text-[#8892B0] bg-[rgba(255,255,255,0.04)] px-3 py-1 rounded-lg flex-shrink-0">
+          <span className="text-[11px] font-mono text-[var(--text-secondary)] bg-[rgba(255,255,255,0.04)] px-3 py-1 rounded-lg flex-shrink-0">
             {exp.period}
           </span>
         </div>
 
         <ul className="space-y-2">
           {exp.bullets.map((bullet, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-[#8892B0] text-sm">
+            <li key={i} className="flex items-start gap-2.5 text-[var(--text-secondary)] text-sm">
               <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ backgroundColor: exp.color }} />
               {bullet}
             </li>
@@ -126,11 +126,11 @@ export default function Experience() {
         >
           <div className="eyebrow mb-3">Work History</div>
           <LaserReveal>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+          <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
             Professional <span className="text-gradient-blue">Experience</span>
           </h2>
           </LaserReveal>
-          <p className="mt-4 text-[#8892B0] max-w-xl">
+          <p className="mt-4 text-[var(--text-secondary)] max-w-xl">
             Two decades building, designing, and leading AV & Broadcast technology solutions across Sri Lanka.
           </p>
         </motion.div>

@@ -83,7 +83,7 @@ function SkillCard({ category, index }) {
         <Icon className="h-5 w-5" style={{ color: category.color }} />
       </div>
 
-      <h3 className="text-[#E6F1FF] font-bold text-base mb-4">{category.title}</h3>
+      <h3 className="text-[var(--text-primary)] font-bold text-base mb-4">{category.title}</h3>
 
       <div className="flex flex-wrap gap-2">
         {category.skills.map((skill) => (
@@ -109,7 +109,7 @@ export default function Skills() {
   const inView = useInView(ref, { once: true, margin: '0px' });
 
   return (
-    <section id="skills" className="py-24 relative bg-[#0D1F3C]">
+    <section id="skills" className="py-24 relative bg-[var(--bg-secondary)]">
       <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[rgba(0,191,255,0.03)] rounded-full blur-3xl pointer-events-none" />
 
@@ -123,11 +123,11 @@ export default function Skills() {
         >
           <div className="eyebrow mb-3">Expertise</div>
           <LaserReveal>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#E6F1FF]">
+          <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
             Technical <span className="text-gradient-blue">Skills</span>
           </h2>
           </LaserReveal>
-          <p className="mt-4 text-[#8892B0] max-w-xl">
+          <p className="mt-4 text-[var(--text-secondary)] max-w-xl">
             Deep expertise across the full AV & Broadcast technology stack — from system design to hands-on integration.
           </p>
         </motion.div>
