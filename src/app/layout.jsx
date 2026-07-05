@@ -96,10 +96,10 @@ export default function RootLayout({ children }) {
         {/* No-flash theme script — runs before CSS paints */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme')||'broadcast-dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme')||'signal-blue';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
           }}
         />
-        <meta name="theme-color" content="#0B1220" />
+        <meta name="theme-color" content="#0A1A2F" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

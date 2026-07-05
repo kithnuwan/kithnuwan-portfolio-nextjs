@@ -7,8 +7,7 @@
    Switch themes by setting data-theme on <html>; zero component code changes.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Theme 1 — broadcast-dark (default) */
-:root,
+/* Theme 1 — broadcast-dark */
 [data-theme="broadcast-dark"] {
   --bg-primary:      #0B1220;
   --bg-secondary:    #1A2740;
@@ -26,7 +25,8 @@
   --accent-dim:      color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
-/* Theme 2 — signal-blue */
+/* Theme 2 — signal-blue (default) */
+:root,
 [data-theme="signal-blue"] {
   --bg-primary:      #0A1A2F;
   --bg-secondary:    #112444;

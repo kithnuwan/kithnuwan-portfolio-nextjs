@@ -34,13 +34,13 @@ const THEME_COLORS = {
 };
 
 export default function ThemeSwitcher() {
-  const [active, setActive] = useState('broadcast-dark');
+  const [active, setActive] = useState('signal-blue');
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('theme') || 'broadcast-dark';
+      const stored = localStorage.getItem('theme') || 'signal-blue';
       setActive(stored);
     } catch {}
   }, []);
