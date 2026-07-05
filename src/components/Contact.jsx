@@ -18,7 +18,7 @@ const contactInfo = [
   {
     icon: Linkedin,
     label: 'LinkedIn',
-    value: 'kithnuwan-silva-70310310',
+    value: 'kithnuwan',
     href: 'https://www.linkedin.com/in/kithnuwan/',
     color: '#0A66C2',
     external: true,

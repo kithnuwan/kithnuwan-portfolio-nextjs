@@ -37,13 +37,13 @@ export default function Nav() {
     <>
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-        style={scrolled ? {
-          background: 'var(--bg-nav)',
+        style={{
+          background: scrolled ? 'var(--bg-nav)' : 'var(--bg-nav)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: '1px solid var(--border)',
-          boxShadow: '0 4px 30px rgba(0,0,0,0.2)',
-        } : {}}
+          borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
+          boxShadow: scrolled ? '0 4px 30px rgba(0,0,0,0.2)' : 'none',
+        }}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
