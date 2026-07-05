@@ -109,7 +109,7 @@ export default function Nav() {
               href="#contact"
               className="ml-2 btn-primary text-xs py-2 px-4"
             >
-              Hire Me
+              Let's Talk
             </a>
           </div>
 
@@ -183,7 +183,7 @@ export default function Nav() {
                   <Linkedin className="h-5 w-5" />
                 </a>
                 <a href="#contact" onClick={closeMenu} className="ml-auto btn-primary text-xs py-2 px-4">
-                  Hire Me
+                  Let's Talk
                 </a>
               </div>
             </motion.div>
