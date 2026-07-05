@@ -19,7 +19,7 @@ const contactInfo = [
     icon: Linkedin,
     label: 'LinkedIn',
     value: 'kithnuwan',
-    href: 'https://www.linkedin.com/in/kithnuwan/',
+    href: 'https://www.linkedin.com/in/kithnuwan-silva-70310310/',
     color: '#0A66C2',
     external: true,
   },

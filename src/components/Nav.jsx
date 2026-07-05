@@ -120,7 +120,7 @@ export default function Nav() {
               <Mail className="h-4 w-4" />
             </a>
             <a
-              href="https://www.linkedin.com/in/kithnuwan/"
+              href="https://www.linkedin.com/in/kithnuwan-silva-70310310/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg transition-all duration-200"
@@ -216,7 +216,7 @@ export default function Nav() {
                 <a href="mailto:Kithnuwan@gmail.com" className="p-2 rounded-lg" style={{ color: 'var(--text-secondary)' }}>
                   <Mail className="h-5 w-5" />
                 </a>
-                <a href="https://www.linkedin.com/in/kithnuwan/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg" style={{ color: 'var(--text-secondary)' }}>
+                <a href="https://www.linkedin.com/in/kithnuwan-silva-70310310/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg" style={{ color: 'var(--text-secondary)' }}>
                   <Linkedin className="h-5 w-5" />
                 </a>
                 <a href="#contact" onClick={closeMenu} className="ml-auto btn-primary text-xs py-2 px-4">
