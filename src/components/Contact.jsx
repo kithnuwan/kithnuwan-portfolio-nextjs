@@ -87,7 +87,7 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="eyebrow mb-3">Get In Touch</div>
+          <div className="flex items-center gap-3 mb-4"><span className="section-num">07 — Contact</span><div className="hr-gradient flex-1" /></div>
           <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
             Let&apos;s Build Something <span className="text-gradient-blue">Remarkable</span>

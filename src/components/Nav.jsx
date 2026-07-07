@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Mail, Linkedin, Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import ThemeSwitcher from '@/components/ui/ThemeSwitcher';
 
 const navLinks = [
@@ -24,6 +24,8 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === '/';
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -35,6 +37,12 @@ export default function Nav() {
 
   return (
     <>
+      {/* Scroll progress bar */}
+      <motion.div
+        className="scroll-progress-bar"
+        style={{ scaleX, width: '100%' }}
+      />
+
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{

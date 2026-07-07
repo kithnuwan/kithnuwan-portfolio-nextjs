@@ -243,7 +243,7 @@ export default function MeetingRooms() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="eyebrow mb-3">Spaces We Build</div>
+          <div className="flex items-center gap-3 mb-4"><span className="section-num">03 — Projects</span><div className="hr-gradient flex-1" /></div>
           <LaserReveal>
           <h2 className="text-4xl sm:text-5xl font-black text-[var(--text-primary)]">
             Meeting Room <span className="text-gradient-blue">Solutions</span>

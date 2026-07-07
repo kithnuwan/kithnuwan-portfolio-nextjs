@@ -282,6 +282,162 @@ section { scroll-margin-top: 80px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   REVAMP — PREMIUM DARK TOKENS & UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Deeper space-black palette layered on top of theme tokens */
+.revamp-hero {
+  background: radial-gradient(ellipse 80% 60% at 60% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%),
+              radial-gradient(ellipse 60% 40% at 10% 80%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 60%),
+              var(--bg-primary);
+}
+
+/* Noise texture overlay */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Bento grid cards */
+.bento-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.bento-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-mid), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.bento-card:hover {
+  border-color: var(--accent-dim);
+  background: rgba(255,255,255,0.05);
+  transform: translateY(-2px);
+}
+.bento-card:hover::before { opacity: 1; }
+
+/* Portrait ring animation */
+@keyframes ring-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes ring-rotate-reverse {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+.portrait-ring-1 { animation: ring-rotate 12s linear infinite; }
+.portrait-ring-2 { animation: ring-rotate-reverse 18s linear infinite; }
+
+/* Scroll progress bar */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #fff));
+  z-index: 100;
+  transform-origin: left;
+  transition: none;
+}
+
+/* Tag chip */
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--accent-subtle);
+  border: 1px solid var(--accent-dim);
+  color: var(--accent);
+}
+
+/* Section number label */
+.section-num {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: var(--font-mono), monospace;
+}
+
+/* Horizontal rule with gradient */
+.hr-gradient {
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-dim), transparent);
+  border: none;
+  margin: 0;
+}
+
+/* Skill pill — revamp */
+.skill-pill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid;
+  transition: all 0.2s ease;
+}
+.skill-pill:hover {
+  transform: scale(1.04);
+}
+
+/* Glow dot */
+.glow-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px 2px var(--accent-mid);
+}
+
+/* Big stat number */
+.stat-display {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Floating chip */
+.floating-chip {
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* Timeline dot pulse */
+@keyframes dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-mid); }
+  50%       { box-shadow: 0 0 0 6px var(--accent-subtle); }
+}
+.timeline-dot-live { animation: dot-pulse 2s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
    REDUCED MOTION
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
