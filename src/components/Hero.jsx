@@ -22,7 +22,10 @@ const STATS = [
   { value: 20, suffix: '+', label: 'Certifications' },
 ];
 
-function ParticleCanvas() {
+/* ─────────────────────────────────────────────
+   CIRCUIT BOARD CANVAS
+───────────────────────────────────────────── */
+function CircuitCanvas() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -30,63 +33,250 @@ function ParticleCanvas() {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let animId;
+    let wires = [];
+    let pulses = [];
+    let chips = [];
+
+    const GRID = 64;
 
     const getAccent = () =>
       getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#38BDF8';
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
+    // Parse hex/rgb to rgba string
+    function accentAlpha(hex, alpha) {
+      // hex like #38BDF8 → r,g,b
+      const h = hex.replace('#', '');
+      const r = parseInt(h.slice(0, 2), 16);
+      const g = parseInt(h.slice(2, 4), 16);
+      const b = parseInt(h.slice(4, 6), 16);
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
 
-    const particles = Array.from({ length: 50 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.2 + 0.2,
-      dx: (Math.random() - 0.5) * 0.25,
-      dy: (Math.random() - 0.5) * 0.25,
-      opacity: Math.random() * 0.4 + 0.05,
-    }));
+    function buildCircuit() {
+      wires = [];
+      pulses = [];
+      chips = [];
 
-    const draw = () => {
-      const accent = getAccent();
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => {
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = accent;
-        ctx.globalAlpha = p.opacity;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      });
+      const W = canvas.width;
+      const H = canvas.height;
+      const cols = Math.ceil(W / GRID) + 2;
+      const rows = Math.ceil(H / GRID) + 2;
 
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = accent;
-            ctx.globalAlpha = 0.04 * (1 - dist / 100);
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-            ctx.globalAlpha = 1;
+      // Horizontal wire segments
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols - 1; c++) {
+          if (Math.random() < 0.42) {
+            wires.push({
+              x1: c * GRID, y1: r * GRID,
+              x2: (c + 1) * GRID, y2: r * GRID,
+              active: Math.random() < 0.28,
+              dir: 'h',
+            });
           }
         }
       }
+
+      // Vertical wire segments
+      for (let r = 0; r < rows - 1; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (Math.random() < 0.42) {
+            wires.push({
+              x1: c * GRID, y1: r * GRID,
+              x2: c * GRID, y2: (r + 1) * GRID,
+              active: Math.random() < 0.28,
+              dir: 'v',
+            });
+          }
+        }
+      }
+
+      // Build chip rectangles at random intersections
+      for (let i = 0; i < Math.floor((cols * rows) * 0.015); i++) {
+        const c = 1 + Math.floor(Math.random() * (cols - 2));
+        const r = 1 + Math.floor(Math.random() * (rows - 2));
+        const w = (1 + Math.floor(Math.random() * 2)) * GRID;
+        const h = (1 + Math.floor(Math.random() * 2)) * GRID;
+        chips.push({ x: c * GRID - w / 2, y: r * GRID - h / 2, w, h });
+      }
+
+      // Pulses on active wires
+      const activeWires = wires.filter(w => w.active);
+      const count = Math.min(45, Math.floor(activeWires.length * 0.55));
+      for (let i = 0; i < count; i++) {
+        const wire = activeWires[Math.floor(Math.random() * activeWires.length)];
+        const fwd = Math.random() < 0.5;
+        pulses.push({
+          wire,
+          t: Math.random(),
+          speed: (0.0025 + Math.random() * 0.005) * (fwd ? 1 : -1),
+          size: 1.8 + Math.random() * 1.4,
+          glow: 8 + Math.random() * 10,
+          trail: [],
+        });
+      }
+    }
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      buildCircuit();
+    }
+
+    function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
+
+    function draw() {
+      const accent = getAccent();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // ── Background dim grid lines ──
+      ctx.save();
+      ctx.strokeStyle = accentAlpha(accent.startsWith('#') ? accent : '#38BDF8', 0.04);
+      ctx.lineWidth = 0.5;
+      wires.forEach(w => {
+        if (!w.active) {
+          ctx.beginPath();
+          ctx.moveTo(w.x1, w.y1);
+          ctx.lineTo(w.x2, w.y2);
+          ctx.stroke();
+        }
+      });
+      ctx.restore();
+
+      // ── Active wire traces (brighter, glowing) ──
+      wires.forEach(w => {
+        if (!w.active) return;
+        // Subtle glow layer
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(w.x1, w.y1);
+        ctx.lineTo(w.x2, w.y2);
+        ctx.strokeStyle = accent.startsWith('#') ? accentAlpha(accent, 0.18) : accent;
+        ctx.lineWidth = 1;
+        ctx.shadowColor = accent;
+        ctx.shadowBlur = 4;
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // ── Grid nodes at intersections ──
+      const W = canvas.width;
+      const H = canvas.height;
+      const cols = Math.ceil(W / GRID) + 2;
+      const rows = Math.ceil(H / GRID) + 2;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = c * GRID;
+          const y = r * GRID;
+          // Outer ring
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+          ctx.strokeStyle = accent.startsWith('#') ? accentAlpha(accent, 0.12) : accent;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+          ctx.restore();
+          // Core dot
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(x, y, 1, 0, Math.PI * 2);
+          ctx.fillStyle = accent.startsWith('#') ? accentAlpha(accent, 0.18) : accent;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      // ── IC chip outlines ──
+      ctx.save();
+      chips.forEach(chip => {
+        ctx.strokeStyle = accent.startsWith('#') ? accentAlpha(accent, 0.09) : accent;
+        ctx.lineWidth = 0.8;
+        ctx.strokeRect(chip.x, chip.y, chip.w, chip.h);
+        // Inner fill suggestion
+        ctx.fillStyle = accent.startsWith('#') ? accentAlpha(accent, 0.025) : accent;
+        ctx.fillRect(chip.x, chip.y, chip.w, chip.h);
+        // Pin marks along edges
+        const pinCount = 3;
+        for (let i = 1; i <= pinCount; i++) {
+          const tx = chip.x + (chip.w / (pinCount + 1)) * i;
+          ctx.beginPath();
+          ctx.moveTo(tx, chip.y);
+          ctx.lineTo(tx, chip.y - 5);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(tx, chip.y + chip.h);
+          ctx.lineTo(tx, chip.y + chip.h + 5);
+          ctx.stroke();
+        }
+      });
+      ctx.restore();
+
+      // ── Data pulses with trails ──
+      pulses.forEach(p => {
+        p.t += p.speed;
+        if (p.t > 1) p.t = 0;
+        if (p.t < 0) p.t = 1;
+
+        const x = lerp(p.wire.x1, p.wire.x2, p.t);
+        const y = lerp(p.wire.y1, p.wire.y2, p.t);
+
+        // Record trail
+        p.trail.push({ x, y });
+        if (p.trail.length > 16) p.trail.shift();
+
+        // Draw trail
+        p.trail.forEach((pt, i) => {
+          const frac = i / p.trail.length;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, p.size * frac * 0.9, 0, Math.PI * 2);
+          ctx.fillStyle = accent;
+          ctx.globalAlpha = frac * 0.35;
+          ctx.shadowColor = accent;
+          ctx.shadowBlur = 4;
+          ctx.fill();
+          ctx.restore();
+        });
+
+        // Outer glow halo
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, p.size + 4, 0, Math.PI * 2);
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = 0.12;
+        ctx.shadowColor = accent;
+        ctx.shadowBlur = p.glow * 2.5;
+        ctx.fill();
+        ctx.restore();
+
+        // Mid glow
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, p.size + 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = 0.45;
+        ctx.shadowColor = accent;
+        ctx.shadowBlur = p.glow;
+        ctx.fill();
+        ctx.restore();
+
+        // Bright white core
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, p.size * 0.55, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.globalAlpha = 0.95;
+        ctx.shadowColor = accent;
+        ctx.shadowBlur = p.glow * 0.6;
+        ctx.fill();
+        ctx.restore();
+      });
+
       animId = requestAnimationFrame(draw);
-    };
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
     draw();
 
     return () => {
@@ -99,11 +289,14 @@ function ParticleCanvas() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none"
-      style={{ opacity: 0.5 }}
+      style={{ opacity: 0.9 }}
     />
   );
 }
 
+/* ─────────────────────────────────────────────
+   TYPEWRITER
+───────────────────────────────────────────── */
 function TypewriterText({ texts }) {
   const [index, setIndex] = useState(0);
   const [displayed, setDisplayed] = useState('');
@@ -133,6 +326,9 @@ function TypewriterText({ texts }) {
   );
 }
 
+/* ─────────────────────────────────────────────
+   STAT COUNTER
+───────────────────────────────────────────── */
 function StatCounter({ value, suffix, label }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -165,32 +361,41 @@ function StatCounter({ value, suffix, label }) {
   }, [value]);
 
   return (
-    <div ref={ref} className="text-center group cursor-default">
-      <div className="stat-display">
-        {count}{suffix}
+    <div ref={ref} className="text-center cursor-default">
+      <div className="stat-display">{count}{suffix}</div>
+      <div className="text-[var(--text-secondary)] text-[11px] sm:text-xs mt-1.5 font-medium tracking-wide uppercase">
+        {label}
       </div>
-      <div className="text-[var(--text-secondary)] text-[11px] sm:text-xs mt-1.5 font-medium tracking-wide uppercase">{label}</div>
     </div>
   );
 }
 
+/* ─────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────── */
 export default function Hero() {
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 0.25], [0, -40]);
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col overflow-hidden revamp-hero">
-      <ParticleCanvas />
+    <section className="relative min-h-[100dvh] flex flex-col overflow-hidden"
+      style={{ background: 'var(--bg-primary)' }}>
 
-      {/* Ambient orbs */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-10 pointer-events-none"
+      {/* Circuit board animation */}
+      <CircuitCanvas />
+
+      {/* Dark vignette overlay so text stays readable */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 70% 80% at 50% 50%, transparent 30%, var(--bg-primary) 90%)',
+        }} />
+
+      {/* Accent ambient orbs */}
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full blur-[140px] opacity-[0.07] pointer-events-none"
         style={{ background: 'var(--accent)' }} />
-      <div className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full blur-[100px] opacity-8 pointer-events-none"
+      <div className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full blur-[120px] opacity-[0.06] pointer-events-none"
         style={{ background: 'color-mix(in srgb, var(--accent) 70%, #818CF8)' }} />
-
-      {/* Grid overlay */}
-      <div className="absolute inset-0 grid-bg opacity-[0.04] pointer-events-none" />
 
       {/* Main content */}
       <motion.div
@@ -241,7 +446,7 @@ export default function Hero() {
                 </span>
               </motion.h1>
 
-              {/* Typewriter specialty */}
+              {/* Typewriter */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -286,9 +491,7 @@ export default function Hero() {
                   </a>
                 </GeometricHover>
                 <GeometricHover gap={8}>
-                  <a href="#contact" className="btn-outline">
-                    Contact Me
-                  </a>
+                  <a href="#contact" className="btn-outline">Contact Me</a>
                 </GeometricHover>
               </motion.div>
 
@@ -311,9 +514,8 @@ export default function Hero() {
               transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="order-1 lg:order-2 relative flex justify-center"
             >
-              {/* Outer rotating ring */}
               <div className="relative w-[280px] sm:w-[340px] lg:w-[380px] xl:w-[420px]">
-                {/* Animated ring 1 */}
+                {/* Animated rings */}
                 <div
                   className="portrait-ring-1 absolute inset-[-16px] rounded-full pointer-events-none"
                   style={{
@@ -321,7 +523,6 @@ export default function Hero() {
                     opacity: 0.3,
                   }}
                 />
-                {/* Animated ring 2 */}
                 <div
                   className="portrait-ring-2 absolute inset-[-28px] rounded-full pointer-events-none"
                   style={{
@@ -335,7 +536,7 @@ export default function Hero() {
                   className="relative rounded-3xl overflow-hidden"
                   style={{
                     height: 'clamp(320px, 50vw, 500px)',
-                    boxShadow: '0 0 0 1px var(--border), 0 32px 80px rgba(0,0,0,0.5)',
+                    boxShadow: '0 0 0 1px var(--border), 0 32px 80px rgba(0,0,0,0.6)',
                     WebkitMaskImage: [
                       'linear-gradient(to bottom, black 50%, transparent 95%)',
                       'linear-gradient(to right, transparent 0%, black 10%, black 95%, transparent 100%)',
@@ -348,10 +549,11 @@ export default function Hero() {
                     maskComposite: 'intersect',
                   }}
                 >
-                  {/* Ambient radial behind portrait */}
                   <div
                     className="absolute inset-0 pointer-events-none z-0"
-                    style={{ background: 'radial-gradient(ellipse 70% 80% at 50% 30%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%)' }}
+                    style={{
+                      background: 'radial-gradient(ellipse 70% 80% at 50% 30%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%)',
+                    }}
                   />
                   <HeroRotator
                     images={['/assets/images/hero-portrait.png']}
@@ -381,9 +583,9 @@ export default function Hero() {
                   <div className="text-sm font-bold text-[#FFD700]">20+ Years</div>
                 </motion.div>
 
-                {/* Glow underneath portrait */}
+                {/* Glow beneath portrait */}
                 <div
-                  className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 blur-2xl opacity-30 pointer-events-none"
+                  className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-16 blur-2xl opacity-25 pointer-events-none"
                   style={{ background: 'var(--accent)' }}
                 />
               </div>
@@ -398,7 +600,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.75 }}
             className="mt-16 lg:mt-20 bento-card px-6 py-7 sm:px-10 sm:py-8"
           >
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 divide-x-0 sm:divide-x divide-[var(--border)]">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:divide-x divide-[var(--border)]">
               {STATS.map((stat, i) => (
                 <div key={stat.label} className={i > 0 ? 'sm:pl-6' : ''}>
                   <StatCounter {...stat} />
