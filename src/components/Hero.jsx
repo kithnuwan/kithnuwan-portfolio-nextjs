@@ -16,8 +16,8 @@ const profile = {
     " AI enthusiast",
     " Passionate about emerging technologies"
   ],
-  heroImage: "/hero-image.png",
-  secondHeroImage: "/hero-portrait.png",
+  heroImage: "/assets/images/hero-image1.png",
+  secondHeroImage: "/assets/images/hero-portrait.png",
 };
 
 export default function Hero() {
