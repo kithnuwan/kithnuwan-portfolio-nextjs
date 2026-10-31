@@ -12,54 +12,54 @@ const solutions = [
   {
     title: 'Commercial Bank HQ Meeting Rooms (4rooms)',
     summary: 'Ceiling array mics, tracking camera, scheduler, and BYOD wireless sharing.',
-    image: 'https://i.postimg.cc/DZvL9qk5/20241025-103528-min.jpg',
+    image: '/assets/images/com-bank/20241025-103528-min.jpg',
     gallerySlides: [
       { type: 'youtube', id: 'fbR-jzGc8LM', title: 'Boardroom Walkthrough' },
-      { type: 'image', src: 'https://i.postimg.cc/pXpYVY96/20230808-150930-min.jpg' },
-      { type: 'image', src: 'https://i.postimg.cc/Cx8GkhsC/20230808-151146-min.jpg' },
-      { type: 'image', src: 'https://i.postimg.cc/Y2XzwySF/20230819-172532-min.jpg' },
-      { type: 'image', src: 'https://i.postimg.cc/J4v3sDZ4/20230819-172917-min.jpg' },
-      { type: 'image', src: 'https://i.postimg.cc/zf1nksxs/20241025-103142-min.jpg' },
-      { type: 'image', src: 'https://i.postimg.cc/QMkcYfPH/20241025-103452-1-min.jpg' },
-      { type: 'image', src: 'https://i.postimg.cc/DZvL9qk5/20241025-103528-min.jpg' },
+      { type: 'image', src: '/assets/images/com-bank/20230808-150930-min.jpg' },
+      { type: 'image', src: '/assets/images/com-bank/20230808-151146-min.jpg' },
+      { type: 'image', src: '/assets/images/com-bank/20230819-172532-min.jpg' },
+      { type: 'image', src: '/assets/images/com-bank/20230819-172917-min.jpg' },
+      { type: 'image', src: '/assets/images/com-bank/20241025-103142-min.jpg' },
+      { type: 'image', src: '/assets/images/com-bank/20241025-103452-1-min.jpg' },
+      { type: 'image', src: '/assets/images/com-bank/20241025-103528-min.jpg' },
            
     ],
   },
   {
     title: 'Infor Sri Lanka – Meeting Room Solution',
     summary: 'Implemented a state-of-the-art solution with 4 meeting rooms, each equipped with Neat Bar Pro video systems and Samsung QMC Series displays, delivering seamless hybrid collaboration and crystal-clear visuals.',
-    image: 'https://i.postimg.cc/mrNRXC2V/20250409-104107.jpg',
+    image: '/assets/images/infor/20250409-104107.jpg',
     gallerySlides: [
-    { type: 'image', src: 'https://i.postimg.cc/mrNRXC2V/20250409-104107.jpg' },
-    { type: 'image', src: 'https://i.postimg.cc/G2XRrRDy/20250409-104245.jpg' },
-    { type: 'image', src: 'https://i.postimg.cc/8CVNmtDj/20250409-104616.jpg' },
-    { type: 'image', src: 'https://i.postimg.cc/j5xTG2DT/20250409-104638.jpg' },
-    { type: 'image', src: 'https://i.postimg.cc/qqgTvFcZ/20250409-104654.jpg' }
+    { type: 'image', src: '/assets/images/infor/20250409-104107.jpg' },
+    { type: 'image', src: '/assets/images/infor/20250409-104245.jpg' },
+    { type: 'image', src: '/assets/images/infor/20250409-104616.jpg' },
+    { type: 'image', src: '/assets/images/infor/20250409-104638.jpg' },
+    { type: 'image', src: '/assets/images/infor/20250409-104654.jpg' }
     ],
   },
   {
     title: 'David Pieris Motor Company (Pvt) Ltd – Meeting Room Solution',
     summary: 'Delivered a state-of-the-art Microsoft Teams Room using the Yealink MVC860, complete with an AI speaker-tracking camera, intuitive touch-panel control, full AV distribution, and a motorised retractable display dedicated to the chairman, creating a sleek, high-impact hybrid meeting environment..',
-    image: 'https://i.ibb.co/FbJrZjTB/Whats-App-Image-2025-07-08-at-11-40-55-d54a4c84.jpg',
+    image: '/assets/images/dpmc/Whats-App-Image-2025-07-08-at-11-40-55-d54a4c84.jpg',
     gallerySlides: [
-    { type: 'image', src: 'https://i.ibb.co/Z12sxJCm/Whats-App-Image-2025-07-08-at-11-40-54-3043e55c.jpg' },
-    { type: 'image', src: 'https://i.ibb.co/FbJrZjTB/Whats-App-Image-2025-07-08-at-11-40-55-d54a4c84.jpg' },
-    { type: 'image', src: 'https://i.ibb.co/fVMGR0cP/Whats-App-Image-2025-07-08-at-11-40-55-f40b4164.jpg' },
-    { type: 'image', src: 'https://i.ibb.co/r2M5CBgL/Whats-App-Image-2025-07-08-at-11-40-56-5b9070ee.jpg' },
-    { type: 'image', src: 'https://i.ibb.co/p6RSNQ6q/Whats-App-Image-2025-07-08-at-11-40-56-281a8322.jpg' },
-    { type: 'image', src: 'https://i.ibb.co/xq2pgFW4/Whats-App-Image-2025-07-08-at-11-40-56-a5219e9a.jpg' }
+    { type: 'image', src: '/assets/images/dpmc/Whats-App-Image-2025-07-08-at-11-40-54-3043e55c.jpg' },
+    { type: 'image', src: '/assets/images/dpmc/Whats-App-Image-2025-07-08-at-11-40-55-d54a4c84.jpg' },
+    { type: 'image', src: '/assets/images/dpmc/Whats-App-Image-2025-07-08-at-11-40-55-f40b4164.jpg' },
+    { type: 'image', src: '/assets/images/dpmc/Whats-App-Image-2025-07-08-at-11-40-56-5b9070ee.jpg' },
+    { type: 'image', src: '/assets/images/dpmc/Whats-App-Image-2025-07-08-at-11-40-56-281a8322.jpg' },
+    { type: 'image', src: '/assets/images/dpmc/Whats-App-Image-2025-07-08-at-11-40-56-a5219e9a.jpg' }
 
     ],
   },
   {
     title: "MAS Intimates – CEO’s Meeting Room",
     summary: 'Implemented a modern Microsoft Teams Room solution using the Yealink MVC860, featuring the UVC86 AI speaker tracking camera, VCM36-W wireless microphones, Mtouch touch controller, and a BYOD wireless presentation system. This state-of-the-art setup delivers seamless collaboration, crystal-clear audio/video, and a simplified user experience for executive meetings.',
-    image: 'https://i.ibb.co/qY60QFkT/20231003-230344.jpg',
+    image: '/assets/images/mas-ceo/20231003-230344.jpg',
     gallerySlides: [
       { type: 'youtube', id: 'BDRD1HWr6d8', title: 'Boardroom Walkthrough' },
-      { type: 'image', src: 'https://i.ibb.co/qY60QFkT/20231003-230344.jpg' },
-      { type: 'image', src: 'https://i.ibb.co/1tJJ6x0L/20231003-230351.jpg' },
-      { type: 'image', src: 'https://i.ibb.co/TV1NXPq/20231003-230357.jpg' }
+      { type: 'image', src: '/assets/images/mas-ceo/20231003-230344.jpg' },
+      { type: 'image', src: '/assets/images/mas-ceo/20231003-230351.jpg' },
+      { type: 'image', src: '/assets/images/mas-ceo/20231003-230357.jpg' }
 
     ],
   },
