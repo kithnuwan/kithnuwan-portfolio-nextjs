@@ -60,7 +60,7 @@ export default function Nav() {
             <div className="relative">
               <img
                 src="/assets/images/my-logo.png"
-                alt="Logo"
+                alt="Kithnuwan Silva KS logo"
                 className="h-9 w-9 rounded-xl object-cover transition-all duration-300"
                 style={{ boxShadow: '0 0 0 1px var(--accent-dim)' }}
               />
