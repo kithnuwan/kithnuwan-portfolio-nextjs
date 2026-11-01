@@ -7,6 +7,9 @@
    Switch themes by setting data-theme on <html>; zero component code changes.
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* Brand logos (Tech Stack): one colour per theme. White on the dark themes. */
+:root { --logo-filter: brightness(0) invert(1); }
+
 /* Theme 1 — broadcast-dark */
 [data-theme="broadcast-dark"] {
   --bg-primary:      #0B1220;
@@ -64,6 +67,7 @@
 
 /* Theme 4 — executive-light */
 [data-theme="executive-light"] {
+  --logo-filter:     brightness(0);
   --bg-primary:      #FAF7F2;
   --bg-secondary:    #E9E2D6;
   --accent:          #B4762A;

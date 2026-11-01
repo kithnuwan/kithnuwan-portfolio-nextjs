@@ -1,32 +1,32 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { LaserReveal } from '@/components/ui/LaserReveal';
 
 const technologies = [
-  { name: 'Microsoft Teams', category: 'UC' },
-  { name: 'Zoom', category: 'UC' },
-  { name: 'Q-SYS', category: 'Control' },
-  { name: 'Shure', category: 'Audio' },
-  { name: 'Biamp', category: 'Audio' },
-  { name: 'Kramer', category: 'AV' },
-  { name: 'Yealink', category: 'UC' },
-  { name: 'Poly', category: 'UC' },
-  { name: 'Logitech', category: 'UC' },
-  { name: 'Crestron', category: 'Control' },
-  { name: 'Ross Video', category: 'Broadcast' },
-  { name: 'Vizrt', category: 'Broadcast' },
-  { name: 'Blackmagic Design', category: 'Broadcast' },
-  { name: 'BirdDog', category: 'NDI' },
-  { name: 'Sony', category: 'Camera' },
-  { name: 'Dante', category: 'Audio' },
-  { name: 'NDI', category: 'Video IP' },
-  { name: 'Extron', category: 'AV' },
-  { name: 'AMX', category: 'Control' },
-  { name: 'Grass Valley', category: 'Broadcast' },
-  { name: 'Panasonic', category: 'Camera' },
-  { name: 'Sennheiser', category: 'Audio' },
+  { name: 'Microsoft Teams', logo: 'microsoft-teams', category: 'UC' },
+  { name: 'Zoom', logo: 'zoom', category: 'UC' },
+  { name: 'Q-SYS', logo: 'q-sys', category: 'Control' },
+  { name: 'Shure', logo: 'shure', category: 'Audio' },
+  { name: 'Biamp', logo: 'biamp', category: 'Audio' },
+  { name: 'Kramer', logo: 'kramer', category: 'AV' },
+  { name: 'Yealink', logo: 'yealink', category: 'UC' },
+  { name: 'Poly', logo: 'poly', category: 'UC' },
+  { name: 'Logitech', logo: 'logitech', category: 'UC' },
+  { name: 'Crestron', logo: 'crestron', category: 'Control' },
+  { name: 'Ross Video', logo: 'ross-video', category: 'Broadcast' },
+  { name: 'Vizrt', logo: 'vizrt', category: 'Broadcast' },
+  { name: 'Blackmagic Design', logo: 'blackmagic-design', category: 'Broadcast' },
+  { name: 'BirdDog', logo: 'birddog', category: 'NDI' },
+  { name: 'Sony', logo: 'sony', category: 'Camera' },
+  { name: 'Dante', logo: 'dante', category: 'Audio' },
+  { name: 'NDI', logo: 'ndi', category: 'Video IP' },
+  { name: 'Extron', logo: 'extron', category: 'AV' },
+  { name: 'AMX', logo: 'amx', category: 'Control' },
+  { name: 'Grass Valley', logo: 'grass-valley', category: 'Broadcast' },
+  { name: 'Panasonic', logo: 'panasonic', category: 'Camera' },
+  { name: 'Sennheiser', logo: 'sennheiser', category: 'Audio' },
 ];
 
 const categoryColors = {
@@ -40,8 +40,36 @@ const categoryColors = {
   'Video IP': { bg: 'rgba(0,191,255,0.08)', border: 'rgba(0,191,255,0.25)', text: '#00BFFF' },
 };
 
+// Brand logos live in /public/assets/logos/<slug>.svg (or .png), transparent background.
+// They are shown in one colour that follows the theme (--logo-filter in globals.css).
+// Until a logo file exists, the badge falls back to the brand name as text.
 function TechBadge({ tech }) {
   const colors = categoryColors[tech.category] || categoryColors.AV;
+  const [src, setSrc] = useState(tech.logo ? `/assets/logos/${tech.logo}.svg` : null);
+  const onError = () => {
+    if (src && src.endsWith('.svg')) setSrc(`/assets/logos/${tech.logo}.png`);
+    else setSrc(null);
+  };
+
+  if (src) {
+    return (
+      <div
+        className="flex-shrink-0 flex items-center justify-center h-14 px-6 rounded-full mx-2 transition-all hover:scale-105"
+        style={{ backgroundColor: 'var(--accent-subtle, rgba(255,255,255,0.04))', border: '1px solid var(--border)' }}
+        title={tech.name}
+      >
+        <img
+          src={src}
+          alt={tech.name}
+          onError={onError}
+          loading="lazy"
+          className="h-7 w-auto max-w-[140px] object-contain"
+          style={{ filter: 'var(--logo-filter)', opacity: 0.85 }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       className="flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full mx-2 transition-all hover:scale-105"
