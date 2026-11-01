@@ -178,7 +178,7 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
               ) : (
                 <img
                   src={slide.src}
-                  alt=""
+                  alt={slide.alt || `${project.title} – photo ${idx + 2}`}
                   className="h-10 w-16 object-cover rounded-md border border-[rgba(255,255,255,0.06)] group-hover/thumb:border-[rgba(0,191,255,0.4)] transition-colors"
                 />
               )}
@@ -321,7 +321,7 @@ function ProjectOverlay({ project, onClose, onOpenGallery }) {
                 >
                   <img
                     src={slide.src}
-                    alt=""
+                    alt={slide.alt || `${project.title} – photo ${i + 1}`}
                     className="w-full h-full object-cover group-hover/g:scale-110 transition-transform duration-300"
                   />
                 </button>
@@ -461,7 +461,7 @@ export default function Projects() {
                 const slide = project?.gallerySlides[lightbox.index];
                 return slide?.type === 'image' ? (
                   <div className="relative">
-                    <img src={slide.src} alt="Project image" className="w-full max-h-[80vh] object-contain rounded-xl" />
+                    <img src={slide.src} alt={slide.alt || `${project.title} – photo ${lightbox.index + 1}`} className="w-full max-h-[80vh] object-contain rounded-xl" />
                     <button onClick={() => navigate(-1)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glass flex items-center justify-center text-[var(--text-primary)] hover:text-[var(--accent)]">
                       <ChevronLeft className="h-5 w-5" />
                     </button>

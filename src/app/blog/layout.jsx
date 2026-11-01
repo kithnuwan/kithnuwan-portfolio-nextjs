@@ -1,23 +1,10 @@
 export const dynamic = 'force-dynamic';
 
+import { getAllPosts } from '@/lib/contentful';
 import { BlogSidebar } from '@/components/BlogSidebar';
 
-async function getPosts() {
-  const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
-  const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
-  if (!spaceId || !accessToken) return [];
-  try {
-    const { createClient } = await import('contentful');
-    const client = createClient({ space: spaceId, accessToken });
-    const response = await client.getEntries({ content_type: 'myBlog', order: '-fields.publishDate' });
-    return response.items || [];
-  } catch {
-    return [];
-  }
-}
-
 export default async function BlogLayout({ children }) {
-  const posts = await getPosts();
+  const posts = await getAllPosts();
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">

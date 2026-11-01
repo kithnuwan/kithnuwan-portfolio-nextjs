@@ -1,77 +1,92 @@
 export const dynamic = 'force-dynamic';
 
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS } from '@contentful/rich-text-types';
+import Link from 'next/link';
+import { getAllPosts } from '@/lib/contentful';
+import { SITE_URL, JsonLd, assetUrl, breadcrumbJsonLd, richTextToPlain, slugPath, toDescription } from '@/lib/seo';
 
-const richTextOptions = {
-  renderNode: {
-    [BLOCKS.HEADING_1]: (_node, children) => <h1 className="text-4xl font-bold mt-8 mb-4">{children}</h1>,
-    [BLOCKS.HEADING_2]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
-    [BLOCKS.HEADING_3]: (_node, children) => <h3 className="text-2xl font-bold mt-5 mb-2">{children}</h3>,
-    [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4 text-[var(--text-secondary)]">{children}</p>,
-    [BLOCKS.UL_LIST]: (_node, children) => <ul className="list-disc list-inside mb-4 pl-4">{children}</ul>,
-    [BLOCKS.OL_LIST]: (_node, children) => <ol className="list-decimal list-inside mb-4 pl-4">{children}</ol>,
-    [BLOCKS.LIST_ITEM]: (_node, children) => <li className="mb-2">{children}</li>,
-    [BLOCKS.QUOTE]: (_node, children) => <blockquote className="border-l-4 border-[#00BFFF] pl-4 italic my-4 text-[var(--text-secondary)]">{children}</blockquote>,
-    [BLOCKS.EMBEDDED_ASSET]: (node) => (
-      <img
-        src={`https:${node.data.target.fields.file.url}`}
-        alt={node.data.target.fields.title}
-        className="rounded-lg my-6"
-      />
-    ),
+const DESCRIPTION = 'Articles and case studies on AV system design, broadcast technology, courtroom technology and unified communications in Sri Lanka by Kithnuwan Silva.';
+
+export const metadata = {
+  title: 'Blog — AV, Broadcast & Unified Communications Articles',
+  description: DESCRIPTION,
+  alternates: { canonical: '/blog' },
+  openGraph: {
+    siteName: 'Kithnuwan Silva',
+    type: 'website',
+    url: `${SITE_URL}/blog`,
+    title: 'Blog — AV, Broadcast & Unified Communications Articles | Kithnuwan Silva',
+    description: DESCRIPTION,
+    images: [{ url: '/assets/images/hero-portrait.png', width: 1200, height: 630, alt: 'Kithnuwan Silva' }],
   },
 };
 
-async function getLatestPost() {
-  const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
-  const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
-  if (!spaceId || !accessToken) return null;
-  try {
-    const { createClient } = await import('contentful');
-    const client = createClient({ space: spaceId, accessToken });
-    const response = await client.getEntries({
-      content_type: 'myBlog',
-      order: '-fields.publishDate',
-      limit: 1,
-    });
-    return response.items[0] || null;
-  } catch {
-    return null;
-  }
-}
+const fmt = (d) => new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
 export default async function BlogIndexPage() {
-  const latestPost = await getLatestPost();
+  const posts = await getAllPosts();
 
-  if (!latestPost) {
-    return (
-      <div className="max-w-3xl mx-auto py-24 px-4 text-[var(--text-secondary)]">
-        <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Blog</h2>
-        <p>No articles available yet, or CMS is not configured.</p>
-      </div>
-    );
-  }
+  const schema = {
+    '@graph': [
+      {
+        '@type': 'Blog',
+        '@id': `${SITE_URL}/blog#blog`,
+        name: 'Kithnuwan Silva — Blog',
+        url: `${SITE_URL}/blog`,
+        description: DESCRIPTION,
+        author: { '@id': `${SITE_URL}/#person` },
+        blogPost: posts.map((p) => ({
+          '@type': 'BlogPosting',
+          headline: p.fields.title,
+          url: `${SITE_URL}${slugPath('/blog', p.fields.slug)}`,
+          datePublished: p.fields.publishDate,
+        })),
+      },
+      breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }]),
+    ],
+  };
 
   return (
-    <article className="max-w-3xl mx-auto py-24 px-4">
-      <h1 className="text-5xl font-extrabold mb-4 text-[var(--text-primary)]">{latestPost.fields.title}</h1>
-      <p className="text-[var(--text-secondary)] mb-8">
-        Published on{' '}
-        {new Date(latestPost.fields.publishDate).toLocaleDateString('en-US', {
-          year: 'numeric', month: 'long', day: 'numeric',
-        })}
-      </p>
-      {latestPost.fields.heroImage && (
-        <img
-          src={`https:${latestPost.fields.heroImage.fields.file.url}`}
-          alt={latestPost.fields.title}
-          className="w-full aspect-video object-cover rounded-xl mb-8"
-        />
+    <div className="max-w-3xl mx-auto py-24 px-4">
+      <JsonLd data={schema} />
+      <h1 className="text-5xl font-extrabold mb-4 text-[var(--text-primary)]">Blog</h1>
+      <p className="mb-12 text-[var(--text-secondary)]">{DESCRIPTION}</p>
+      {posts.length === 0 ? (
+        <p className="text-[var(--text-secondary)]">No articles available yet.</p>
+      ) : (
+        <div className="space-y-10">
+          {posts.map((post) => {
+            const href = slugPath('/blog', post.fields.slug);
+            const image = assetUrl(post.fields.heroImage);
+            const excerpt = toDescription(
+              post.fields.summary || post.fields.excerpt || richTextToPlain(post.fields.contentText, { bodyOnly: true }),
+              220
+            );
+            return (
+              <article key={post.sys.id} className="grid gap-4 sm:grid-cols-[200px_1fr] items-start">
+                {image && (
+                  <Link href={href}>
+                    <img src={image} alt={post.fields.title} loading="lazy" className="w-full aspect-video object-cover rounded-xl" />
+                  </Link>
+                )}
+                <div>
+                  <h2 className="text-2xl font-bold text-[var(--text-primary)]">
+                    <Link href={href} className="hover:text-[var(--accent)]">{post.fields.title}</Link>
+                  </h2>
+                  {post.fields.publishDate && (
+                    <p className="mt-1 text-sm text-[var(--text-secondary)]">
+                      <time dateTime={post.fields.publishDate}>{fmt(post.fields.publishDate)}</time>
+                    </p>
+                  )}
+                  <p className="mt-3 text-[var(--text-secondary)]">{excerpt}</p>
+                  <Link href={href} className="mt-3 inline-block text-sm font-semibold text-[var(--accent)] hover:underline">
+                    Read article →
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       )}
-      <div className="prose prose-invert max-w-none">
-        {documentToReactComponents(latestPost.fields.contentText, richTextOptions)}
-      </div>
-    </article>
+    </div>
   );
 }

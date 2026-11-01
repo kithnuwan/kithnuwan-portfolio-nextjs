@@ -330,11 +330,15 @@ function TypewriterText({ texts }) {
    STAT COUNTER
 ───────────────────────────────────────────── */
 function StatCounter({ value, suffix, label }) {
-  const [count, setCount] = useState(0);
+  // Start at the real value so server-rendered HTML (what search engines and
+  // AI crawlers read) shows "20+", not "0+". The count-up runs only in the browser.
+  const [count, setCount] = useState(value);
   const ref = useRef(null);
   const started = useRef(false);
 
   useEffect(() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    setCount(0);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
@@ -437,13 +441,14 @@ export default function Hero() {
                   style={{ letterSpacing: '-0.02em' }}
                 >
                   Kithnuwan
-                </span>
+                </span>{' '}
                 <span
                   className="block text-[clamp(3.5rem,9vw,6.5rem)] text-gradient-hero"
                   style={{ letterSpacing: '-0.03em' }}
                 >
                   Silva
                 </span>
+                <span className="sr-only"> — Senior AV &amp; Broadcast Systems Consultant</span>
               </motion.h1>
 
               {/* Typewriter */}

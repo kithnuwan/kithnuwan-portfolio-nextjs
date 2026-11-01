@@ -1,68 +1,135 @@
 export const dynamic = 'force-dynamic';
 export async function generateStaticParams() { return []; }
 
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types';
+import { getProjectBySlug } from '@/lib/contentful';
+import {
+  SITE_URL, PERSON_ID, JsonLd, assetUrl, breadcrumbJsonLd, describeAsset,
+  richTextToPlain, slugPath, toDescription,
+} from '@/lib/seo';
 
 const richTextOptions = {
   renderNode: {
+    // The page title is the only H1; demote any H1 written in the CMS body.
+    [BLOCKS.HEADING_1]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
     [BLOCKS.HEADING_2]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
     [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4">{children}</p>,
   },
 };
 
-async function getProject(slug) {
-  const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
-  const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
-  if (!spaceId || !accessToken) return null;
-  try {
-    const { createClient } = await import('contentful');
-    const client = createClient({ space: spaceId, accessToken });
-    const response = await client.getEntries({
-      content_type: 'project',
-      'fields.slug': slug,
-      limit: 1,
-    });
-    return response.items[0] || null;
-  } catch {
-    return null;
-  }
+function decodeSlug(slug) {
+  try { return decodeURIComponent(slug); } catch { return slug; }
+}
+
+function projectDescription(project) {
+  const { summary, detailedContent, client, title } = project.fields;
+  const text = summary || richTextToPlain(detailedContent, { bodyOnly: true });
+  return toDescription(text || `${title}${client ? ` for ${client}` : ''}: AV and broadcast systems design and delivery in Sri Lanka.`);
+}
+
+export async function generateMetadata({ params }) {
+  const project = await getProjectBySlug(decodeSlug(params.slug));
+  if (!project) return { title: 'Project not found', robots: { index: false } };
+
+  const { title, slug, heroImage } = project.fields;
+  const path = slugPath('/projects', slug);
+  const description = projectDescription(project);
+  const image = assetUrl(heroImage);
+
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      siteName: 'Kithnuwan Silva',
+      type: 'article',
+      url: `${SITE_URL}${path}`,
+      title: `${title} | Kithnuwan Silva`,
+      description,
+      images: image ? [{ url: image, alt: title }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | Kithnuwan Silva`,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function ProjectPage({ params }) {
-  const project = await getProject(params.slug);
+  const project = await getProjectBySlug(decodeSlug(params.slug));
+  if (!project) notFound();
 
-  if (!project) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 py-24 text-[#8892B0]">
-        Project not found or CMS not configured.
-      </div>
-    );
-  }
+  const { title, slug, heroImage, detailedContent, gallery, client, year, tags } = project.fields;
+  const path = slugPath('/projects', slug);
+  const image = assetUrl(heroImage);
+
+  const schema = {
+    '@graph': [
+      {
+        '@type': 'CreativeWork',
+        '@id': `${SITE_URL}${path}#project`,
+        name: title,
+        headline: title,
+        url: `${SITE_URL}${path}`,
+        description: projectDescription(project),
+        ...(image ? { image } : {}),
+        ...(year ? { dateCreated: String(year) } : {}),
+        ...(client ? { sponsor: { '@type': 'Organization', name: client } } : {}),
+        ...(tags?.length ? { keywords: tags.join(', ') } : {}),
+        creator: { '@id': PERSON_ID },
+        author: { '@id': PERSON_ID },
+        dateModified: project.sys.updatedAt,
+        locationCreated: { '@type': 'Place', address: { '@type': 'PostalAddress', addressCountry: 'LK' } },
+      },
+      breadcrumbJsonLd([
+        { name: 'Home', path: '/' },
+        { name: 'Projects', path: '/projects' },
+        { name: title, path },
+      ]),
+    ],
+  };
 
   return (
     <article className="max-w-4xl mx-auto px-4 sm:px-6 py-24">
-      <h1 className="text-5xl font-extrabold mb-4 text-[#E6F1FF]">{project.fields.title}</h1>
-      {project.fields.heroImage && (
+      <JsonLd data={schema} />
+      <nav aria-label="Breadcrumb" className="mb-4 text-sm text-[#8892B0]">
+        <Link href="/" className="hover:text-[var(--accent)]">Home</Link>
+        <span className="mx-2">›</span>
+        <Link href="/projects" className="hover:text-[var(--accent)]">Projects</Link>
+      </nav>
+      <h1 className="text-5xl font-extrabold mb-4 text-[#E6F1FF]">{title}</h1>
+      {(client || year) && (
+        <p className="mb-8 text-sm text-[#8892B0]">
+          {client && <span>Client: <span className="text-[#E6F1FF]">{client}</span></span>}
+          {client && year && <span className="mx-2">·</span>}
+          {year && <span>Year: <span className="text-[#E6F1FF]">{year}</span></span>}
+        </p>
+      )}
+      {image && (
         <img
-          src={`https:${project.fields.heroImage.fields.file.url}`}
-          alt={project.fields.title}
+          src={image}
+          alt={title}
           className="w-full aspect-video object-cover rounded-xl mb-8"
         />
       )}
       <div className="prose prose-invert max-w-none text-[#8892B0]">
-        {documentToReactComponents(project.fields.detailedContent, richTextOptions)}
+        {documentToReactComponents(detailedContent, richTextOptions)}
       </div>
-      {project.fields.gallery && (
+      {gallery && (
         <div className="mt-12">
           <h2 className="text-3xl font-bold mb-6 text-[#E6F1FF]">Gallery</h2>
           <div className="grid grid-cols-2 gap-4">
-            {project.fields.gallery.map((asset) =>
+            {gallery.map((asset, i) =>
               asset.fields.file.contentType?.startsWith('video/') ? (
                 <video
                   key={asset.sys.id}
-                  src={`https:${asset.fields.file.url}`}
-                  title={asset.fields.title}
+                  src={assetUrl(asset)}
+                  title={describeAsset(asset, title, i)}
                   controls
                   playsInline
                   preload="metadata"
@@ -71,8 +138,9 @@ export default async function ProjectPage({ params }) {
               ) : (
                 <img
                   key={asset.sys.id}
-                  src={`https:${asset.fields.file.url}`}
-                  alt={asset.fields.title}
+                  src={assetUrl(asset)}
+                  alt={describeAsset(asset, title, i)}
+                  loading="lazy"
                   className="rounded-lg"
                 />
               )
@@ -80,6 +148,10 @@ export default async function ProjectPage({ params }) {
           </div>
         </div>
       )}
+      <div className="mt-12 flex flex-wrap gap-3">
+        <Link href="/projects" className="btn-outline inline-flex">← All projects</Link>
+        <Link href="/#contact" className="btn-primary inline-flex">Discuss a similar project</Link>
+      </div>
     </article>
   );
 }

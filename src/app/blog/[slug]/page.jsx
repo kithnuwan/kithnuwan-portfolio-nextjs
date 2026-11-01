@@ -1,12 +1,20 @@
 export const dynamic = 'force-dynamic';
 export async function generateStaticParams() { return []; }
 
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types';
+import { getPostBySlug } from '@/lib/contentful';
+import {
+  SITE_URL, PERSON_ID, DEFAULT_OG_IMAGE, JsonLd, assetUrl, breadcrumbJsonLd,
+  richTextToPlain, slugPath, toDescription,
+} from '@/lib/seo';
 
 const richTextOptions = {
   renderNode: {
-    [BLOCKS.HEADING_1]: (_node, children) => <h1 className="text-4xl font-bold mt-8 mb-4">{children}</h1>,
+    // The post title is the page's only H1; demote any H1 written in the CMS body.
+    [BLOCKS.HEADING_1]: (_node, children) => <h2 className="text-4xl font-bold mt-8 mb-4">{children}</h2>,
     [BLOCKS.HEADING_2]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
     [BLOCKS.HEADING_3]: (_node, children) => <h3 className="text-2xl font-bold mt-5 mb-2">{children}</h3>,
     [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4 text-[var(--text-secondary)]">{children}</p>,
@@ -26,62 +34,142 @@ const richTextOptions = {
     [BLOCKS.QUOTE]: (_node, children) => <blockquote className="border-l-4 border-[#00BFFF] pl-4 italic my-4 text-[var(--text-secondary)]">{children}</blockquote>,
     [BLOCKS.EMBEDDED_ASSET]: (node) => (
       <img
-        src={`https:${node.data.target.fields.file.url}`}
-        alt={node.data.target.fields.title}
+        src={assetUrl(node.data.target)}
+        alt={node.data.target.fields.description || node.data.target.fields.title}
+        loading="lazy"
         className="rounded-lg my-6"
       />
     ),
   },
 };
 
-async function getPost(slug) {
-  const spaceId = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
-  const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
-  if (!spaceId || !accessToken) return null;
-  try {
-    const { createClient } = await import('contentful');
-    const client = createClient({ space: spaceId, accessToken });
-    const response = await client.getEntries({
-      content_type: 'myBlog',
-      'fields.slug': slug,
-      limit: 1,
-    });
-    return response.items[0] || null;
-  } catch {
-    return null;
-  }
+function decodeSlug(slug) {
+  try { return decodeURIComponent(slug); } catch { return slug; }
+}
+
+function postDescription(post) {
+  const { summary, excerpt, contentText, title } = post.fields;
+  return toDescription(summary || excerpt || richTextToPlain(contentText, { bodyOnly: true }) || title);
+}
+
+export async function generateMetadata({ params }) {
+  const post = await getPostBySlug(decodeSlug(params.slug));
+  if (!post) return { title: 'Article not found', robots: { index: false } };
+
+  const { title, slug, heroImage, publishDate, tags } = post.fields;
+  const path = slugPath('/blog', slug);
+  const description = postDescription(post);
+  const image = assetUrl(heroImage);
+
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      siteName: 'Kithnuwan Silva',
+      type: 'article',
+      url: `${SITE_URL}${path}`,
+      title,
+      description,
+      publishedTime: publishDate,
+      modifiedTime: post.sys.updatedAt,
+      authors: [SITE_URL],
+      tags: tags || undefined,
+      images: image ? [{ url: image, alt: title }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }) {
-  const post = await getPost(params.slug);
+  const post = await getPostBySlug(decodeSlug(params.slug));
+  if (!post) notFound();
 
-  if (!post) {
-    return (
-      <div className="max-w-3xl mx-auto py-24 px-4 text-[var(--text-secondary)]">
-        Post not found or CMS not configured.
-      </div>
-    );
-  }
+  const { title, slug, heroImage, publishDate, contentText, tags } = post.fields;
+  const path = slugPath('/blog', slug);
+  const image = assetUrl(heroImage);
+  const plain = richTextToPlain(contentText);
+
+  const schema = {
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${SITE_URL}${path}#article`,
+        headline: title,
+        description: postDescription(post),
+        url: `${SITE_URL}${path}`,
+        mainEntityOfPage: `${SITE_URL}${path}`,
+        image: image || `${SITE_URL}${DEFAULT_OG_IMAGE}`,
+        datePublished: publishDate,
+        dateModified: post.sys.updatedAt,
+        wordCount: plain ? plain.split(/\s+/).filter(Boolean).length : undefined,
+        ...(tags?.length ? { keywords: tags.join(', ') } : {}),
+        inLanguage: 'en',
+        author: { '@id': PERSON_ID, '@type': 'Person', name: 'Kithnuwan Silva', url: SITE_URL },
+        publisher: { '@id': PERSON_ID },
+      },
+      breadcrumbJsonLd([
+        { name: 'Home', path: '/' },
+        { name: 'Blog', path: '/blog' },
+        { name: title, path },
+      ]),
+    ],
+  };
+
+  const updated = post.sys.updatedAt && publishDate
+    && new Date(post.sys.updatedAt).toDateString() !== new Date(publishDate).toDateString();
+  const fmt = (d) => new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
     <article className="max-w-3xl mx-auto py-24 px-4">
-      <h1 className="text-5xl font-extrabold mb-4 text-[var(--text-primary)]">{post.fields.title}</h1>
+      <JsonLd data={schema} />
+      <nav aria-label="Breadcrumb" className="mb-4 text-sm text-[var(--text-secondary)]">
+        <Link href="/" className="hover:text-[var(--accent)]">Home</Link>
+        <span className="mx-2">›</span>
+        <Link href="/blog" className="hover:text-[var(--accent)]">Blog</Link>
+      </nav>
+      <h1 className="text-5xl font-extrabold mb-4 text-[var(--text-primary)]">{title}</h1>
       <p className="text-[var(--text-secondary)] mb-8">
-        Published on{' '}
-        {new Date(post.fields.publishDate).toLocaleDateString('en-US', {
-          year: 'numeric', month: 'long', day: 'numeric',
-        })}
+        By <Link href="/#about" rel="author" className="text-[var(--text-primary)] hover:text-[var(--accent)]">Kithnuwan Silva</Link>
+        {publishDate && <> · Published <time dateTime={publishDate}>{fmt(publishDate)}</time></>}
+        {updated && <> · Updated <time dateTime={post.sys.updatedAt}>{fmt(post.sys.updatedAt)}</time></>}
       </p>
-      {post.fields.heroImage && (
+      {image && (
         <img
-          src={`https:${post.fields.heroImage.fields.file.url}`}
-          alt={post.fields.title}
+          src={image}
+          alt={heroImage.fields.description || title}
           className="w-full aspect-video object-cover rounded-xl mb-8"
         />
       )}
       <div className="prose prose-invert max-w-none">
-        {documentToReactComponents(post.fields.contentText, richTextOptions)}
+        {documentToReactComponents(contentText, richTextOptions)}
       </div>
+      <aside aria-label="About the author" className="mt-12 flex gap-4 items-center rounded-2xl border border-[var(--border)] p-5">
+        <img
+          src="/assets/images/hero-portrait.png"
+          alt="Kithnuwan Silva"
+          width={64}
+          height={64}
+          className="h-16 w-16 rounded-full object-cover object-top flex-shrink-0"
+        />
+        <div>
+          <p className="font-semibold text-[var(--text-primary)]">Kithnuwan Silva</p>
+          <p className="text-sm text-[var(--text-secondary)]">
+            Senior AV &amp; Broadcast Systems Consultant and Head of System Integrations at Anscom Limited.
+            20+ years designing AV, broadcast and unified communications systems across Sri Lanka. CCNA, Dante Level 2.
+          </p>
+          <p className="mt-2 text-sm">
+            <Link href="/projects" className="text-[var(--accent)] hover:underline">See projects</Link>
+            <span className="mx-2 text-[var(--text-secondary)]">·</span>
+            <Link href="/#contact" className="text-[var(--accent)] hover:underline">Get in touch</Link>
+          </p>
+        </div>
+      </aside>
     </article>
   );
 }
