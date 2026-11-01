@@ -25,6 +25,11 @@ export const RELATED_PROJECTS = {
     'mas-digital-product-creation-centre',
     'dpmc-main-boardroom',
   ],
+  'ndi-vs-sdi-sri-lanka': [
+    'parliament-main-chamber-broadcast',
+    'eap-broadcasting-facility-relocation',
+    'mtv-stein-studio-hd-upgrade',
+  ],
   'what-is-voice-lift-system': [
     'iwmi-multipurpose-room',
     'ifs-auditorium-collaboration-system',
