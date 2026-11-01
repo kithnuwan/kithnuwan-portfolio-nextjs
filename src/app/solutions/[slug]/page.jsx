@@ -89,7 +89,7 @@ export default async function SolutionPage({ params }) {
       ))}
       <div className="flex flex-wrap gap-3 mt-8 mb-14">
         <Link href="/#contact" className="btn-primary">Discuss your project</Link>
-        <a href="#projects" className="btn-outline">See {projects.length} delivered projects</a>
+        <a href="#projects" className="btn-outline">See delivered projects</a>
       </div>
 
       {s.sections.map((sec) => (
