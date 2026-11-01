@@ -10,6 +10,7 @@ import {
   SITE_URL, PERSON_ID, JsonLd, assetUrl, breadcrumbJsonLd, describeAsset,
   richTextToPlain, slugPath, toDescription,
 } from '@/lib/seo';
+import { solutionForTags } from '@/lib/solutions';
 
 const richTextOptions = {
   renderNode: {
@@ -65,6 +66,7 @@ export default async function ProjectPage({ params }) {
   if (!project) notFound();
 
   const { title, slug, heroImage, detailedContent, gallery, client, year, tags } = project.fields;
+  const solution = solutionForTags(tags);
   const path = slugPath('/projects', slug);
   const image = assetUrl(heroImage);
 
@@ -148,7 +150,15 @@ export default async function ProjectPage({ params }) {
           </div>
         </div>
       )}
-      <div className="mt-12 flex flex-wrap gap-3">
+      {solution && (
+        <p className="mt-12 text-[#8892B0]">
+          More on this kind of work:{' '}
+          <Link href={`/solutions/${solution.slug}`} className="text-[var(--accent)] hover:underline">
+            {solution.name} in Sri Lanka →
+          </Link>
+        </p>
+      )}
+      <div className="mt-6 flex flex-wrap gap-3">
         <Link href="/projects" className="btn-outline inline-flex">← All projects</Link>
         <Link href="/#contact" className="btn-primary inline-flex">Discuss a similar project</Link>
       </div>

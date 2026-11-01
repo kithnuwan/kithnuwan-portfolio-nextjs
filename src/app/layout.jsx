@@ -5,22 +5,23 @@ import FloatingCTA from '@/components/FloatingCTA';
 import { Analytics } from "@vercel/analytics/next";
 
 import { SITE_URL, PERSON_ID, DEFAULT_OG_IMAGE } from '@/lib/seo';
+import { SOLUTIONS } from '@/lib/solutions';
 
 // Site-wide defaults only. Each route sets its own canonical, title,
 // description and Open Graph in its own metadata / generateMetadata.
 export const metadata = {
   title: {
-    default: 'Kithnuwan Silva | Senior AV & Broadcast Systems Consultant',
+    default: 'AV, Meeting Room & Broadcast Solutions in Sri Lanka | Kithnuwan Silva',
     template: '%s | Kithnuwan Silva',
   },
-  description: 'Senior AV & Broadcast Systems Consultant with 20+ years of experience in Audio Visual Integration, Broadcast Technology, Unified Communications, AV over IP, and Smart Building Solutions in Sri Lanka.',
-  keywords: 'AV consultant Sri Lanka, broadcast systems, unified communications, AV over IP, Microsoft Teams Rooms, Zoom Rooms, NDI, Dante, Q-SYS, Anscom Limited, Kithnuwan Silva',
+  description: 'Senior AV & Broadcast Systems Consultant in Sri Lanka with 20+ years and 300+ projects: Microsoft Teams & Zoom meeting rooms, boardrooms, video walls, auditoriums, smart classrooms and broadcast studios.',
+  keywords: 'AV solutions Sri Lanka, meeting room solutions Sri Lanka, boardroom AV Sri Lanka, Microsoft Teams Rooms Sri Lanka, video conferencing Sri Lanka, broadcast solutions Sri Lanka, video wall Sri Lanka, AV consultant Sri Lanka, AV over IP, Q-SYS, Anscom Limited, Kithnuwan Silva',
   metadataBase: new URL(SITE_URL),
   authors: [{ name: 'Kithnuwan Silva', url: SITE_URL }],
   openGraph: {
     siteName: 'Kithnuwan Silva',
     locale: 'en_US',
-    title: 'Kithnuwan Silva | Senior AV & Broadcast Systems Consultant',
+    title: 'AV, Meeting Room & Broadcast Solutions in Sri Lanka | Kithnuwan Silva',
     description: 'Senior AV & Broadcast Systems Consultant — 20+ Years | 300+ Projects | Sri Lanka',
     type: 'website',
     images: [
@@ -34,7 +35,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kithnuwan Silva | Senior AV & Broadcast Systems Consultant',
+    title: 'AV, Meeting Room & Broadcast Solutions in Sri Lanka | Kithnuwan Silva',
     description: 'Senior AV & Broadcast Systems Consultant — 20+ Years | 300+ Projects | Sri Lanka',
     images: [DEFAULT_OG_IMAGE],
   },
@@ -119,7 +120,17 @@ const jsonLd = {
         'AV over IP',
         'Meeting Room Solutions',
         'Video Conferencing',
+        'Video Walls',
+        'Smart Classrooms',
       ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'AV Solutions',
+        itemListElement: SOLUTIONS.map((s) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: s.name, url: `${SITE_URL}/solutions/${s.slug}` },
+        })),
+      },
     },
   ],
 };

@@ -16,6 +16,7 @@ const navLinks = [
   { href: '#tech-stack', label: 'Tech Stack' },
   { href: '#experience', label: 'Experience' },
   { href: '#contact', label: 'Contact' },
+  { href: '/solutions', label: 'Solutions', isPageLink: true },
   { href: '/blog', label: 'Blog', isPageLink: true },
 ];
 
