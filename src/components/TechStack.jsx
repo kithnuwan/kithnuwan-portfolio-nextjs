@@ -40,14 +40,14 @@ const categoryColors = {
   'Video IP': { bg: 'rgba(0,191,255,0.08)', border: 'rgba(0,191,255,0.25)', text: '#00BFFF' },
 };
 
-// Brand logos live in /public/assets/logos/<slug>.svg (or .png), transparent background.
+// Brand logos live in /public/assets/logos/<slug>.png (or .svg), transparent background.
 // They are shown in one colour that follows the theme (--logo-filter in globals.css).
 // Until a logo file exists, the badge falls back to the brand name as text.
 function TechBadge({ tech }) {
   const colors = categoryColors[tech.category] || categoryColors.AV;
-  const [src, setSrc] = useState(tech.logo ? `/assets/logos/${tech.logo}.svg` : null);
+  const [src, setSrc] = useState(tech.logo ? `/assets/logos/${tech.logo}.png` : null);
   const onError = () => {
-    if (src && src.endsWith('.svg')) setSrc(`/assets/logos/${tech.logo}.png`);
+    if (src && src.endsWith('.png')) setSrc(`/assets/logos/${tech.logo}.svg`);
     else setSrc(null);
   };
 
