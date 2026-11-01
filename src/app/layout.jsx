@@ -4,24 +4,28 @@ import Nav from '@/components/Nav';
 import FloatingCTA from '@/components/FloatingCTA';
 import { Analytics } from "@vercel/analytics/next";
 
-const SITE_URL = 'https://kithnuwan.com';
+import { SITE_URL, PERSON_ID, DEFAULT_OG_IMAGE } from '@/lib/seo';
 
+// Site-wide defaults only. Each route sets its own canonical, title,
+// description and Open Graph in its own metadata / generateMetadata.
 export const metadata = {
-  title: 'Kithnuwan Silva | Senior AV & Broadcast Systems Consultant',
+  title: {
+    default: 'Kithnuwan Silva | Senior AV & Broadcast Systems Consultant',
+    template: '%s | Kithnuwan Silva',
+  },
   description: 'Senior AV & Broadcast Systems Consultant with 20+ years of experience in Audio Visual Integration, Broadcast Technology, Unified Communications, AV over IP, and Smart Building Solutions in Sri Lanka.',
   keywords: 'AV consultant Sri Lanka, broadcast systems, unified communications, AV over IP, Microsoft Teams Rooms, Zoom Rooms, NDI, Dante, Q-SYS, Anscom Limited, Kithnuwan Silva',
   metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: '/',
-  },
+  authors: [{ name: 'Kithnuwan Silva', url: SITE_URL }],
   openGraph: {
+    siteName: 'Kithnuwan Silva',
+    locale: 'en_US',
     title: 'Kithnuwan Silva | Senior AV & Broadcast Systems Consultant',
     description: 'Senior AV & Broadcast Systems Consultant — 20+ Years | 300+ Projects | Sri Lanka',
     type: 'website',
-    url: SITE_URL,
     images: [
       {
-        url: '/assets/images/hero-portrait.png',
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
         alt: 'Kithnuwan Silva — Senior AV & Broadcast Systems Consultant',
@@ -32,7 +36,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Kithnuwan Silva | Senior AV & Broadcast Systems Consultant',
     description: 'Senior AV & Broadcast Systems Consultant — 20+ Years | 300+ Projects | Sri Lanka',
-    images: ['/assets/images/hero-portrait.png'],
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 
@@ -40,21 +44,44 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'Person',
-      '@id': `${SITE_URL}/#person`,
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
       name: 'Kithnuwan Silva',
+      description: 'Portfolio, case studies and articles on AV, broadcast and unified communications systems in Sri Lanka.',
+      publisher: { '@id': PERSON_ID },
+      inLanguage: 'en',
+    },
+    {
+      '@type': 'Person',
+      '@id': PERSON_ID,
+      name: 'Kithnuwan Silva',
+      url: SITE_URL,
+      image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
       jobTitle: 'Head of System Integrations',
+      description: 'Senior AV & Broadcast Systems Consultant with 20+ years of experience delivering mission-critical AV, Broadcast, and Unified Communications solutions across Sri Lanka.',
+      email: 'mailto:Kithnuwan@gmail.com',
+      telephone: '+94777046928',
       worksFor: {
         '@type': 'Organization',
         name: 'Anscom Limited',
+        address: { '@type': 'PostalAddress', addressLocality: 'Colombo', addressCountry: 'LK' },
       },
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Colombo',
         addressCountry: 'LK',
       },
-      url: SITE_URL,
-      sameAs: ['https://www.linkedin.com/in/kithnuwan/'],
+      sameAs: ['https://www.linkedin.com/in/kithnuwan-silva-70310310/'],
+      hasCredential: [
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'degree', name: 'BSc (Hons) Computer Networks & Security' },
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Cisco Certified Network Associate (CCNA)', recognizedBy: { '@type': 'Organization', name: 'Cisco' } },
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Dante Certification Level 2', recognizedBy: { '@type': 'Organization', name: 'Audinate' } },
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Biamp Certified', recognizedBy: { '@type': 'Organization', name: 'Biamp Systems' } },
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Poly Certified', recognizedBy: { '@type': 'Organization', name: 'Poly (HP)' } },
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Kramer Certified Programmer', recognizedBy: { '@type': 'Organization', name: 'Kramer Electronics' } },
+        { '@type': 'EducationalOccupationalCredential', credentialCategory: 'certification', name: 'Yealink Certified Expert', recognizedBy: { '@type': 'Organization', name: 'Yealink' } },
+      ],
       knowsAbout: [
         'AV over IP',
         'Broadcast Systems',
@@ -62,20 +89,28 @@ const jsonLd = {
         'NDI',
         'Dante Audio Networking',
         'Microsoft Teams Rooms',
+        'Zoom Rooms',
         'Q-SYS',
-        'Biamp',
+        'Biamp Tesira',
         'Kramer Control',
         'Digital Signage',
+        'Video Walls',
         'Video Conferencing',
+        'Newsroom Systems',
+        'Outside Broadcast',
       ],
-      description: 'Senior AV & Broadcast Systems Consultant with 20+ years of experience delivering mission-critical AV, Broadcast, and Unified Communications solutions across Sri Lanka.',
     },
     {
       '@type': 'ProfessionalService',
       '@id': `${SITE_URL}/#service`,
       name: 'Kithnuwan Silva — AV & Broadcast Consulting',
       url: SITE_URL,
-      provider: { '@id': `${SITE_URL}/#person` },
+      image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
+      telephone: '+94777046928',
+      email: 'Kithnuwan@gmail.com',
+      address: { '@type': 'PostalAddress', addressLocality: 'Colombo', addressCountry: 'LK' },
+      founder: { '@id': PERSON_ID },
+      provider: { '@id': PERSON_ID },
       areaServed: { '@type': 'Country', name: 'Sri Lanka' },
       serviceType: [
         'AV System Design',

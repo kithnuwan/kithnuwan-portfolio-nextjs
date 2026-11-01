@@ -1,8 +1,34 @@
-export default function sitemap() {
-  const base = 'https://kithnuwan.com';
+import { getAllPosts, getAllProjects } from '@/lib/contentful';
+import { SITE_URL, slugPath } from '@/lib/seo';
+
+// Regenerate at most once an hour so new CMS entries appear without a redeploy.
+export const revalidate = 3600;
+
+export default async function sitemap() {
+  const [projects, posts] = await Promise.all([getAllProjects(), getAllPosts()]);
+
+  const latest = (items) =>
+    items.reduce((max, i) => (i.sys.updatedAt > max ? i.sys.updatedAt : max), '1970-01-01T00:00:00Z');
+
   return [
-    { url: base, lastModified: new Date(), changeFrequency: 'monthly', priority: 1 },
-    { url: `${base}/projects`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${base}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    { url: SITE_URL, lastModified: new Date(), changeFrequency: 'monthly', priority: 1 },
+    { url: `${SITE_URL}/projects`, lastModified: new Date(latest(projects)), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${SITE_URL}/blog`, lastModified: new Date(latest(posts)), changeFrequency: 'weekly', priority: 0.7 },
+    ...projects
+      .filter((p) => p.fields.slug)
+      .map((p) => ({
+        url: `${SITE_URL}${slugPath('/projects', p.fields.slug)}`,
+        lastModified: new Date(p.sys.updatedAt),
+        changeFrequency: 'yearly',
+        priority: 0.6,
+      })),
+    ...posts
+      .filter((p) => p.fields.slug)
+      .map((p) => ({
+        url: `${SITE_URL}${slugPath('/blog', p.fields.slug)}`,
+        lastModified: new Date(p.sys.updatedAt),
+        changeFrequency: 'yearly',
+        priority: 0.6,
+      })),
   ];
 }

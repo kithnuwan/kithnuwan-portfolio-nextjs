@@ -12,7 +12,9 @@ function classNames(...classes) {
 // Sidebar for blog pages. Lists posts and lets you filter by tag.
 export function BlogSidebar({ posts }) {
   const [activeTag, setActiveTag] = useState('All');
-  const pathname = usePathname();
+  const rawPath = usePathname() || '';
+  let pathname = rawPath;
+  try { pathname = decodeURIComponent(rawPath); } catch {}
 
   // Collect unique tags from blog posts
   const allTags = useMemo(() => {
@@ -29,12 +31,12 @@ export function BlogSidebar({ posts }) {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold mb-2">Blog Posts</h3>
+        <p className="text-lg font-semibold mb-2">Blog Posts</p>
         <nav className="flex flex-col gap-2">
           {filteredPosts.map(post => (
             <Link
               key={post.sys.id}
-              href={`/blog/${post.fields.slug}`}
+              href={`/blog/${encodeURIComponent(post.fields.slug)}`}
               className={classNames(
                 'p-2 rounded transition-colors text-sm',
                 pathname === `/blog/${post.fields.slug}`
@@ -49,7 +51,7 @@ export function BlogSidebar({ posts }) {
       </div>
 
       <div>
-        <h4 className="text-sm font-semibold mb-2">Filter by Tag</h4>
+        <p className="text-sm font-semibold mb-2">Filter by Tag</p>
         <div className="flex flex-wrap gap-2">
           {allTags.map(tag => (
             <button
