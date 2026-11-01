@@ -25,6 +25,11 @@ export const RELATED_PROJECTS = {
     'mas-digital-product-creation-centre',
     'dpmc-main-boardroom',
   ],
+  'what-is-voice-lift-system': [
+    'iwmi-multipurpose-room',
+    'ifs-auditorium-collaboration-system',
+    'cewas-lecture-rooms-auditorium',
+  ],
   'boardroom-acoustics-lighting-colour-sri-lanka': [
     'efl-ceo-boardroom',
     'b-braun-meeting-rooms',
