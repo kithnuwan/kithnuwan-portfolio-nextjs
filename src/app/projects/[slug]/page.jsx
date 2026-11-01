@@ -57,14 +57,26 @@ export default async function ProjectPage({ params }) {
         <div className="mt-12">
           <h2 className="text-3xl font-bold mb-6 text-[#E6F1FF]">Gallery</h2>
           <div className="grid grid-cols-2 gap-4">
-            {project.fields.gallery.map((image) => (
-              <img
-                key={image.sys.id}
-                src={`https:${image.fields.file.url}`}
-                alt={image.fields.title}
-                className="rounded-lg"
-              />
-            ))}
+            {project.fields.gallery.map((asset) =>
+              asset.fields.file.contentType?.startsWith('video/') ? (
+                <video
+                  key={asset.sys.id}
+                  src={`https:${asset.fields.file.url}`}
+                  title={asset.fields.title}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="col-span-2 w-full rounded-lg bg-black"
+                />
+              ) : (
+                <img
+                  key={asset.sys.id}
+                  src={`https:${asset.fields.file.url}`}
+                  alt={asset.fields.title}
+                  className="rounded-lg"
+                />
+              )
+            )}
           </div>
         </div>
       )}

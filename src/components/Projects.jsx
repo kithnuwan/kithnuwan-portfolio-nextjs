@@ -61,9 +61,18 @@ const featuredProjects = [
     summary:
       'Voice-lifting design with AI camera tracking across multiple seat layouts, optimized for lectures and hybrid conferences.',
     tags: ['Auditorium', 'AI Tracking', 'Voice Lift', 'Hybrid'],
-    imageUrl: '/assets/images/iwmi/20250721-121411-min.jpg',
+    imageUrl: '/assets/images/iwmi/iwmi-event-1.jpg',
     color: '#00E5FF',
     gallerySlides: [
+      { type: 'video', src: '/assets/videos/iwmi-walkthrough.mp4', poster: '/assets/videos/iwmi-walkthrough-poster.jpg', title: 'IWMI – Walkthrough' },
+      { type: 'image', src: '/assets/images/iwmi/iwmi-event-1.jpg' },
+      { type: 'image', src: '/assets/images/iwmi/iwmi-event-2.jpg' },
+      { type: 'image', src: '/assets/images/iwmi/iwmi-event-3.jpg' },
+      { type: 'image', src: '/assets/images/iwmi/iwmi-event.jpg' },
+      { type: 'image', src: '/assets/images/iwmi/iwmi-room-9193.jpg' },
+      { type: 'image', src: '/assets/images/iwmi/iwmi-room-9188.jpg' },
+      { type: 'image', src: '/assets/images/iwmi/iwmi-room-9191.jpg' },
+      { type: 'image', src: '/assets/images/iwmi/iwmi-room-9198.jpg' },
       { type: 'image', src: '/assets/images/iwmi/20250721-105618-min.jpg' },
       { type: 'image', src: '/assets/images/iwmi/20250721-121411-min.jpg' },
       { type: 'image', src: '/assets/images/iwmi/20250721-121420-min.jpg' },
@@ -75,6 +84,15 @@ const featuredProjects = [
     ],
   },
 ];
+
+// 'youtube' slides embed by id; 'video' slides play a local file from src
+const isVideoSlide = (slide) => slide?.type === 'youtube' || slide?.type === 'video';
+const toVideoState = (slide, fallbackTitle) => ({
+  videoId: slide.id,
+  src: slide.src,
+  poster: slide.poster,
+  title: slide.title || fallbackTitle,
+});
 
 /* ── Project Card ─────────────────────────────────────────────────── */
 function ProjectCard({ project, index, onExpand, onOpenSlide }) {
@@ -88,7 +106,7 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
     imgRef.current.style.filter = playing ? 'brightness(1.08) saturate(1.1)' : '';
   }, []);
 
-  const hasVideo = project.gallerySlides?.[0]?.type === 'youtube';
+  const hasVideo = isVideoSlide(project.gallerySlides?.[0]);
 
   return (
     <motion.div
@@ -153,7 +171,7 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
               className="flex-shrink-0 group/thumb"
               aria-label={`Thumbnail ${idx + 2}`}
             >
-              {slide.type === 'youtube' ? (
+              {isVideoSlide(slide) ? (
                 <div className="h-10 w-16 rounded-md bg-[rgba(0,191,255,0.1)] border border-[var(--border)] flex items-center justify-center">
                   <Play className="h-3 w-3 text-[var(--accent)]" />
                 </div>
@@ -204,7 +222,7 @@ function ProjectCard({ project, index, onExpand, onOpenSlide }) {
 /* ── Expanded Project Overlay ─────────────────────────────────────── */
 function ProjectOverlay({ project, onClose, onOpenGallery }) {
   const imageSlides = project.gallerySlides?.filter(s => s.type === 'image') ?? [];
-  const videoSlide = project.gallerySlides?.find(s => s.type === 'youtube');
+  const videoSlide = project.gallerySlides?.find(isVideoSlide);
 
   return (
     <motion.div
@@ -328,8 +346,8 @@ export default function Projects() {
     const project = featuredProjects.find(p => p.id === projectId);
     const slide = project?.gallerySlides?.[index];
     if (!slide) return;
-    if (slide.type === 'youtube') {
-      setVideoOpen({ videoId: slide.id, title: slide.title || project.title });
+    if (isVideoSlide(slide)) {
+      setVideoOpen(toVideoState(slide, project.title));
     } else {
       setLightbox({ projectId, index });
     }
@@ -338,8 +356,8 @@ export default function Projects() {
   const openOverlayGallery = (indexOrMode) => {
     if (!expanded) return;
     if (indexOrMode === 'video') {
-      const v = expanded.gallerySlides.find(s => s.type === 'youtube');
-      if (v) setVideoOpen({ videoId: v.id, title: v.title || expanded.title });
+      const v = expanded.gallerySlides.find(isVideoSlide);
+      if (v) setVideoOpen(toVideoState(v, expanded.title));
       return;
     }
     const imageSlides = expanded.gallerySlides.filter(s => s.type === 'image');
@@ -352,7 +370,7 @@ export default function Projects() {
     const project = featuredProjects.find(p => p.id === lightbox.projectId);
     const slides = project.gallerySlides;
     let next = (lightbox.index + dir + slides.length) % slides.length;
-    while (slides[next]?.type === 'youtube') {
+    while (isVideoSlide(slides[next])) {
       next = (next + dir + slides.length) % slides.length;
       if (next === lightbox.index) break;
     }
@@ -461,7 +479,7 @@ export default function Projects() {
         )}
       </AnimatePresence>
 
-      {/* ── YouTube modal ──────────────────────────────────────────── */}
+      {/* ── Video modal (YouTube or local file) ────────────────────── */}
       <AnimatePresence>
         {videoOpen && (
           <motion.div
@@ -476,13 +494,25 @@ export default function Projects() {
               <button onClick={() => setVideoOpen(null)} className="absolute -top-12 right-0 text-[var(--text-secondary)] hover:text-white flex items-center gap-2 text-sm">
                 <X className="h-5 w-5" /> Close
               </button>
-              <iframe
-                className="w-full h-full rounded-xl"
-                src={`https://www.youtube.com/embed/${videoOpen.videoId}?autoplay=1&rel=0`}
-                title={videoOpen.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+              {videoOpen.src ? (
+                <video
+                  className="w-full h-full rounded-xl bg-black"
+                  src={videoOpen.src}
+                  poster={videoOpen.poster}
+                  title={videoOpen.title}
+                  controls
+                  autoPlay
+                  playsInline
+                />
+              ) : (
+                <iframe
+                  className="w-full h-full rounded-xl"
+                  src={`https://www.youtube.com/embed/${videoOpen.videoId}?autoplay=1&rel=0`}
+                  title={videoOpen.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              )}
             </div>
           </motion.div>
         )}

@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .claude/
+
+# Large local media downloads (not for the repo)
+Project Videos & Images-*.zip
