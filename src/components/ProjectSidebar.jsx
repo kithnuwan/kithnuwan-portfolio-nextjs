@@ -1,41 +1,27 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { collectTags, projectsWithTag } from '@/lib/tags';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export function ProjectSidebar({ projects }) {
-  const searchParams = useSearchParams();
-  const initialTag = searchParams.get('tag') || 'All';
-  const [activeTag, setActiveTag] = useState(initialTag);
   const rawPath = usePathname() || '';
   let pathname = rawPath;
   try { pathname = decodeURIComponent(rawPath); } catch {}
 
-  useEffect(() => {
-    const tag = searchParams.get('tag') || 'All';
-    setActiveTag(tag);
-  }, [searchParams]);
+  // The active tag comes from the URL: /projects/tag/<tag-slug>.
+  const activeSlug = pathname.startsWith('/projects/tag/') ? pathname.split('/')[3] : 'all';
+  const allTags = useMemo(() => [{ slug: 'all', name: 'All' }, ...collectTags(projects)], [projects]);
 
-  // Merge tags that differ only by case ("Broadcast" / "broadcast").
-  const allTags = useMemo(() => {
-    const byKey = new Map();
-    projects.flatMap(p => p.fields.tags || []).forEach(t => {
-      const key = t.trim().toLowerCase();
-      if (!byKey.has(key)) byKey.set(key, t.trim());
-    });
-    return ['All', ...Array.from(byKey.values()).sort((a, b) => a.localeCompare(b))];
-  }, [projects]);
-
-  const filteredProjects = useMemo(() => {
-    if (activeTag === 'All') return projects;
-    const key = activeTag.toLowerCase();
-    return projects.filter(p => (p.fields.tags || []).some(t => t.trim().toLowerCase() === key));
-  }, [projects, activeTag]);
+  const filteredProjects = useMemo(
+    () => (activeSlug === 'all' ? projects : projectsWithTag(projects, activeSlug)),
+    [projects, activeSlug]
+  );
 
   return (
     <div className="sticky top-24 space-y-8">
@@ -45,17 +31,16 @@ export function ProjectSidebar({ projects }) {
         <div className="flex flex-wrap gap-2">
           {allTags.map(tag => (
             <Link
-              key={tag}
-              href={tag === 'All' ? '/projects' : `/projects?tag=${encodeURIComponent(tag)}`}
-              onClick={() => setActiveTag(tag)}
+              key={tag.slug}
+              href={tag.slug === 'all' ? '/projects' : `/projects/tag/${tag.slug}`}
               className={classNames(
                 'inline-block px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200',
-                activeTag === tag
+                activeSlug === tag.slug
                   ? 'bg-[var(--accent)] text-[var(--accent-contrast)]'
                   : 'bg-[var(--accent-subtle)] text-[var(--text-secondary)] border border-[var(--border)] hover:text-[var(--accent)] hover:border-[var(--accent-dim)]'
               )}
             >
-              {tag}
+              {tag.name}
             </Link>
           ))}
         </div>
@@ -67,7 +52,6 @@ export function ProjectSidebar({ projects }) {
         <nav className="space-y-1">
           <Link
             href="/projects"
-            onClick={() => setActiveTag('All')}
             className={classNames(
               'block w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm',
               pathname === '/projects'

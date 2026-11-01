@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
-import { getPostBySlug } from '@/lib/contentful';
+import { getAllProjects, getPostBySlug } from '@/lib/contentful';
+import { RELATED_PROJECTS } from '@/lib/related';
 import {
   SITE_URL, PERSON_ID, DEFAULT_OG_IMAGE, JsonLd, assetUrl, breadcrumbJsonLd,
   richTextToPlain, slugPath, toDescription,
@@ -119,6 +120,11 @@ export default async function BlogPostPage({ params }) {
   const path = slugPath('/blog', slug);
   const image = assetUrl(heroImage);
   const plain = richTextToPlain(contentText);
+  const relatedSlugs = RELATED_PROJECTS[slug] || [];
+  const allProjects = relatedSlugs.length ? await getAllProjects() : [];
+  const related = relatedSlugs
+    .map((s) => allProjects.find((p) => p.fields.slug === s))
+    .filter(Boolean);
 
   const schema = {
     '@graph': [
@@ -174,6 +180,28 @@ export default async function BlogPostPage({ params }) {
       <div className="prose prose-invert max-w-none">
         {documentToReactComponents(contentText, richTextOptions)}
       </div>
+      {related.length > 0 && (
+        <section aria-label="Related projects" className="mt-12">
+          <h2 className="text-2xl font-bold mb-4 text-[var(--text-primary)]">Related projects</h2>
+          <ul className="grid sm:grid-cols-3 gap-4">
+            {related.map((p) => (
+              <li key={p.sys.id}>
+                <Link href={slugPath('/projects', p.fields.slug)} className="block rounded-xl border border-[var(--border)] overflow-hidden hover:border-[var(--accent)] transition-colors">
+                  {p.fields.heroImage && (
+                    <img
+                      src={`${assetUrl(p.fields.heroImage)}?w=480&fm=webp`}
+                      alt={p.fields.title}
+                      loading="lazy"
+                      className="w-full aspect-video object-cover"
+                    />
+                  )}
+                  <span className="block p-3 text-sm font-semibold text-[var(--text-primary)]">{p.fields.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <aside aria-label="About the author" className="mt-12 flex gap-4 items-center rounded-2xl border border-[var(--border)] p-5">
         <img
           src="/assets/images/hero-portrait.png"
