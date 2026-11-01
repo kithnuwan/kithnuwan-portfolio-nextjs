@@ -73,6 +73,7 @@ export const SOLUTIONS = [
         heading: 'Broadcast capabilities',
         points: [
           'Studio builds: cameras, vision mixing, intercom, tally and lighting',
+          'Podcast studios and corporate broadcast / live-streaming studios',
           'SDI and NDI routing, glue and signal distribution',
           'Robotic camera systems for parliaments and conference chambers',
           'Full HD outside-broadcast (OB) buses',
@@ -98,8 +99,8 @@ export const SOLUTIONS = [
         a: 'Projects include the Full HD multilingual broadcasting system and robotic cameras for the Parliament of Sri Lanka, the COPE & COPA broadcast system, Full HD OB buses for ITN and Sri Dalada Maligawa, the EAP Broadcasting facility relocation, the MTV-Stein studio HD upgrade and a national TV & radio monitoring system.',
       },
       {
-        q: 'Do you build outside-broadcast (OB) vans?',
-        a: 'Yes. Full HD OB buses have been delivered for ITN and Sri Dalada Maligawa.',
+        q: 'Do you build podcast studios and corporate broadcast studios?',
+        a: 'Yes. Podcast studios, corporate broadcast and live-streaming studios are designed and built end to end: cameras, vision mixing, microphones and audio processing, lighting, NDI/SDI routing, recording and streaming, set integration and hands-on training so your own team can run productions.',
       },
       {
         q: 'Can you automate camera operation in a chamber or hall?',
