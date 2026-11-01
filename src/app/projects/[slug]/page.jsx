@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types';
 import { getProjectBySlug } from '@/lib/contentful';
+import { tableAndLinkNodes } from '@/components/richTextNodes';
 import {
   SITE_URL, PERSON_ID, JsonLd, assetUrl, breadcrumbJsonLd, describeAsset,
   richTextToPlain, slugPath, toDescription,
@@ -17,7 +18,12 @@ const richTextOptions = {
     // The page title is the only H1; demote any H1 written in the CMS body.
     [BLOCKS.HEADING_1]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
     [BLOCKS.HEADING_2]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
+    [BLOCKS.HEADING_3]: (_node, children) => <h3 className="text-2xl font-bold mt-5 mb-2">{children}</h3>,
     [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4">{children}</p>,
+    [BLOCKS.UL_LIST]: (_node, children) => <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>,
+    [BLOCKS.OL_LIST]: (_node, children) => <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>,
+    [BLOCKS.LIST_ITEM]: (_node, children) => <li className="[&_p]:mb-0">{children}</li>,
+    ...tableAndLinkNodes,
   },
 };
 

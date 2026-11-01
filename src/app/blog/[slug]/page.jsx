@@ -4,8 +4,9 @@ export async function generateStaticParams() { return []; }
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, INLINES } from '@contentful/rich-text-types';
+import { BLOCKS } from '@contentful/rich-text-types';
 import { getAllProjects, getPostBySlug } from '@/lib/contentful';
+import { tableAndLinkNodes } from '@/components/richTextNodes';
 import { RELATED_PROJECTS } from '@/lib/related';
 import {
   SITE_URL, PERSON_ID, DEFAULT_OG_IMAGE, JsonLd, assetUrl, breadcrumbJsonLd,
@@ -33,31 +34,7 @@ const richTextOptions = {
       </li>
     ),
     [BLOCKS.QUOTE]: (_node, children) => <blockquote className="border-l-4 border-[#00BFFF] pl-4 italic my-4 text-[var(--text-secondary)]">{children}</blockquote>,
-    [BLOCKS.TABLE]: (_node, children) => (
-      <div className="my-6 overflow-x-auto rounded-xl border border-[var(--border)]">
-        <table className="w-full text-sm text-left border-collapse">
-          <tbody>{children}</tbody>
-        </table>
-      </div>
-    ),
-    [BLOCKS.TABLE_ROW]: (_node, children) => <tr className="border-b border-[var(--border)] last:border-0 align-top">{children}</tr>,
-    [BLOCKS.TABLE_HEADER_CELL]: (_node, children) => (
-      <th className="p-3 font-semibold text-[var(--text-primary)] bg-[var(--accent-subtle)] [&_p]:mb-0">{children}</th>
-    ),
-    [BLOCKS.TABLE_CELL]: (_node, children) => <td className="p-3 [&_p]:mb-0">{children}</td>,
-    [INLINES.HYPERLINK]: (node, children) => {
-      const uri = node.data.uri;
-      const internal = uri.startsWith('/') || uri.startsWith('https://kithnuwan.com');
-      return (
-        <a
-          href={uri}
-          className="text-[var(--accent)] underline underline-offset-2"
-          {...(internal ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-        >
-          {children}
-        </a>
-      );
-    },
+    ...tableAndLinkNodes,
     [BLOCKS.EMBEDDED_ASSET]: (node) => (
       <img
         src={assetUrl(node.data.target)}
