@@ -24,6 +24,23 @@ const richTextOptions = {
     [BLOCKS.OL_LIST]: (_node, children) => <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>,
     [BLOCKS.LIST_ITEM]: (_node, children) => <li className="[&_p]:mb-0">{children}</li>,
     ...tableAndLinkNodes,
+    [BLOCKS.EMBEDDED_ASSET]: (node) => {
+      const asset = node.data.target;
+      if (!asset?.fields?.file) return null;
+      const label = asset.fields.description || asset.fields.title;
+      return asset.fields.file.contentType?.startsWith('video/') ? (
+        <video
+          src={assetUrl(asset)}
+          title={label}
+          controls
+          playsInline
+          preload="metadata"
+          className="w-full rounded-lg my-6 bg-black"
+        />
+      ) : (
+        <img src={assetUrl(asset)} alt={label} loading="lazy" className="w-full rounded-lg my-6" />
+      );
+    },
   },
 };
 
