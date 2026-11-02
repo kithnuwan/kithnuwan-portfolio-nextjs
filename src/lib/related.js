@@ -40,4 +40,14 @@ export const RELATED_PROJECTS = {
     'b-braun-meeting-rooms',
     'commercial-bank-boardroom',
   ],
+  'government-av-tenders-qualified-av-consultants': [
+    'ministry-of-defence-video-wall',
+    'tv-radio-monitoring-system',
+    'parliament-main-chamber-broadcast',
+  ],
+  'hybrid-room-acoustic-echo-cancellation-aec': [
+    'iwmi-multipurpose-room',
+    'unilever-meeting-rooms',
+    'commercial-bank-boardroom',
+  ],
 };
