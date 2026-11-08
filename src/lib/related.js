@@ -45,6 +45,11 @@ export const RELATED_PROJECTS = {
     'tv-radio-monitoring-system',
     'parliament-main-chamber-broadcast',
   ],
+  'hdbaset-vs-av-over-ip-sri-lanka': [
+    'iwmi-multipurpose-room',
+    'ministry-of-defence-video-wall',
+    'cewas-lecture-rooms-auditorium',
+  ],
   'hybrid-room-acoustic-echo-cancellation-aec': [
     'iwmi-multipurpose-room',
     'unilever-meeting-rooms',
