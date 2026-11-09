@@ -55,4 +55,14 @@ export const RELATED_PROJECTS = {
     'unilever-meeting-rooms',
     'commercial-bank-boardroom',
   ],
+  'av-project-design-before-installation': [
+    'iwmi-multipurpose-room',
+    'mas-digital-product-creation-centre',
+    'cewas-lecture-rooms-auditorium',
+  ],
+  'centralised-av-control-systems-crestron-extron-kramer-qsys': [
+    'iwmi-multipurpose-room',
+    'ifs-auditorium-collaboration-system',
+    'commercial-bank-boardroom',
+  ],
 };
