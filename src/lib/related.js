@@ -45,6 +45,10 @@ export const RELATED_PROJECTS = {
     'tv-radio-monitoring-system',
     'parliament-main-chamber-broadcast',
   ],
+  'ip-based-pa-vs-analogue-pa-systems': [
+    'iwmi-multipurpose-room',
+    'sabaragamuwa-medicine-divisible-lecture-hall',
+  ],
   'what-is-a-public-address-system': [
     'sabaragamuwa-medicine-divisible-lecture-hall',
     'iwmi-multipurpose-room',
