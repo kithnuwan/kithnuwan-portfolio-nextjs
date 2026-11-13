@@ -45,6 +45,10 @@ export const RELATED_PROJECTS = {
     'tv-radio-monitoring-system',
     'parliament-main-chamber-broadcast',
   ],
+  'what-is-a-public-address-system': [
+    'sabaragamuwa-medicine-divisible-lecture-hall',
+    'iwmi-multipurpose-room',
+  ],
   'hdbaset-vs-av-over-ip-sri-lanka': [
     'iwmi-multipurpose-room',
     'ministry-of-defence-video-wall',
