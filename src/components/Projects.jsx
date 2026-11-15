@@ -18,11 +18,11 @@ const featuredProjects = [
     summary:
       'State-of-the-art Digital Product Creation Center featuring a 4K AV over IP system, 3x3 video wall, and Microsoft Teams Room setup.',
     tags: ['AV over IP', 'Digital Signage', 'Teams Room', 'Video Wall'],
-    imageUrl: '/assets/images/meetingRoom1.png',
+    imageUrl: '/assets/images/meetingRoom1.webp',
     color: 'var(--accent)',
     gallerySlides: [
       { type: 'youtube', id: 'be6J3gtlmtQ', title: 'MAS Intimate – Walkthrough' },
-      { type: 'image', src: '/assets/images/meetingRoom1.png' },
+      { type: 'image', src: '/assets/images/meetingRoom1.webp' },
       { type: 'image', src: '/assets/images/mas/20250120-072029-min.jpg' },
       { type: 'image', src: '/assets/images/mas/20250120-072046-1-min.jpg' },
       { type: 'image', src: '/assets/images/mas/20250120-072115-min.jpg' },

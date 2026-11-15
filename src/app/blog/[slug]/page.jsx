@@ -184,7 +184,7 @@ export default async function BlogPostPage({ params }) {
       )}
       <aside aria-label="About the author" className="mt-12 flex gap-4 items-center rounded-2xl border border-[var(--border)] p-5">
         <img
-          src="/assets/images/hero-portrait.png"
+          src="/assets/images/hero-portrait.webp"
           alt="Kithnuwan Silva"
           width={64}
           height={64}

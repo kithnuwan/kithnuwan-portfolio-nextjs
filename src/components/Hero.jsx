@@ -561,7 +561,7 @@ export default function Hero() {
                     }}
                   />
                   <HeroRotator
-                    images={['/assets/images/hero-portrait.png']}
+                    images={['/assets/images/hero-portrait.webp']}
                     alt="Kithnuwan Silva portrait"
                     intervalMs={5000}
                     fadeMs={800}
