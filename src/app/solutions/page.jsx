@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { SOLUTIONS } from '@/lib/solutions';
+import { pageTitle } from '@/lib/seo';
 
 export const metadata = {
-  title: 'AV, Meeting Room & Broadcast Solutions in Sri Lanka',
+  title: pageTitle('AV Solutions in Sri Lanka: Meeting Rooms, Broadcast & Integration'),
   description:
     'Meeting room and boardroom AV, broadcast studios and OB, video walls, auditoriums, smart classrooms and conference systems – designed and delivered across Sri Lanka.',
   alternates: { canonical: '/solutions' },

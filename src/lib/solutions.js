@@ -8,7 +8,7 @@ export const SOLUTIONS = [
     h1: 'Meeting Room & Boardroom AV Solutions in Sri Lanka',
     title: 'Meeting Room & Boardroom AV Solutions in Sri Lanka',
     description:
-      'Microsoft Teams Rooms, Zoom Rooms and BYOD meeting rooms in Sri Lanka: design, installation and support for boardrooms and meeting rooms, from huddle spaces to 23-room enterprise rollouts.',
+      'Microsoft Teams Rooms, Zoom Rooms and BYOD meeting rooms in Sri Lanka: design, installation and support, from huddle spaces to 23-room enterprise rollouts.',
     tags: ['meeting rooms'],
     intro: [
       'Kithnuwan Silva designs and delivers meeting room and boardroom AV for banks, multinationals, apparel groups, NGOs and government in Sri Lanka. Projects range from a single CEO boardroom to enterprise rollouts such as 19 rooms at People\'s Bank Tower and 23 Microsoft Teams Rooms for Unilever Sri Lanka.',
@@ -62,7 +62,7 @@ export const SOLUTIONS = [
     h1: 'Broadcast Studio, OB Van & Parliament Broadcast Solutions in Sri Lanka',
     title: 'Broadcast Studio & OB Solutions in Sri Lanka',
     description:
-      'Broadcast solutions in Sri Lanka: Full HD studios, OB buses, robotic camera systems and multilingual parliamentary broadcasting, delivered for Parliament, ITN, EAP Broadcasting, MTV and more.',
+      'Broadcast solutions in Sri Lanka: Full HD studios, OB buses, robotic cameras and multilingual parliamentary broadcasting for Parliament, ITN, EAP and MTV.',
     tags: ['broadcast', 'sri lanka radio monitoring'],
     intro: [
       'Kithnuwan Silva has delivered broadcast infrastructure in Sri Lanka for over two decades: television studios, outside-broadcast buses, broadcast monitoring and the live broadcasting systems of the Parliament of Sri Lanka.',

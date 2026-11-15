@@ -18,7 +18,7 @@ export const metadata = {
     url: SITE_URL,
     title: 'AV, Meeting Room & Broadcast Solutions in Sri Lanka | Kithnuwan Silva',
     description: 'Senior AV & Broadcast Systems Consultant — 20+ Years | 300+ Projects | Sri Lanka',
-    images: [{ url: '/assets/images/hero-portrait.png', width: 1200, height: 630, alt: 'Kithnuwan Silva — Senior AV & Broadcast Systems Consultant' }],
+    images: [{ url: '/assets/images/og-default.jpg', width: 1200, height: 630, alt: 'Kithnuwan Silva — Senior AV & Broadcast Systems Consultant' }],
   },
 };
 

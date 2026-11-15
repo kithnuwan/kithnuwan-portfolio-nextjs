@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ProjectGrid from '@/components/ProjectGrid';
 import { getAllProjects } from '@/lib/contentful';
-import { SITE_URL, JsonLd, breadcrumbJsonLd, slugPath } from '@/lib/seo';
+import { SITE_URL, JsonLd, breadcrumbJsonLd, pageTitle, slugPath } from '@/lib/seo';
 import { collectTags, projectsWithTag } from '@/lib/tags';
 import { solutionForTags } from '@/lib/solutions';
 
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }) {
   const { tag, projects } = data;
   const path = `/projects/tag/${tag.slug}`;
   return {
-    title: `${tag.name} Projects in Sri Lanka`,
+    title: pageTitle(`${tag.name} Projects in Sri Lanka`),
     description: describe(tag.name, projects.length),
     alternates: { canonical: path },
     openGraph: {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }) {
       url: `${SITE_URL}${path}`,
       title: `${tag.name} Projects in Sri Lanka | Kithnuwan Silva`,
       description: describe(tag.name, projects.length),
-      images: [{ url: '/assets/images/hero-portrait.png', width: 1200, height: 630, alt: 'Kithnuwan Silva' }],
+      images: [{ url: '/assets/images/og-default.jpg', width: 1200, height: 630, alt: 'Kithnuwan Silva' }],
     },
   };
 }

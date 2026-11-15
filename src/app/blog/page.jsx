@@ -2,12 +2,12 @@ export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/contentful';
-import { SITE_URL, JsonLd, assetUrl, breadcrumbJsonLd, richTextToPlain, slugPath, toDescription } from '@/lib/seo';
+import { SITE_URL, JsonLd, breadcrumbJsonLd, imageUrl, pageTitle, richTextToPlain, slugPath, toDescription } from '@/lib/seo';
 
 const DESCRIPTION = 'Articles and case studies on AV system design, broadcast technology, courtroom technology and unified communications in Sri Lanka by Kithnuwan Silva.';
 
 export const metadata = {
-  title: 'Blog — AV, Broadcast & Unified Communications Articles',
+  title: pageTitle('Blog — AV, Broadcast & Unified Communications Articles'),
   description: DESCRIPTION,
   alternates: { canonical: '/blog' },
   openGraph: {
@@ -16,7 +16,7 @@ export const metadata = {
     url: `${SITE_URL}/blog`,
     title: 'Blog — AV, Broadcast & Unified Communications Articles | Kithnuwan Silva',
     description: DESCRIPTION,
-    images: [{ url: '/assets/images/hero-portrait.png', width: 1200, height: 630, alt: 'Kithnuwan Silva' }],
+    images: [{ url: '/assets/images/og-default.jpg', width: 1200, height: 630, alt: 'Kithnuwan Silva' }],
   },
 };
 
@@ -56,7 +56,7 @@ export default async function BlogIndexPage() {
         <div className="space-y-10">
           {posts.map((post) => {
             const href = slugPath('/blog', post.fields.slug);
-            const image = assetUrl(post.fields.heroImage);
+            const image = imageUrl(post.fields.heroImage, 480);
             const excerpt = toDescription(
               post.fields.summary || post.fields.excerpt || richTextToPlain(post.fields.contentText, { bodyOnly: true }),
               220

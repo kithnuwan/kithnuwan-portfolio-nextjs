@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Building2 } from 'lucide-react';
-import { assetUrl, slugPath } from '@/lib/seo';
+import { imageUrl, slugPath } from '@/lib/seo';
 import { tagPath } from '@/lib/tags';
 
 // Project cards for /projects and /projects/tag/[tag]. Tag chips link to their tag page.
@@ -17,7 +17,7 @@ export default function ProjectGrid({ projects }) {
             {p.fields.heroImage && (
               <Link href={href}>
                 <img
-                  src={assetUrl(p.fields.heroImage)}
+                  src={imageUrl(p.fields.heroImage, 800)}
                   alt={p.fields.title || 'Project image'}
                   loading="lazy"
                   className="w-full aspect-video object-cover cursor-pointer"

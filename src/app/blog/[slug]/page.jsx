@@ -9,8 +9,8 @@ import { getAllProjects, getPostBySlug } from '@/lib/contentful';
 import { tableAndLinkNodes } from '@/components/richTextNodes';
 import { RELATED_PROJECTS } from '@/lib/related';
 import {
-  SITE_URL, PERSON_ID, DEFAULT_OG_IMAGE, JsonLd, assetUrl, breadcrumbJsonLd,
-  richTextToPlain, slugPath, toDescription,
+  SITE_URL, PERSON_ID, DEFAULT_OG_IMAGE, JsonLd, breadcrumbJsonLd, imageSize, imageUrl,
+  pageTitle, richTextToPlain, slugPath, toDescription,
 } from '@/lib/seo';
 
 const richTextOptions = {
@@ -37,10 +37,11 @@ const richTextOptions = {
     ...tableAndLinkNodes,
     [BLOCKS.EMBEDDED_ASSET]: (node) => (
       <img
-        src={assetUrl(node.data.target)}
+        src={imageUrl(node.data.target)}
         alt={node.data.target.fields.description || node.data.target.fields.title}
         loading="lazy"
-        className="rounded-lg my-6"
+        {...imageSize(node.data.target)}
+        className="w-full h-auto rounded-lg my-6"
       />
     ),
   },
@@ -62,10 +63,10 @@ export async function generateMetadata({ params }) {
   const { title, slug, heroImage, publishDate, tags } = post.fields;
   const path = slugPath('/blog', slug);
   const description = postDescription(post);
-  const image = assetUrl(heroImage);
+  const image = imageUrl(heroImage, 1200);
 
   return {
-    title,
+    title: pageTitle(title),
     description,
     alternates: { canonical: path },
     openGraph: {
@@ -95,7 +96,7 @@ export default async function BlogPostPage({ params }) {
 
   const { title, slug, heroImage, publishDate, contentText, tags } = post.fields;
   const path = slugPath('/blog', slug);
-  const image = assetUrl(heroImage);
+  const image = imageUrl(heroImage);
   const plain = richTextToPlain(contentText);
   const relatedSlugs = RELATED_PROJECTS[slug] || [];
   const allProjects = relatedSlugs.length ? await getAllProjects() : [];
@@ -151,7 +152,9 @@ export default async function BlogPostPage({ params }) {
         <img
           src={image}
           alt={heroImage.fields.description || title}
-          className="w-full aspect-video object-cover rounded-xl mb-8"
+          fetchPriority="high"
+          {...imageSize(heroImage)}
+          className="w-full h-auto aspect-video object-cover rounded-xl mb-8"
         />
       )}
       <div className="prose prose-invert max-w-none">
@@ -166,7 +169,7 @@ export default async function BlogPostPage({ params }) {
                 <Link href={slugPath('/projects', p.fields.slug)} className="block rounded-xl border border-[var(--border)] overflow-hidden hover:border-[var(--accent)] transition-colors">
                   {p.fields.heroImage && (
                     <img
-                      src={`${assetUrl(p.fields.heroImage)}?w=480&fm=webp`}
+                      src={imageUrl(p.fields.heroImage, 480)}
                       alt={p.fields.title}
                       loading="lazy"
                       className="w-full aspect-video object-cover"

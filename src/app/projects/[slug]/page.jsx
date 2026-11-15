@@ -8,41 +8,47 @@ import { BLOCKS } from '@contentful/rich-text-types';
 import { getProjectBySlug } from '@/lib/contentful';
 import { tableAndLinkNodes } from '@/components/richTextNodes';
 import {
-  SITE_URL, PERSON_ID, JsonLd, assetUrl, breadcrumbJsonLd, describeAsset,
-  richTextToPlain, slugPath, toDescription,
+  SITE_URL, PERSON_ID, JsonLd, assetUrl, breadcrumbJsonLd, describeAsset, imageSize, imageUrl,
+  pageTitle, richTextToPlain, slugPath, toDescription,
 } from '@/lib/seo';
 import { solutionForTags } from '@/lib/solutions';
 
-const richTextOptions = {
-  renderNode: {
-    // The page title is the only H1; demote any H1 written in the CMS body.
-    [BLOCKS.HEADING_1]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
-    [BLOCKS.HEADING_2]: (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>,
-    [BLOCKS.HEADING_3]: (_node, children) => <h3 className="text-2xl font-bold mt-5 mb-2">{children}</h3>,
-    [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4">{children}</p>,
-    [BLOCKS.UL_LIST]: (_node, children) => <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>,
-    [BLOCKS.OL_LIST]: (_node, children) => <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>,
-    [BLOCKS.LIST_ITEM]: (_node, children) => <li className="[&_p]:mb-0">{children}</li>,
-    ...tableAndLinkNodes,
-    [BLOCKS.EMBEDDED_ASSET]: (node) => {
-      const asset = node.data.target;
-      if (!asset?.fields?.file) return null;
-      const label = asset.fields.description || asset.fields.title;
-      return asset.fields.file.contentType?.startsWith('video/') ? (
-        <video
-          src={assetUrl(asset)}
-          title={label}
-          controls
-          playsInline
-          preload="metadata"
-          className="w-full rounded-lg my-6 bg-black"
-        />
-      ) : (
-        <img src={assetUrl(asset)} alt={label} loading="lazy" className="w-full rounded-lg my-6" />
-      );
-    },
+const h2 = (_node, children) => <h2 className="text-3xl font-bold mt-6 mb-3">{children}</h2>;
+const h3 = (_node, children) => <h3 className="text-2xl font-bold mt-5 mb-2">{children}</h3>;
+
+const baseNodes = {
+  [BLOCKS.PARAGRAPH]: (_node, children) => <p className="mb-4">{children}</p>,
+  [BLOCKS.UL_LIST]: (_node, children) => <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>,
+  [BLOCKS.OL_LIST]: (_node, children) => <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>,
+  [BLOCKS.LIST_ITEM]: (_node, children) => <li className="[&_p]:mb-0">{children}</li>,
+  ...tableAndLinkNodes,
+  [BLOCKS.EMBEDDED_ASSET]: (node) => {
+    const asset = node.data.target;
+    if (!asset?.fields?.file) return null;
+    const label = asset.fields.description || asset.fields.title;
+    return asset.fields.file.contentType?.startsWith('video/') ? (
+      <video
+        src={assetUrl(asset)}
+        title={label}
+        controls
+        playsInline
+        preload="metadata"
+        className="w-full rounded-lg my-6 bg-black"
+      />
+    ) : (
+      <img src={imageUrl(asset)} alt={label} loading="lazy" {...imageSize(asset)} className="w-full h-auto rounded-lg my-6" />
+    );
   },
 };
+
+// The page title is the only H1, so CMS H1s render as H2. Bodies that use H3 with no
+// H2 above it (most short project write-ups) render those as H2 to keep the outline unbroken.
+function richTextOptions(doc) {
+  const hasH2 = (doc?.content || []).some((b) => b.nodeType === BLOCKS.HEADING_1 || b.nodeType === BLOCKS.HEADING_2);
+  return {
+    renderNode: { ...baseNodes, [BLOCKS.HEADING_1]: h2, [BLOCKS.HEADING_2]: h2, [BLOCKS.HEADING_3]: hasH2 ? h3 : h2 },
+  };
+}
 
 function decodeSlug(slug) {
   try { return decodeURIComponent(slug); } catch { return slug; }
@@ -50,8 +56,10 @@ function decodeSlug(slug) {
 
 function projectDescription(project) {
   const { summary, detailedContent, client, title } = project.fields;
-  const text = summary || richTextToPlain(detailedContent, { bodyOnly: true });
-  return toDescription(text || `${title}${client ? ` for ${client}` : ''}: AV and broadcast systems design and delivery in Sri Lanka.`);
+  let text = summary || richTextToPlain(detailedContent, { bodyOnly: true }) || title;
+  // One-line summaries make thin snippets; add who and where.
+  if (text.length < 90) text = `${text.replace(/\.?$/, '.')} ${client ? `An AV project for ${client}` : 'An AV project'} in Sri Lanka, designed and delivered by Kithnuwan Silva.`;
+  return toDescription(text);
 }
 
 export async function generateMetadata({ params }) {
@@ -61,10 +69,10 @@ export async function generateMetadata({ params }) {
   const { title, slug, heroImage } = project.fields;
   const path = slugPath('/projects', slug);
   const description = projectDescription(project);
-  const image = assetUrl(heroImage);
+  const image = imageUrl(heroImage, 1200);
 
   return {
-    title,
+    title: pageTitle(title),
     description,
     alternates: { canonical: path },
     openGraph: {
@@ -91,7 +99,7 @@ export default async function ProjectPage({ params }) {
   const { title, slug, heroImage, detailedContent, gallery, client, year, tags } = project.fields;
   const solution = solutionForTags(tags);
   const path = slugPath('/projects', slug);
-  const image = assetUrl(heroImage);
+  const image = imageUrl(heroImage);
 
   const schema = {
     '@graph': [
@@ -138,12 +146,14 @@ export default async function ProjectPage({ params }) {
       {image && (
         <img
           src={image}
-          alt={title}
-          className="w-full aspect-video object-cover rounded-xl mb-8"
+          alt={heroImage.fields.description || title}
+          fetchPriority="high"
+          {...imageSize(heroImage)}
+          className="w-full h-auto aspect-video object-cover rounded-xl mb-8"
         />
       )}
       <div className="prose prose-invert max-w-none text-[#8892B0]">
-        {documentToReactComponents(detailedContent, richTextOptions)}
+        {documentToReactComponents(detailedContent, richTextOptions(detailedContent))}
       </div>
       {gallery && (
         <div className="mt-12">
@@ -163,10 +173,11 @@ export default async function ProjectPage({ params }) {
               ) : (
                 <img
                   key={asset.sys.id}
-                  src={assetUrl(asset)}
+                  src={imageUrl(asset, 1000)}
                   alt={describeAsset(asset, title, i)}
                   loading="lazy"
-                  className="rounded-lg"
+                  {...imageSize(asset, 1000)}
+                  className="w-full h-auto rounded-lg"
                 />
               )
             )}

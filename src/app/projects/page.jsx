@@ -6,7 +6,7 @@ import { getAllProjects } from '@/lib/contentful';
 import { SITE_URL, JsonLd, breadcrumbJsonLd, slugPath } from '@/lib/seo';
 import { tagPath } from '@/lib/tags';
 
-const DESCRIPTION = 'AV, broadcast and unified communications projects delivered across Sri Lanka: Parliament broadcast systems, Teams Rooms, boardrooms, auditoriums, OB vans and smart classrooms.';
+const DESCRIPTION = 'AV, broadcast and unified communications projects across Sri Lanka: Parliament broadcast systems, Teams Rooms, boardrooms, auditoriums, OB vans and classrooms.';
 
 export const metadata = {
   title: 'Projects — AV & Broadcast Systems Portfolio',
@@ -18,7 +18,7 @@ export const metadata = {
     url: `${SITE_URL}/projects`,
     title: 'Projects — AV & Broadcast Systems Portfolio | Kithnuwan Silva',
     description: DESCRIPTION,
-    images: [{ url: '/assets/images/hero-portrait.png', width: 1200, height: 630, alt: 'Kithnuwan Silva' }],
+    images: [{ url: '/assets/images/og-default.jpg', width: 1200, height: 630, alt: 'Kithnuwan Silva' }],
   },
 };
 

@@ -14,7 +14,7 @@ export const metadata = {
     default: 'AV, Meeting Room & Broadcast Solutions in Sri Lanka | Kithnuwan Silva',
     template: '%s | Kithnuwan Silva',
   },
-  description: 'Senior AV & Broadcast Systems Consultant in Sri Lanka with 20+ years and 300+ projects: Microsoft Teams & Zoom meeting rooms, boardrooms, video walls, auditoriums, smart classrooms and broadcast studios.',
+  description: 'AV & broadcast consultant in Sri Lanka with 20+ years and 300+ projects: Teams & Zoom meeting rooms, boardrooms, video walls, auditoriums and broadcast studios.',
   keywords: 'AV solutions Sri Lanka, meeting room solutions Sri Lanka, boardroom AV Sri Lanka, Microsoft Teams Rooms Sri Lanka, video conferencing Sri Lanka, broadcast solutions Sri Lanka, video wall Sri Lanka, AV consultant Sri Lanka, AV over IP, Q-SYS, Anscom Limited, Kithnuwan Silva',
   metadataBase: new URL(SITE_URL),
   authors: [{ name: 'Kithnuwan Silva', url: SITE_URL }],
@@ -146,6 +146,9 @@ export default function RootLayout({ children }) {
           }}
         />
         <meta name="theme-color" content="#0A1A2F" />
+        {/* Project and blog images are served from Contentful's image CDN */}
+        <link rel="preconnect" href="https://images.ctfassets.net" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://images.ctfassets.net" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

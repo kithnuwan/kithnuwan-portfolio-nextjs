@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Building2 } from 'lucide-react';
 import { getAllProjects } from '@/lib/contentful';
-import { SITE_URL, PERSON_ID, assetUrl, slugPath } from '@/lib/seo';
+import { SITE_URL, PERSON_ID, DEFAULT_OG_IMAGE, imageUrl, pageTitle, slugPath } from '@/lib/seo';
 import { SOLUTIONS, getSolution } from '@/lib/solutions';
 
 // Content is static; the related-project list refreshes from Contentful hourly.
@@ -16,10 +16,16 @@ export function generateMetadata({ params }) {
   const s = getSolution(params.slug);
   if (!s) return {};
   return {
-    title: s.title,
+    title: pageTitle(s.title),
     description: s.description,
     alternates: { canonical: `/solutions/${s.slug}` },
-    openGraph: { title: s.title, description: s.description, url: `/solutions/${s.slug}`, type: 'website' },
+    openGraph: {
+      title: s.title,
+      description: s.description,
+      url: `/solutions/${s.slug}`,
+      type: 'website',
+      images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: s.title }],
+    },
   };
 }
 
@@ -111,7 +117,7 @@ export default async function SolutionPage({ params }) {
               <Link key={p.sys.id} href={slugPath('/projects', p.fields.slug)} className="glass rounded-2xl overflow-hidden group">
                 {p.fields.heroImage && (
                   <img
-                    src={`${assetUrl(p.fields.heroImage)}?w=640&fm=webp`}
+                    src={imageUrl(p.fields.heroImage, 640)}
                     alt={p.fields.title}
                     loading="lazy"
                     className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-300"
